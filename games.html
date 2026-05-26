@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дитяча Академія — Cherkasy Girls Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="games.css">
+</head>
+<body>
+
+<a href="index.html" class="back-home">← На головну</a>
+
+<!-- ГОЛОВНИЙ ЕКРАН -->
+<div id="mainScreen" class="screen active">
+  <div class="stars-bg"></div>
+  <div class="main-hero">
+    <div class="academy-badge">Академія маленьких геніїв</div>
+    <h1 class="main-title">Світ дитячих<br><span>пригод</span></h1>
+    <p class="main-sub">Навчайся граючи!</p>
+    <div class="animals">
+      <span class="animal a1">🐻</span>
+      <span class="animal a2">🐰</span>
+      <span class="animal a3">🦊</span>
+      <span class="animal a4">🦋</span>
+      <span class="animal a5">⭐</span>
+    </div>
+  </div>
+
+  <div class="games-grid">
+    <div class="game-card purple" onclick="openGame('alphabet-uk')">
+      <div class="game-icon">🔤</div>
+      <div class="game-title">Букви</div>
+      <div class="game-sub">Укр алфавіт</div>
+      <div class="game-stars" id="stars-alphabet-uk">⭐⭐⭐</div>
+    </div>
+    <div class="game-card blue" onclick="openGame('alphabet-en')">
+      <div class="game-icon">🇬🇧</div>
+      <div class="game-title">ABC</div>
+      <div class="game-sub">English</div>
+      <div class="game-stars" id="stars-alphabet-en">⭐⭐⭐</div>
+    </div>
+    <div class="game-card yellow" onclick="openGame('numbers')">
+      <div class="game-icon">🔢</div>
+      <div class="game-title">Цифри</div>
+      <div class="game-sub">1 — 20</div>
+      <div class="game-stars" id="stars-numbers">⭐⭐⭐</div>
+    </div>
+    <div class="game-card green" onclick="openGame('math')">
+      <div class="game-icon">➕</div>
+      <div class="game-title">Математика</div>
+      <div class="game-sub">Задачки</div>
+      <div class="game-stars" id="stars-math">⭐⭐⭐</div>
+    </div>
+    <div class="game-card pink" onclick="openGame('memory')">
+      <div class="game-icon">🧩</div>
+      <div class="game-title">Пам'ять</div>
+      <div class="game-sub">Знайди пари</div>
+      <div class="game-stars" id="stars-memory">⭐⭐⭐</div>
+    </div>
+    <div class="game-card mint" onclick="openGame('achievements')">
+      <div class="game-icon">🏆</div>
+      <div class="game-title">Досягнення</div>
+      <div class="game-sub">Мої нагороди</div>
+      <div class="game-stars"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ГРА: БУКВИ УКРАЇНСЬКІ -->
+<div id="game-alphabet-uk" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Українські букви</h2>
+    <div class="score-badge" id="score-alphabet-uk">0</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-alphabet-uk"></div></div>
+  <div class="game-area" id="area-alphabet-uk"></div>
+</div>
+
+<!-- ГРА: ABC ENGLISH -->
+<div id="game-alphabet-en" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>English ABC</h2>
+    <div class="score-badge" id="score-alphabet-en">0</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-alphabet-en"></div></div>
+  <div class="game-area" id="area-alphabet-en"></div>
+</div>
+
+<!-- ГРА: ЦИФРИ -->
+<div id="game-numbers" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Вивчаємо цифри</h2>
+    <div class="score-badge" id="score-numbers">0</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-numbers"></div></div>
+  <div class="game-area" id="area-numbers"></div>
+</div>
+
+<!-- ГРА: МАТЕМАТИКА -->
+<div id="game-math" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Математика</h2>
+    <div class="score-badge" id="score-math">0</div>
+  </div>
+  <div class="level-select" id="math-level-select">
+    <button class="level-btn active" onclick="setMathLevel('add',this)">➕ Додавання</button>
+    <button class="level-btn" onclick="setMathLevel('sub',this)">➖ Віднімання</button>
+    <button class="level-btn" onclick="setMathLevel('mul',this)">✖ Множення</button>
+    <button class="level-btn" onclick="setMathLevel('div',this)">➗ Ділення</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-math"></div></div>
+  <div class="game-area" id="area-math"></div>
+</div>
+
+<!-- ГРА: ПАМ'ЯТЬ -->
+<div id="game-memory" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Знайди пари</h2>
+    <div class="score-badge" id="score-memory">0</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-memory"></div></div>
+  <div class="game-area" id="area-memory"></div>
+</div>
+
+<!-- ДОСЯГНЕННЯ -->
+<div id="game-achievements" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Мої досягнення</h2>
+  </div>
+  <div class="achievements-area" id="achievements-area"></div>
+</div>
+
+<!-- РЕЗУЛЬТАТ -->
+<div id="resultOverlay" class="result-overlay hidden">
+  <div class="result-box">
+    <div class="result-emoji" id="resultEmoji">🎉</div>
+    <h2 id="resultTitle">Чудово!</h2>
+    <p id="resultText"></p>
+    <div class="result-stars" id="resultStars"></div>
+    <button class="btn-play-again" onclick="nextLevel()">Далі →</button>
+    <button class="btn-home" onclick="goHome()">На головну</button>
+  </div>
+</div>
+
+<script src="games.js"></script>
+</body>
+</html>
