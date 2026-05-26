@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cherkasy Girls Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body class="light">
+
+<header class="header">
+  <div class="logo">
+    <img src="logo-light.png" alt="Cherkasy Girls Club" class="logo-img logo-img-light">
+    <img src="logo-dark.png" alt="Cherkasy Girls Club" class="logo-img logo-img-dark">
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav-link active">Головна</a>
+    <a href="events.html" class="nav-link">Події</a>
+    <a href="about.html" class="nav-link">Ми</a>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="nav-link tg-link">Telegram 💬</a>
+  </nav>
+  <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
+  <button class="burger" onclick="toggleMenu()">☰</button>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Головна</a>
+  <a href="events.html" onclick="toggleMenu()">Події</a>
+  <a href="about.html" onclick="toggleMenu()">Ми</a>
+  <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" onclick="toggleMenu()">Telegram 💬</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Черкаси 🌸</div>
+    <h1>Місце, де<br><em>дівчата</em><br>знаходять себе</h1>
+    <p>Жіноча спільнота Черкас — зустрічі, підтримка, дружба та натхнення</p>
+    <div class="hero-btns">
+      <a href="events.html" class="btn-main">Найближчі події</a>
+      <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-tg">💬 Наш Telegram</a>
+    </div>
+  </div>
+  <div class="hero-decor">
+    <div class="petal p1">🌸</div>
+    <div class="petal p2">✨</div>
+    <div class="petal p3">🤍</div>
+    <div class="petal p4">🌺</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Роки разом</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item"><div class="stat-num">100+</div><div class="stat-label">Подій</div></div>
+  <div class="stat-div"></div>
+  <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Підтримки</div></div>
+</section>
+
+<!-- НАЙБЛИЖЧА ПОДІЯ -->
+<section class="section">
+  <div class="section-tag">Не пропусти</div>
+  <h2 class="section-title">Найближча подія</h2>
+  <div id="nextEvent" class="next-event-card">
+    <div class="loading-pulse">Завантаження...</div>
+  </div>
+</section>
+
+<!-- АФІШІ -->
+<section class="section">
+  <div class="section-tag">Анонси</div>
+  <h2 class="section-title">Афіші подій</h2>
+  <div id="postersGrid" class="posters-grid">
+    <div class="loading-pulse">Завантаження...</div>
+  </div>
+</section>
+
+<!-- ФОТО ГАЛЕРЕЯ -->
+<section class="section">
+  <div class="section-tag">Моменти</div>
+  <h2 class="section-title">Фото з наших зустрічей</h2>
+  <div id="photoGrid" class="gallery-grid">
+    <div class="loading-pulse">Завантаження...</div>
+  </div>
+  <div class="center-btn">
+    <a href="events.html" class="btn-ghost">Всі фото →</a>
+  </div>
+</section>
+
+<!-- ПРО НАС -->
+<section class="about-preview">
+  <div class="about-preview-grid">
+    <div class="about-preview-text">
+      <div class="section-tag">Хто ми</div>
+      <h2>Місце сили<br>для кожної з нас</h2>
+      <p>Cherkasy Girls Club — це простір де дівчата зустрічаються, підтримують одна одну та разом створюють незабутні моменти.</p>
+      <ul class="about-list">
+        <li>🌸 Щомісячні зустрічі та події</li>
+        <li>🤍 Підтримка та дружба</li>
+        <li>✨ Майстер-класи та активності</li>
+        <li>📸 Фотосесії та спогади</li>
+      </ul>
+      <div class="hero-btns">
+        <a href="about.html" class="btn-main">Дізнатися більше</a>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-tg">💬 Приєднатись</a>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div class="visual-circle c1">🌸</div>
+      <div class="visual-circle c2">🤍</div>
+      <div class="visual-circle c3">✨</div>
+      <div class="visual-circle c4">🌺</div>
+      <div class="visual-center">CGC</div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="join-section">
+  <div class="join-content">
+    <h2>Хочеш приєднатись?</h2>
+    <p>Ми раді кожній новій дівчині у нашій спільноті 🌸</p>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-tg" style="font-size:16px;padding:16px 36px">💬 Вступити до Telegram спільноти</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">🌸 Cherkasy Girls Club</div>
+  <div class="footer-links">
+    <a href="index.html">Головна</a>
+    <a href="events.html">Події</a>
+    <a href="about.html">Ми</a>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram</a>
+  </div>
+  <p class="footer-copy">© <span id="year"></span> Cherkasy Girls Club. З любов'ю 🤍</p>
+</footer>
+
+<script type="module" src="index.js"></script>
+<script>
+  function toggleTheme() {
+    const body = document.body;
+    const icon = document.querySelector(".theme-icon");
+    if (body.classList.contains("light")) {
+      body.classList.replace("light", "dark");
+      icon.textContent = "☀️";
+      localStorage.setItem("theme", "dark");
+    } else {
+      body.classList.replace("dark", "light");
+      icon.textContent = "🌙";
+      localStorage.setItem("theme", "light");
+    }
+  }
+  function toggleMenu() {
+    document.getElementById("mobileMenu").classList.toggle("open");
+  }
+  // Apply saved theme on load
+  const _t = localStorage.getItem("theme") || "light";
+  document.body.className = _t;
+  document.addEventListener("DOMContentLoaded", function() {
+    const icon = document.querySelector(".theme-icon");
+    if (icon) icon.textContent = _t === "dark" ? "☀️" : "🌙";
+  });
+</script>
+
+<script>
+// ── SECRET ADMIN ACCESS ──
+let logoClicks = 0, logoTimer = null;
+document.querySelector('.logo').addEventListener('click', function() {
+  logoClicks++;
+  clearTimeout(logoTimer);
+  if (logoClicks >= 5) {
+    window.location.href = 'admin.html';
+    logoClicks = 0;
+  }
+  logoTimer = setTimeout(() => { logoClicks = 0; }, 2000);
+});
+</script>
+</body>
+</html>
