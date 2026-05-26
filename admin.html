@@ -105,8 +105,13 @@
       <label>Місце</label><input id="ev-location" placeholder="Адреса або назва місця">
       <label>Ціна</label><input id="ev-price" placeholder="Безкоштовно / 200 грн">
       <label>Опис</label><textarea id="ev-desc" rows="3" placeholder="Опис події..."></textarea>
-      <label>Посилання на фото (URL)</label>
-      <input id="ev-image-url" placeholder="https://... посилання на зображення" oninput="previewUrl('ev-image-url','ev-preview')">
+      <label>Завантажити фото або вставити URL</label>
+      <div class="upload-area" onclick="document.getElementById('ev-file').click()" id="ev-upload-area">
+        <div class="upload-icon">📅</div>
+        <p>Натисніть щоб вибрати файл</p>
+      </div>
+      <input id="ev-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'ev-image-url','ev-preview','ev-upload-area')">
+      <input id="ev-image-url" placeholder="або вставте URL https://..." oninput="previewUrl('ev-image-url','ev-preview')" style="margin-top:8px">
       <img id="ev-preview" class="img-preview hidden">
     </div>
     <div class="modal-footer">
@@ -123,8 +128,14 @@
     <div class="modal-body">
       <label>Назва *</label><input id="po-title" placeholder="Назва події на афіші">
       <label>Дата</label><input id="po-date" placeholder="15 червня 2026">
-      <label>Посилання на афішу (URL) *</label>
-      <input id="po-url" placeholder="https://... посилання на зображення" oninput="previewUrl('po-url','po-preview')">
+      <label>Завантажити фото або вставити URL</label>
+      <div class="upload-area" onclick="document.getElementById('po-file').click()" id="po-upload-area">
+        <div class="upload-icon">🖼</div>
+        <p>Натисніть щоб вибрати файл</p>
+        <p class="upload-hint">JPG, PNG до 2MB</p>
+      </div>
+      <input id="po-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'po-url','po-preview','po-upload-area')">
+      <input id="po-url" placeholder="або вставте URL https://..." oninput="previewUrl('po-url','po-preview')" style="margin-top:8px">
       <img id="po-preview" class="img-preview hidden">
     </div>
     <div class="modal-footer">
@@ -140,8 +151,14 @@
     <div class="modal-header"><h3>📸 Додати фото</h3><button class="modal-close" onclick="closeModal('photoModal')">×</button></div>
     <div class="modal-body">
       <label>Підпис</label><input id="ph-caption" placeholder="Опис фото (необов'язково)">
-      <label>Посилання на фото (URL) *</label>
-      <input id="ph-url" placeholder="https://... посилання на зображення" oninput="previewUrl('ph-url','ph-preview')">
+      <label>Завантажити фото або вставити URL</label>
+      <div class="upload-area" onclick="document.getElementById('ph-file').click()" id="ph-upload-area">
+        <div class="upload-icon">📷</div>
+        <p>Натисніть щоб вибрати файл</p>
+        <p class="upload-hint">JPG, PNG до 2MB</p>
+      </div>
+      <input id="ph-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'ph-url','ph-preview','ph-upload-area')">
+      <input id="ph-url" placeholder="або вставте URL https://..." oninput="previewUrl('ph-url','ph-preview')" style="margin-top:8px">
       <img id="ph-preview" class="img-preview hidden">
     </div>
     <div class="modal-footer">
@@ -159,8 +176,13 @@
       <label>Ім'я *</label><input id="tm-name" placeholder="Ім'я">
       <label>Роль *</label><input id="tm-role" placeholder="Організатор, Фотограф...">
       <label>Emoji (замість фото)</label><input id="tm-emoji" placeholder="🌸" maxlength="2">
-      <label>Посилання на фото (URL)</label>
-      <input id="tm-url" placeholder="https://... посилання на фото" oninput="previewUrl('tm-url','tm-preview')">
+      <label>Завантажити фото або вставити URL</label>
+      <div class="upload-area" onclick="document.getElementById('tm-file').click()" id="tm-upload-area">
+        <div class="upload-icon">👤</div>
+        <p>Натисніть щоб вибрати файл</p>
+      </div>
+      <input id="tm-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'tm-url','tm-preview','tm-upload-area')">
+      <input id="tm-url" placeholder="або вставте URL https://..." oninput="previewUrl('tm-url','tm-preview')" style="margin-top:8px">
       <img id="tm-preview" class="img-preview hidden">
       <label>Порядок</label><input id="tm-order" type="number" placeholder="1" value="1">
     </div>
@@ -192,8 +214,13 @@
       <textarea id="jn-excerpt" rows="2" placeholder="Короткий опис для картки (1-2 речення)"></textarea>
       <label>Текст статті *</label>
       <textarea id="jn-content" rows="8" placeholder="Повний текст статті..."></textarea>
-      <label>Фото (URL)</label>
-      <input id="jn-image" placeholder="https://... посилання на фото" oninput="previewUrl('jn-image','jn-preview')">
+      <label>Фото для статті</label>
+      <div class="upload-area" onclick="document.getElementById('jn-file').click()" id="jn-upload-area">
+        <div class="upload-icon">📖</div>
+        <p>Натисніть щоб вибрати файл</p>
+      </div>
+      <input id="jn-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'jn-image','jn-preview','jn-upload-area')">
+      <input id="jn-image" placeholder="або вставте URL https://..." oninput="previewUrl('jn-image','jn-preview')" style="margin-top:8px">
       <img id="jn-preview" class="img-preview hidden">
     </div>
     <div class="modal-footer">
@@ -204,6 +231,31 @@
 </div>
 
 <div id="toast" class="toast hidden"></div>
+<script>
+  function doLogin() {
+    const pass = document.getElementById("passInput").value.trim();
+    const err  = document.getElementById("loginError");
+    if (pass === "123456789") {
+      sessionStorage.setItem("cgc_admin", "true");
+      document.getElementById("loginPage").classList.add("hidden");
+      document.getElementById("adminPage").classList.remove("hidden");
+      // trigger load
+      window._adminReady && window._adminReady();
+    } else {
+      err.textContent = "Невірний пароль";
+      document.getElementById("passInput").style.borderColor = "#e86f6f";
+      setTimeout(() => document.getElementById("passInput").style.borderColor = "", 1000);
+    }
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    const p = document.getElementById("passInput");
+    if (p) p.addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+    if (sessionStorage.getItem("cgc_admin") === "true") {
+      document.getElementById("loginPage").classList.add("hidden");
+      document.getElementById("adminPage").classList.remove("hidden");
+    }
+  });
+</script>
 <script type="module" src="admin.js"></script>
 </body>
 </html>
