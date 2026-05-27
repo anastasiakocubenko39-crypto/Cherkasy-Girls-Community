@@ -107,6 +107,9 @@
         <button class="subcat-btn" onclick="filterArticles('cooking','budget',this)">Бюджетне меню</button>
         <button class="subcat-btn" onclick="filterArticles('cooking','kids',this)">Страви для дітей</button>
       </div>
+      <!-- КАЛЬКУЛЯТОР БЖУ -->
+      <div id="bju-calc-wrap" style="margin-bottom:28px"></div>
+
       <div class="articles-grid" id="articles-cooking">
         <div class="loading-pulse">Завантаження...</div>
       </div>
@@ -281,6 +284,7 @@
   document.addEventListener("DOMContentLoaded",()=>{ const i=document.querySelector(".theme-icon"); if(i) i.textContent=_t==="dark"?"☀️":"🌙"; });
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+<script src="calorie-calculator.js"></script>
 <script type="module" src="women-journal.js"></script>
 </body>
 </html>
