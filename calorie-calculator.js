@@ -101,11 +101,19 @@ window.calcBJU = function() {
 
   // Add to history
   const hist = document.getElementById("calcHistory");
+  if (!hist.querySelector(".calc-history-title")) {
+    const title = document.createElement("div");
+    title.className = "calc-history-title";
+    title.textContent = "Останні розрахунки:";
+    hist.prepend(title);
+  }
   const row = document.createElement("div");
   row.className = "hist-row";
-  row.innerHTML = `<span>${name.charAt(0).toUpperCase()+name.slice(1)} ${amount}г</span><span>Б:${p} Ж:${f} В:${c} <b>${cal} ккал</b></span>`;
-  hist.insertBefore(row, hist.firstChild);
-  if (hist.children.length > 5) hist.removeChild(hist.lastChild);
+  row.innerHTML = `<span>${name.charAt(0).toUpperCase()+name.slice(1)} · ${amount}г</span><span>Б:${p}г &nbsp;Ж:${f}г &nbsp;В:${c}г &nbsp;<b>${cal} ккал</b></span>`;
+  const title = hist.querySelector(".calc-history-title");
+  hist.insertBefore(row, title ? title.nextSibling : hist.firstChild);
+  const rows = hist.querySelectorAll(".hist-row");
+  if (rows.length > 5) rows[rows.length-1].remove();
 };
 
 window.calcSuggest = function() {};
