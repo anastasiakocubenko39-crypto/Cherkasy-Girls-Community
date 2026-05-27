@@ -361,37 +361,37 @@ window.filterJournal = function(cat, btn) {
 };
 
 window.saveJournalArticle = async function() {
-  const title       = document.getElementById("jn-title")?.value.trim();
-  const category    = document.getElementById("jn-category")?.value;
-  const subcategory = document.getElementById("jn-subcategory")?.value.trim();
-  const excerpt     = document.getElementById("jn-excerpt")?.value.trim();
-  const mainContent = document.getElementById("jn-content")?.value.trim() || "";
+  const title       = String(document.getElementById("jn-title")?.value || "").trim();
+  const category    = String(document.getElementById("jn-category")?.value || "moms");
+  const subcategory = String(document.getElementById("jn-subcategory")?.value || "");
+  const excerpt     = String(document.getElementById("jn-excerpt")?.value || "").trim();
+  const mainContent = String(document.getElementById("jn-content")?.value || "").trim();
 
   if (!title) { toast("Введіть заголовок", "error"); return; }
 
-  // Збираємо блоки фото+текст
-  const blocks = window.getJournalBlocks ? window.getJournalBlocks() : [];
+  // Збираємо блоки напряму з DOM
+  const blocks = [];
+  const bWrap = document.getElementById("jn-blocks-wrap");
+  if (bWrap) {
+    bWrap.querySelectorAll(".journal-block-item").forEach((item, i) => {
+      const num  = item.id.replace("block-","");
+      const img  = String(document.getElementById("burl-"+num)?.value || "").trim();
+      const text = String(document.getElementById("btxt-"+num)?.value || "").trim();
+      blocks.push({ img, text, order: i });
+    });
+  }
 
-  // Перший блок = головне фото для картки
-  const imageUrl = blocks.length > 0 ? blocks[0].img : "";
-
-  // Формуємо контент з блоків
-  const blockContent = blocks.map(b =>
-    [b.img ? `[IMG:${b.img}]` : "", b.text].filter(Boolean).join("
-")
-  ).join("
-
----
-
-");
-
-  const content = mainContent || blockContent || "";
-  if (!content && blocks.length === 0) { toast("Додайте хоча б один блок", "error"); return; }
+  // Перше непусте фото = imageUrl для картки
+  const firstWithImg = blocks.find(b => b.img);
+  const imageUrl = firstWithImg ? String(firstWithImg.img) : "";
 
   try {
     await addDoc(collection(db, "journal_articles"), {
-      title, category, subcategory, excerpt,
-      content: mainContent || "",
+      title,
+      category,
+      subcategory,
+      excerpt,
+      content:   mainContent,
       blocks,
       imageUrl,
       createdAt: serverTimestamp()
@@ -399,9 +399,7 @@ window.saveJournalArticle = async function() {
     toast("✅ Статтю додано!");
     closeModal("journalModal");
     clearInputs(["jn-title","jn-subcategory","jn-excerpt","jn-content"]);
-    // Reset blocks
-    const wrap = document.getElementById("jn-blocks-wrap");
-    if (wrap) { wrap.innerHTML = ""; window.blockCount = 0; }
+    if (bWrap) { bWrap.innerHTML = ""; }
     if (window.addJournalBlock) window.addJournalBlock();
     loadJournal();
   } catch(e) { console.error(e); toast("Помилка: " + e.message, "error"); }
@@ -413,3 +411,6 @@ window.deleteJournalArticle = async function(id) {
   toast("Видалено");
   loadJournal();
 };
+
+
+// Override saveJournalArticle
