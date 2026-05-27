@@ -88,6 +88,24 @@
       <div class="game-sub">Головоломка</div>
       <div class="game-stars" id="stars-game2048">⭐⭐⭐</div>
     </div>
+    <div class="game-card purple" onclick="openGame('colors')">
+      <div class="game-icon">🎨</div>
+      <div class="game-title">Кольори</div>
+      <div class="game-sub">Вчимо кольори</div>
+      <div class="game-stars" id="stars-colors">⭐⭐⭐</div>
+    </div>
+    <div class="game-card green" onclick="openGame('animals')">
+      <div class="game-icon">🐾</div>
+      <div class="game-title">Тварини</div>
+      <div class="game-sub">Звуки та фото</div>
+      <div class="game-stars" id="stars-animals">⭐⭐⭐</div>
+    </div>
+    <div class="game-card yellow" onclick="openGame('plants')">
+      <div class="game-icon">🌱</div>
+      <div class="game-title">Природа</div>
+      <div class="game-sub">Фрукти, овочі, рослини</div>
+      <div class="game-stars" id="stars-plants">⭐⭐⭐</div>
+    </div>
   </div>
 </div>
 
@@ -214,6 +232,45 @@
     <div class="score-badge" id="score-game2048">0</div>
   </div>
   <div class="game-area" id="area-game2048"></div>
+</div>
+
+<!-- ГРА: КОЛЬОРИ -->
+<div id="game-colors" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Кольори</h2>
+    <div class="score-badge" id="score-colors">0</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-colors"></div></div>
+  <div class="game-area" id="area-colors"></div>
+</div>
+
+<!-- ГРА: ТВАРИНИ -->
+<div id="game-animals" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Тварини</h2>
+    <div class="score-badge" id="score-animals">0</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-animals"></div></div>
+  <div class="game-area" id="area-animals"></div>
+</div>
+
+<!-- ГРА: ПРИРОДА -->
+<div id="game-plants" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Природа</h2>
+    <div class="score-badge" id="score-plants">0</div>
+  </div>
+  <div class="level-select" id="plants-level-select">
+    <button class="level-btn active" onclick="setPlantsCategory('fruits',this)">🍎 Фрукти</button>
+    <button class="level-btn" onclick="setPlantsCategory('vegetables',this)">🥕 Овочі</button>
+    <button class="level-btn" onclick="setPlantsCategory('trees',this)">🌳 Дерева</button>
+    <button class="level-btn" onclick="setPlantsCategory('flowers',this)">🌸 Квіти</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-plants"></div></div>
+  <div class="game-area" id="area-plants"></div>
 </div>
 
 <!-- РЕЗУЛЬТАТ -->
