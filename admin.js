@@ -385,17 +385,28 @@ window.saveJournalArticle = async function() {
   const firstWithImg = blocks.find(b => b.img);
   const imageUrl = firstWithImg ? String(firstWithImg.img) : "";
 
+  // Жорстка перевірка — замінюємо будь-який undefined на ""
+  const safeData = {
+    title:       title       || "",
+    category:    category    || "moms",
+    subcategory: subcategory || "",
+    excerpt:     excerpt     || "",
+    content:     mainContent || "",
+    imageUrl:    imageUrl    || "",
+    blocks:      blocks.map(b => ({ img: b.img||"", text: b.text||"", order: Number(b.order)||0 })),
+    createdAt:   serverTimestamp()
+  };
+
+  // Перевіряємо кожне поле
+  for (const [k,v] of Object.entries(safeData)) {
+    if (v === undefined || v === null) {
+      console.error("UNDEFINED field:", k);
+      safeData[k] = "";
+    }
+  }
+
   try {
-    await addDoc(collection(db, "journal_articles"), {
-      title,
-      category,
-      subcategory,
-      excerpt,
-      content:   mainContent,
-      blocks,
-      imageUrl,
-      createdAt: serverTimestamp()
-    });
+    await addDoc(collection(db, "journal_articles"), safeData);
     toast("✅ Статтю додано!");
     closeModal("journalModal");
     clearInputs(["jn-title","jn-subcategory","jn-excerpt","jn-content"]);
