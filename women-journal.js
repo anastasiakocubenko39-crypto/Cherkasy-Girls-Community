@@ -136,13 +136,13 @@ document.addEventListener("click", e => {
   }
 });
 
-window.filterArticles = function(category, subcat, btn) {
+window._filterArticles = window.filterArticles = function(category, subcat, btn) {
   document.querySelectorAll("#" + category + "-body .subcat-btn").forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
   renderArticles(category, articlesCache[category] || [], subcat);
 };
 
-window.toggleSection = function(bodyId) {
+window._toggleSection = window.toggleSection = function(bodyId) {
   const body  = document.getElementById(bodyId);
   const arrow = document.getElementById("arrow-" + bodyId);
   const catId = bodyId.replace("-body","");
@@ -165,7 +165,7 @@ window.toggleSection = function(bodyId) {
   }
 };
 
-window.scrollToSection = function(id) {
+window._scrollToSection = window.scrollToSection = function(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior:"smooth", block:"start" });
   const bodyEl = document.getElementById(id + "-body");
