@@ -98,15 +98,27 @@ function renderArticles(category, articles, subcat = "all") {
 function openArticle(article) {
   const modal = document.getElementById("articleModal");
   const img   = document.getElementById("modal-img");
-  document.getElementById("modal-title").textContent = article.title;
-  document.getElementById("modal-body").textContent  = article.content || "";
-  document.getElementById("modal-tag").textContent   = article.tag || "";
+  const body  = document.getElementById("modal-body");
 
-  if (article.imageUrl) {
-    img.src = article.imageUrl;
-    img.classList.remove("hidden");
+  document.getElementById("modal-title").textContent = article.title;
+  document.getElementById("modal-tag").textContent   = article.subcategory || article.category || "";
+
+  // Ховаємо головне фото (покажемо в блоках)
+  img.classList.add("hidden");
+
+  // Відображаємо блоки фото+текст
+  if (article.blocks && article.blocks.length > 0) {
+    body.innerHTML = article.blocks.map(b => `
+      ${b.img ? `<img src="${b.img}" alt="" style="width:100%;border-radius:14px;margin-bottom:14px;object-fit:cover;max-height:320px" onerror="this.style.display='none'">` : ""}
+      ${b.text ? `<p style="margin-bottom:20px;white-space:pre-wrap">${b.text}</p>` : ""}
+    `).join('<hr style="border:none;border-top:1px solid var(--border);margin:16px 0">');
   } else {
-    img.classList.add("hidden");
+    // Старий формат — просто текст
+    body.innerHTML = `<p style="white-space:pre-wrap">${article.content || ""}</p>`;
+    if (article.imageUrl) {
+      img.src = article.imageUrl;
+      img.classList.remove("hidden");
+    }
   }
 
   modal.classList.remove("hidden");
