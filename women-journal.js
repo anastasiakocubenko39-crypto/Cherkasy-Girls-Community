@@ -79,11 +79,10 @@ function renderArticles(category, articles, subcat = "all") {
     const subcatLabel = SUBCAT_LABELS[category]?.[article.subcategory] || "";
 
     card.innerHTML = `
+      ${article.imageUrl ? `
       <div class="article-card-img">
-        ${article.imageUrl
-          ? `<img src="${article.imageUrl}" alt="${article.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=article-card-img-placeholder>📰</div>'">`
-          : `<div class="article-card-img-placeholder">📰</div>`}
-      </div>
+        <img src="${article.imageUrl}" alt="${article.title}" loading="lazy" onerror="this.parentElement.remove()">
+      </div>` : ""}
       <div class="article-card-body">
         ${subcatLabel ? `<span class="article-card-tag">${subcatLabel}</span>` : ""}
         <h3>${article.title}</h3>
