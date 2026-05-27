@@ -307,12 +307,14 @@ function startMemoryLevel() {
   const cards = shuffle([...emojis, ...emojis]);
   memoryCards = cards;
 
+  const cardSize = size <= 8 ? "clamp(60px,18vw,90px)" : "clamp(50px,14vw,75px)";
   area.innerHTML = `
-    <div class="memory-grid size-${size}" id="memGrid">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:0 auto" id="memGrid">
       ${cards.map((e,i) => `
-        <div class="memory-card" id="mc-${i}" onclick="flipCard(${i})">
-          <div class="memory-card-front">❓</div>
-          <div class="memory-card-back">${e}</div>
+        <div id="mc-${i}" data-flipped="0" data-matched="0"
+          onclick="flipCard(${i})"
+          style="aspect-ratio:1;border-radius:16px;border:3px solid rgba(155,92,255,.2);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow2);transition:all .2s;font-size:clamp(22px,6vw,36px)">
+          <div style="display:flex;align-items:center;justify-content:center;height:100%">❓</div>
         </div>`).join("")}
     </div>
     <div class="letter-counter" style="margin-top:16px">Рівень ${memoryLevel+1} · Ходів: <span id="moves">0</span></div>`;
@@ -320,19 +322,28 @@ function startMemoryLevel() {
 
 window.flipCard = function(idx) {
   if (memoryLocked) return;
-  const card = document.getElementById(`mc-${idx}`);
-  if (card.classList.contains("flipped") || card.classList.contains("matched")) return;
-  card.classList.add("flipped");
+  const card = document.getElementById("mc-"+idx);
+  if (!card || card.dataset.flipped === "1" || card.dataset.matched === "1") return;
+  
+  // Show emoji
+  card.dataset.flipped = "1";
+  card.innerHTML = `<div style="font-size:clamp(28px,8vw,44px);display:flex;align-items:center;justify-content:center;height:100%">${memoryCards[idx]}</div>`;
+  card.style.background = "linear-gradient(135deg,rgba(155,92,255,.15),rgba(244,114,182,.1))";
+  card.style.borderColor = "rgba(155,92,255,.5)";
   memoryFlipped.push(idx);
 
   if (memoryFlipped.length === 2) {
     memoryLocked = true;
     memoryMoves++;
-    document.getElementById("moves").textContent = memoryMoves;
+    const movesEl = document.getElementById("moves");
+    if (movesEl) movesEl.textContent = memoryMoves;
     const [a, b] = memoryFlipped;
     if (memoryCards[a] === memoryCards[b]) {
-      document.getElementById(`mc-${a}`).classList.replace("flipped","matched");
-      document.getElementById(`mc-${b}`).classList.replace("flipped","matched");
+      // Match!
+      const ca = document.getElementById("mc-"+a);
+      const cb = document.getElementById("mc-"+b);
+      if(ca){ca.dataset.matched="1";ca.style.background="linear-gradient(135deg,rgba(52,211,153,.2),rgba(132,204,22,.15))";ca.style.borderColor="var(--green)";}
+      if(cb){cb.dataset.matched="1";cb.style.background="linear-gradient(135deg,rgba(52,211,153,.2),rgba(132,204,22,.15))";cb.style.borderColor="var(--green)";}
       memoryMatched++;
       memoryFlipped = [];
       memoryLocked = false;
@@ -343,16 +354,19 @@ window.flipCard = function(idx) {
           unlock("memory_1");
           if (memoryLevel >= 3) {
             unlock("memory_5");
-            showResult("🧩","Супер пам'ять!",`Ти завершила всі рівні за ${memoryMoves} ходів!`, 3);
+            showResult("🧩","Супер пам'ять!","Ти завершила всі рівні! Чудова пам'ять!", 3);
           } else {
-            showResult("🎉",`Рівень ${memoryLevel} пройдено!`,`За ${memoryMoves} ходів. Далі складніше!`, 2);
+            showResult("🎉","Рівень пройдено!","Далі складніше!", 2);
           }
         }, 500);
       }
     } else {
+      // No match
       setTimeout(() => {
-        document.getElementById(`mc-${a}`).classList.remove("flipped");
-        document.getElementById(`mc-${b}`).classList.remove("flipped");
+        const ca = document.getElementById("mc-"+a);
+        const cb = document.getElementById("mc-"+b);
+        if(ca){ca.dataset.flipped="0";ca.innerHTML=`<div style="font-size:clamp(22px,6vw,36px);display:flex;align-items:center;justify-content:center;height:100%">❓</div>`;ca.style.background="";ca.style.borderColor="";}
+        if(cb){cb.dataset.flipped="0";cb.innerHTML=`<div style="font-size:clamp(22px,6vw,36px);display:flex;align-items:center;justify-content:center;height:100%">❓</div>`;cb.style.background="";cb.style.borderColor="";}
         memoryFlipped = [];
         memoryLocked = false;
       }, 900);
@@ -1035,5 +1049,390 @@ window.initGame = function(gameId) {
     case "dictionary":   initDictionary(); break;
     case "game2048":     init2048(); break;
     case "achievements": renderAchievements(); break;
+  }
+};
+
+// ══════════════════════════════════════
+// КОЛЬОРИ
+// ══════════════════════════════════════
+const COLORS_DATA = [
+  {uk:"Червоний",    en:"Red",         hex:"#ef4444", emoji:"🔴"},
+  {uk:"Синій",       en:"Blue",        hex:"#3b82f6", emoji:"🔵"},
+  {uk:"Жовтий",      en:"Yellow",      hex:"#facc15", emoji:"🟡"},
+  {uk:"Зелений",     en:"Green",       hex:"#22c55e", emoji:"🟢"},
+  {uk:"Помаранчевий",en:"Orange",      hex:"#f97316", emoji:"🟠"},
+  {uk:"Фіолетовий",  en:"Purple",      hex:"#a855f7", emoji:"🟣"},
+  {uk:"Рожевий",     en:"Pink",        hex:"#ec4899", emoji:"🩷"},
+  {uk:"Блакитний",   en:"Sky blue",    hex:"#38bdf8", emoji:"🩵"},
+  {uk:"Коричневий",  en:"Brown",       hex:"#92400e", emoji:"🟤"},
+  {uk:"Чорний",      en:"Black",       hex:"#1e293b", emoji:"⬛"},
+  {uk:"Білий",       en:"White",       hex:"#f8fafc", emoji:"⬜"},
+  {uk:"Сірий",       en:"Gray",        hex:"#94a3b8", emoji:"🔘"},
+  {uk:"Бордовий",    en:"Burgundy",    hex:"#9f1239", emoji:"🟥"},
+  {uk:"Темно-синій", en:"Navy",        hex:"#1e3a8a", emoji:"🟦"},
+  {uk:"Салатовий",   en:"Lime",        hex:"#84cc16", emoji:"💚"},
+  {uk:"Бірюзовий",   en:"Turquoise",   hex:"#14b8a6", emoji:"🩵"},
+  {uk:"Золотий",     en:"Gold",        hex:"#d97706", emoji:"🌟"},
+  {uk:"Срібний",     en:"Silver",      hex:"#cbd5e1", emoji:"⚪"},
+  {uk:"Кремовий",    en:"Cream",       hex:"#fef3c7", emoji:"🟨"},
+  {uk:"Малиновий",   en:"Crimson",     hex:"#be123c", emoji:"❤️"},
+  {uk:"Індиго",      en:"Indigo",      hex:"#4338ca", emoji:"💙"},
+  {uk:"Лавандовий",  en:"Lavender",    hex:"#c4b5fd", emoji:"💜"},
+];
+
+let colorIdx = 0;
+let colorMode = "learn"; // learn or quiz
+
+function initColors() {
+  colorIdx = 0; colorMode = "learn";
+  renderColor();
+}
+
+function renderColor() {
+  const area = document.getElementById("area-colors");
+  const prog = document.getElementById("prog-colors");
+  const c = COLORS_DATA[colorIdx];
+  prog.style.width = (colorIdx / COLORS_DATA.length * 100) + "%";
+
+  if (colorMode === "learn") {
+    area.innerHTML = `
+      <div class="color-display">
+        <div class="color-circle" style="background:${c.hex};${c.uk==='Білий'?'border:3px solid #e2e8f0':''}"></div>
+        <div class="color-name-uk">${c.emoji} ${c.uk}</div>
+        <div class="color-name-en">${c.en}</div>
+      </div>
+      <div class="letter-counter">${colorIdx+1} / ${COLORS_DATA.length}</div>
+      <div class="letter-nav" style="margin-top:20px">
+        ${colorIdx>0?`<button class="nav-btn secondary" onclick="colorPrev()">← Назад</button>`:""}
+        <button class="nav-btn" onclick="colorNext()">${colorIdx<COLORS_DATA.length-1?"Далі →":"Тест! 🎯"}</button>
+      </div>`;
+  } else {
+    // Quiz mode
+    const opts = new Set([colorIdx]);
+    while(opts.size < 4) opts.add(rnd(0, COLORS_DATA.length-1));
+    const shuffled = shuffle([...opts]);
+    area.innerHTML = `
+      <div class="color-display">
+        <div class="color-circle" style="background:${c.hex};${c.uk==='Білий'?'border:3px solid #e2e8f0':''}"></div>
+        <div style="font-size:18px;font-weight:700;color:var(--text2);margin-top:8px">Який це колір?</div>
+      </div>
+      <div class="color-quiz-opts">
+        ${shuffled.map(i=>`
+          <button class="color-opt" onclick="checkColor(${i},this)">
+            <div class="color-dot" style="background:${COLORS_DATA[i].hex};${COLORS_DATA[i].uk==='Білий'?'border:2px solid #e2e8f0':''}"></div>
+            ${COLORS_DATA[i].uk}
+          </button>`).join("")}
+      </div>
+      <div class="letter-counter" style="margin-top:16px">${colorIdx+1} / ${COLORS_DATA.length}</div>`;
+  }
+}
+
+window.colorNext = function() {
+  if (colorMode === "learn" && colorIdx < COLORS_DATA.length-1) {
+    colorIdx++; addScore("colors",1); renderColor();
+  } else if (colorMode === "learn") {
+    colorMode = "quiz"; colorIdx = 0; renderColor();
+  } else {
+    colorIdx = 0; colorMode = "learn";
+    showResult("🎨","Чудово!","Ти знаєш всі кольори!",3);
+  }
+};
+window.colorPrev = function() { if(colorIdx>0){colorIdx--;renderColor();} };
+window.checkColor = function(val, btn) {
+  document.querySelectorAll(".color-opt").forEach(b=>b.disabled=true);
+  if(val===colorIdx){
+    btn.classList.add("correct"); addScore("colors",2);
+    setTimeout(()=>{ colorIdx++; if(colorIdx>=COLORS_DATA.length){showResult("🎨","Молодець!","Всі кольори вивчено!",3);}else{renderColor();} },600);
+  } else {
+    btn.classList.add("wrong");
+    document.querySelectorAll(".color-opt").forEach((b,i)=>{if(parseInt(b.dataset.idx||i)===colorIdx)b.classList.add("correct");});
+    setTimeout(()=>renderColor(),1000);
+  }
+};
+
+// ══════════════════════════════════════
+// ТВАРИНИ
+// ══════════════════════════════════════
+const ANIMALS_DATA = [
+  // Свійські тварини
+  {uk:"Кіт",        en:"Cat",         emoji:"🐱", sound:"Мяу-мяу!",     fact:"Кіт спить до 16 годин на день"},
+  {uk:"Собака",      en:"Dog",         emoji:"🐶", sound:"Гав-гав!",      fact:"Собаки розуміють людські емоції"},
+  {uk:"Корова",      en:"Cow",         emoji:"🐮", sound:"Му-у-у!",       fact:"Корова дає молоко для дітей"},
+  {uk:"Свинка",      en:"Pig",         emoji:"🐷", sound:"Хрю-хрю!",      fact:"Свинки дуже розумні тварини"},
+  {uk:"Курочка",     en:"Chicken",     emoji:"🐔", sound:"Ко-ко-ко!",     fact:"Курочка знесла яєчко"},
+  {uk:"Качка",       en:"Duck",        emoji:"🦆", sound:"Кря-кря!",      fact:"Качки вміють плавати і літати"},
+  {uk:"Кінь",        en:"Horse",       emoji:"🐴", sound:"Іго-го!",       fact:"Кінь дуже швидко бігає"},
+  {uk:"Вівця",       en:"Sheep",       emoji:"🐑", sound:"Бе-е-е!",       fact:"Вівці дають теплу вовну"},
+  {uk:"Козочка",     en:"Goat",        emoji:"🐐", sound:"Ме-е-е!",       fact:"Кози дають смачне молоко"},
+  {uk:"Кролик",      en:"Rabbit",      emoji:"🐇", sound:"...",           fact:"Кролик їсть морквину і капусту"},
+  // Дикі тварини
+  {uk:"Ведмідь",     en:"Bear",        emoji:"🐻", sound:"Р-р-р!",        fact:"Ведмідь спить всю зиму"},
+  {uk:"Лисичка",     en:"Fox",         emoji:"🦊", sound:"Тяв-тяв!",      fact:"Лисиця дуже хитра і спритна"},
+  {uk:"Зайчик",      en:"Hare",        emoji:"🐰", sound:"...",           fact:"Зайчик стрибає дуже швидко"},
+  {uk:"Вовк",        en:"Wolf",        emoji:"🐺", sound:"Ав-ав-ав!",     fact:"Вовки живуть зграями"},
+  {uk:"Їжачок",      en:"Hedgehog",    emoji:"🦔", sound:"...",           fact:"Їжак має гострі голки"},
+  {uk:"Білочка",     en:"Squirrel",    emoji:"🐿️", sound:"...",          fact:"Білка ховає горіхи на зиму"},
+  {uk:"Олень",       en:"Deer",        emoji:"🦌", sound:"...",           fact:"У оленя красиві роги"},
+  {uk:"Кабан",       en:"Boar",        emoji:"🐗", sound:"Хрю!",          fact:"Кабан живе у лісі"},
+  // Екзотичні
+  {uk:"Слоник",      en:"Elephant",    emoji:"🐘", sound:"Трубить!",      fact:"Слон — найбільша тварина на суші"},
+  {uk:"Левик",       en:"Lion",        emoji:"🦁", sound:"Р-р-р!",        fact:"Лев — цар звірів"},
+  {uk:"Жираф",       en:"Giraffe",     emoji:"🦒", sound:"...",           fact:"Жираф — найвища тварина у світі"},
+  {uk:"Зебра",       en:"Zebra",       emoji:"🦓", sound:"...",           fact:"Зебра в смужку як піжамка"},
+  {uk:"Мавпочка",    en:"Monkey",      emoji:"🐒", sound:"Уі-уі!",        fact:"Мавпи дуже схожі на людей"},
+  {uk:"Тигр",        en:"Tiger",       emoji:"🐯", sound:"Р-р-р!",        fact:"Тигр — найбільша кішка"},
+  {uk:"Леопард",     en:"Leopard",     emoji:"🐆", sound:"Р-р!",          fact:"Леопард має плямисту шубку"},
+  {uk:"Носоріг",     en:"Rhinoceros",  emoji:"🦏", sound:"...",           fact:"У носорога великий ріг"},
+  {uk:"Бегемот",     en:"Hippo",       emoji:"🦛", sound:"...",           fact:"Бегемот живе біля річки"},
+  {uk:"Кенгуру",     en:"Kangaroo",    emoji:"🦘", sound:"...",           fact:"Кенгуру носить дитинча в сумці"},
+  {uk:"Панда",       en:"Panda",       emoji:"🐼", sound:"...",           fact:"Панда їсть бамбук"},
+  {uk:"Верблюд",     en:"Camel",       emoji:"🐪", sound:"...",           fact:"Верблюд живе в пустелі"},
+  // Птахи
+  {uk:"Пінгвін",     en:"Penguin",     emoji:"🐧", sound:"...",           fact:"Пінгвіни живуть на льоду"},
+  {uk:"Орел",        en:"Eagle",       emoji:"🦅", sound:"...",           fact:"Орел бачить дуже далеко"},
+  {uk:"Сова",        en:"Owl",         emoji:"🦉", sound:"Угу-угу!",      fact:"Сова не спить вночі"},
+  {uk:"Папуга",      en:"Parrot",      emoji:"🦜", sound:"Привіт!",       fact:"Папуга вміє говорити"},
+  {uk:"Фламінго",    en:"Flamingo",    emoji:"🦩", sound:"...",           fact:"Фламінго рожевого кольору"},
+  {uk:"Лебідь",      en:"Swan",        emoji:"🦢", sound:"...",           fact:"Лебідь — символ краси"},
+  {uk:"Горобець",    en:"Sparrow",     emoji:"🐦", sound:"Цвірінь!",      fact:"Горобці живуть поруч з людьми"},
+  {uk:"Зозуля",      en:"Cuckoo",      emoji:"🦅", sound:"Ку-ку!",        fact:"Зозуля рахує роки"},
+  // Морські
+  {uk:"Рибка",       en:"Fish",        emoji:"🐟", sound:"...",           fact:"Рибка плаває у воді"},
+  {uk:"Дельфін",     en:"Dolphin",     emoji:"🐬", sound:"...",           fact:"Дельфін дуже розумний"},
+  {uk:"Кит",         en:"Whale",       emoji:"🐋", sound:"...",           fact:"Кит — найбільша тварина"},
+  {uk:"Краб",        en:"Crab",        emoji:"🦀", sound:"...",           fact:"Краб ходить боком"},
+  {uk:"Черепаха",    en:"Turtle",      emoji:"🐢", sound:"...",           fact:"Черепаха живе дуже довго"},
+  {uk:"Восьминіг",   en:"Octopus",     emoji:"🐙", sound:"...",           fact:"У восьминога 8 ніг"},
+  // Комахи
+  {uk:"Метелик",     en:"Butterfly",   emoji:"🦋", sound:"...",           fact:"Метелик був гусеницею"},
+  {uk:"Бджілка",     en:"Bee",         emoji:"🐝", sound:"Дзз-дзз!",      fact:"Бджола робить мед"},
+  {uk:"Сонечко",     en:"Ladybug",     emoji:"🐞", sound:"...",           fact:"Сонечко приносить удачу"},
+  {uk:"Мурашка",     en:"Ant",         emoji:"🐜", sound:"...",           fact:"Мурашка дуже сильна"},
+  {uk:"Равлик",      en:"Snail",       emoji:"🐌", sound:"...",           fact:"Равлик носить будиночок"},
+  {uk:"Жабка",       en:"Frog",        emoji:"🐸", sound:"Ква-ква!",      fact:"Жаби стрибають дуже далеко"},
+];
+
+let animalIdx = 0;
+
+function initAnimals() { animalIdx = 0; renderAnimal(); }
+
+function renderAnimal() {
+  const area = document.getElementById("area-animals");
+  const prog = document.getElementById("prog-animals");
+  const a = ANIMALS_DATA[animalIdx];
+  prog.style.width = (animalIdx / ANIMALS_DATA.length * 100) + "%";
+
+  const opts = new Set([animalIdx]);
+  while(opts.size<4) opts.add(rnd(0,ANIMALS_DATA.length-1));
+
+  area.innerHTML = `
+    <div class="animal-display">
+      <span class="animal-img">${a.emoji}</span>
+      <div class="animal-name-uk">${a.uk}</div>
+      <div class="animal-name-en">${a.en}</div>
+      <button class="animal-sound-btn" onclick="playAnimalSound('${a.sound}','${a.uk}')">
+        🔊 Послухати звук
+      </button>
+      <div style="font-size:13px;color:var(--text2);background:#f8f4ff;border-radius:12px;padding:10px 14px;line-height:1.5">${a.fact}</div>
+    </div>
+    <div style="font-size:16px;font-weight:700;color:var(--purple-dark);margin-bottom:12px;text-align:center">Яка це тварина?</div>
+    <div class="animal-quiz-opts">
+      ${shuffle([...opts]).map(i=>`<button class="animal-opt" onclick="checkAnimal(${i},this)">${ANIMALS_DATA[i].emoji} ${ANIMALS_DATA[i].uk}</button>`).join("")}
+    </div>
+    <div class="letter-counter" style="margin-top:16px">${animalIdx+1} / ${ANIMALS_DATA.length}</div>`;
+}
+
+window.playAnimalSound = function(sound, name) {
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(sound === "..." ? name : sound);
+    u.lang = "uk-UA"; u.rate = 0.8; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }
+};
+
+window.checkAnimal = function(val, btn) {
+  document.querySelectorAll(".animal-opt").forEach(b=>b.disabled=true);
+  if(val===animalIdx){
+    btn.classList.add("correct"); addScore("animals",2);
+    setTimeout(()=>{ animalIdx++; if(animalIdx>=ANIMALS_DATA.length){unlock("uk_alphabet");showResult("🐾","Молодець!","Ти знаєш всіх тварин!",3);}else{renderAnimal();} },700);
+  } else {
+    btn.classList.add("wrong");
+    document.querySelectorAll(".animal-opt").forEach(b=>{ if(ANIMALS_DATA[parseInt(b.textContent.match(/\d+/)?.[0]||0)]?.uk===ANIMALS_DATA[animalIdx].uk || b.textContent.includes(ANIMALS_DATA[animalIdx].emoji)) b.classList.add("correct"); });
+    // Find correct button
+    document.querySelectorAll(".animal-opt").forEach(b=>{ if(b.textContent.includes(ANIMALS_DATA[animalIdx].uk)) b.classList.add("correct"); });
+    setTimeout(()=>renderAnimal(),1000);
+  }
+};
+
+// ══════════════════════════════════════
+// ПРИРОДА (Фрукти, Овочі, Дерева, Квіти)
+// ══════════════════════════════════════
+const PLANTS_DATA = {
+  fruits: [
+    {uk:"Яблуко",     en:"Apple",       emoji:"🍎", fact:"Яблуко — смачний і корисний фрукт"},
+    {uk:"Банан",      en:"Banana",      emoji:"🍌", fact:"Банани ростуть у теплих країнах"},
+    {uk:"Апельсин",   en:"Orange",      emoji:"🍊", fact:"Апельсин містить вітамін С"},
+    {uk:"Полуниця",   en:"Strawberry",  emoji:"🍓", fact:"Полуниця — улюблена ягода дітей"},
+    {uk:"Виноград",   en:"Grapes",      emoji:"🍇", fact:"З винограду роблять сік"},
+    {uk:"Кавун",      en:"Watermelon",  emoji:"🍉", fact:"Кавун великий і солодкий"},
+    {uk:"Лимон",      en:"Lemon",       emoji:"🍋", fact:"Лимон дуже кислий"},
+    {uk:"Вишня",      en:"Cherry",      emoji:"🍒", fact:"Вишня росте на дереві"},
+    {uk:"Персик",     en:"Peach",       emoji:"🍑", fact:"Персик пухнастий і солодкий"},
+    {uk:"Груша",      en:"Pear",        emoji:"🍐", fact:"Груша схожа на дзвіночок"},
+    {uk:"Ківі",       en:"Kiwi",        emoji:"🥝", fact:"Ківі зовні коричневе, а всередині зелене"},
+    {uk:"Ананас",     en:"Pineapple",   emoji:"🍍", fact:"Ананас росте на землі"},
+    {uk:"Манго",      en:"Mango",       emoji:"🥭", fact:"Манго — солодкий тропічний фрукт"},
+    {uk:"Диня",       en:"Melon",       emoji:"🍈", fact:"Диня пахне дуже смачно"},
+    {uk:"Гранат",     en:"Pomegranate", emoji:"🍎", fact:"У гранаті багато зернят"},
+    {uk:"Малина",     en:"Raspberry",   emoji:"🫐", fact:"Малина солодка і корисна"},
+    {uk:"Чорниця",    en:"Blueberry",   emoji:"🫐", fact:"Чорниця корисна для очей"},
+    {uk:"Абрикос",    en:"Apricot",     emoji:"🍑", fact:"Абрикос жовтогарячий і смачний"},
+    {uk:"Слива",      en:"Plum",        emoji:"🍇", fact:"З слив варять варення"},
+    {uk:"Мандарин",   en:"Mandarin",    emoji:"🍊", fact:"Мандарини їдять на Новий рік"},
+    {uk:"Грейпфрут",  en:"Grapefruit",  emoji:"🍊", fact:"Грейпфрут гіркуватий"},
+    {uk:"Кокос",      en:"Coconut",     emoji:"🥥", fact:"Всередині кокосу є молоко"},
+    {uk:"Авокадо",    en:"Avocado",     emoji:"🥑", fact:"Авокадо корисне для здоров'я"},
+    {uk:"Фіг",        en:"Fig",         emoji:"🫐", fact:"Фіги солодкі та поживні"},
+    {uk:"Хурма",      en:"Persimmon",   emoji:"🍊", fact:"Хурма стигне восени"},
+  ],
+  vegetables: [
+    {uk:"Морква",      en:"Carrot",      emoji:"🥕", fact:"Морква корисна для очей"},
+    {uk:"Помідор",     en:"Tomato",      emoji:"🍅", fact:"Помідор — це фрукт чи овоч?"},
+    {uk:"Огірок",      en:"Cucumber",    emoji:"🥒", fact:"Огірок майже весь з води"},
+    {uk:"Картопля",    en:"Potato",      emoji:"🥔", fact:"З картоплі варять суп"},
+    {uk:"Капуста",     en:"Cabbage",     emoji:"🥬", fact:"Капуста дуже корисна"},
+    {uk:"Кукурудза",   en:"Corn",        emoji:"🌽", fact:"Кукурудза росте на полі"},
+    {uk:"Перець",      en:"Pepper",      emoji:"🫑", fact:"Перець буває різного кольору"},
+    {uk:"Цибуля",      en:"Onion",       emoji:"🧅", fact:"Від цибулі плачуть очі"},
+    {uk:"Часник",      en:"Garlic",      emoji:"🧄", fact:"Часник захищає від хвороб"},
+    {uk:"Броколі",     en:"Broccoli",    emoji:"🥦", fact:"Броколі схожа на маленьке дерево"},
+    {uk:"Баклажан",    en:"Eggplant",    emoji:"🍆", fact:"Баклажан фіолетового кольору"},
+    {uk:"Гарбуз",      en:"Pumpkin",     emoji:"🎃", fact:"Гарбуз роблять на Хелловін"},
+    {uk:"Буряк",       en:"Beetroot",    emoji:"🟣", fact:"З буряка варять борщ"},
+    {uk:"Шпинат",      en:"Spinach",     emoji:"🥬", fact:"Шпинат дає силу"},
+    {uk:"Горошок",     en:"Peas",        emoji:"🫛", fact:"Горошок зелений і солодкий"},
+    {uk:"Кабачок",     en:"Zucchini",    emoji:"🥒", fact:"Кабачок схожий на огірок"},
+    {uk:"Редиска",     en:"Radish",      emoji:"🔴", fact:"Редиска гостренька на смак"},
+    {uk:"Гриб",        en:"Mushroom",    emoji:"🍄", fact:"Гриби ростуть у лісі"},
+    {uk:"Цвітна капуста",en:"Cauliflower",emoji:"🥦", fact:"Цвітна капуста біла і смачна"},
+    {uk:"Спаржа",      en:"Asparagus",   emoji:"🌿", fact:"Спаржа схожа на зелені палички"},
+    {uk:"Авокадо",     en:"Avocado",     emoji:"🥑", fact:"Авокадо — овоч чи фрукт?"},
+    {uk:"Кукурудза",   en:"Sweet corn",  emoji:"🌽", fact:"Кукурудза буває жовта і солодка"},
+    {uk:"Боби",        en:"Beans",       emoji:"🫘", fact:"Боби дуже поживні"},
+    {uk:"Петрушка",    en:"Parsley",     emoji:"🌿", fact:"Петрушку кладуть у суп"},
+    {uk:"Кріп",        en:"Dill",        emoji:"🌿", fact:"Кріп пахне дуже смачно"},
+  ],
+  trees: [
+    {uk:"Дуб",          en:"Oak",          emoji:"🌳", fact:"Дуб живе тисячу років"},
+    {uk:"Ялинка",       en:"Spruce",       emoji:"🎄", fact:"Ялинку прикрашають на Новий рік"},
+    {uk:"Береза",       en:"Birch",        emoji:"🌲", fact:"Береза має білу кору"},
+    {uk:"Сосна",        en:"Pine",         emoji:"🌲", fact:"Сосна пахне смолою"},
+    {uk:"Верба",        en:"Willow",       emoji:"🌿", fact:"Верба росте біля води"},
+    {uk:"Каштан",       en:"Chestnut",     emoji:"🌰", fact:"Каштани ростуть у місті"},
+    {uk:"Клен",         en:"Maple",        emoji:"🍁", fact:"Листя клена красиве восени"},
+    {uk:"Тополя",       en:"Poplar",       emoji:"🌲", fact:"Тополя дуже висока"},
+    {uk:"Яблуня",       en:"Apple tree",   emoji:"🍎", fact:"На яблуні ростуть яблука"},
+    {uk:"Черешня",      en:"Cherry tree",  emoji:"🍒", fact:"Черешня цвіте навесні"},
+    {uk:"Горіх",        en:"Walnut tree",  emoji:"🌳", fact:"На горіху ростуть горіхи"},
+    {uk:"Пальма",       en:"Palm tree",    emoji:"🌴", fact:"Пальми ростуть у теплих країнах"},
+    {uk:"Бамбук",       en:"Bamboo",       emoji:"🎋", fact:"Бамбук росте дуже швидко"},
+    {uk:"Кактус",       en:"Cactus",       emoji:"🌵", fact:"Кактус може жити без води"},
+    {uk:"Кедр",         en:"Cedar",        emoji:"🌲", fact:"Кедрові шишки їстівні"},
+    {uk:"Акація",       en:"Acacia",       emoji:"🌸", fact:"Акація пахне навесні"},
+    {uk:"Ліщина",       en:"Hazel",        emoji:"🌰", fact:"На ліщині ростуть горіхи"},
+    {uk:"Бук",          en:"Beech",        emoji:"🌳", fact:"Бук має гладку кору"},
+    {uk:"Ясен",         en:"Ash tree",     emoji:"🌳", fact:"Ясен — корисне дерево"},
+    {uk:"Калина",       en:"Viburnum",     emoji:"🍒", fact:"Калина — символ України"},
+    {uk:"Вишня",        en:"Cherry tree",  emoji:"🌸", fact:"Вишня цвіте білими квітами"},
+    {uk:"Груша",        en:"Pear tree",    emoji:"🍐", fact:"На груші ростуть груші"},
+    {uk:"Слива",        en:"Plum tree",    emoji:"🫐", fact:"Слива цвіте рано навесні"},
+    {uk:"Абрикос",      en:"Apricot tree", emoji:"🍑", fact:"Абрикоси ростуть на півдні"},
+    {uk:"Виноград",     en:"Grapevine",    emoji:"🍇", fact:"Виноград росте на лозі"},
+  ],
+  flowers: [
+    {uk:"Троянда",      en:"Rose",         emoji:"🌹", fact:"Троянда — королева квітів"},
+    {uk:"Тюльпан",      en:"Tulip",        emoji:"🌷", fact:"Тюльпани цвітуть навесні"},
+    {uk:"Ромашка",      en:"Daisy",        emoji:"🌼", fact:"З ромашок плетуть вінки"},
+    {uk:"Соняшник",     en:"Sunflower",    emoji:"🌻", fact:"Соняшник — символ України"},
+    {uk:"Фіалка",       en:"Violet",       emoji:"💜", fact:"Фіалки маленькі й пахучі"},
+    {uk:"Мак",          en:"Poppy",        emoji:"🌺", fact:"Мак — символ пам'яті"},
+    {uk:"Лілія",        en:"Lily",         emoji:"🌸", fact:"Лілія пахне дуже гарно"},
+    {uk:"Нарцис",       en:"Daffodil",     emoji:"🌼", fact:"Нарциси цвітуть навесні"},
+    {uk:"Гладіолус",    en:"Gladiolus",    emoji:"🌸", fact:"Гладіолус — висока квітка"},
+    {uk:"Хризантема",   en:"Chrysanthemum",emoji:"🌸", fact:"Хризантеми цвітуть восени"},
+    {uk:"Кульбаба",     en:"Dandelion",    emoji:"🌼", fact:"З кульбаби дмухають і загадують бажання"},
+    {uk:"Конвалія",     en:"Lily of valley",emoji:"🤍",fact:"Конвалія пахне весною"},
+    {uk:"Петунія",      en:"Petunia",      emoji:"🌸", fact:"Петунії ростуть у горщиках"},
+    {uk:"Орхідея",      en:"Orchid",       emoji:"🌸", fact:"Орхідея — дуже вишукана квітка"},
+    {uk:"Лаванда",      en:"Lavender",     emoji:"💜", fact:"Лаванда фіолетова і пахуча"},
+    {uk:"Ірис",         en:"Iris",         emoji:"💙", fact:"Іриси бувають різних кольорів"},
+    {uk:"Гербера",      en:"Gerbera",      emoji:"🌺", fact:"Гербера яскрава і весела"},
+    {uk:"Астра",        en:"Aster",        emoji:"🌸", fact:"Астри цвітуть восени"},
+    {uk:"Гвоздика",     en:"Carnation",    emoji:"🌹", fact:"Гвоздика — символ свята"},
+    {uk:"Незабудка",    en:"Forget-me-not",emoji:"💙", fact:"Незабудка — маленька синя квіточка"},
+    {uk:"Мімоза",       en:"Mimosa",       emoji:"🌼", fact:"Мімозу дарують на 8 березня"},
+    {uk:"Бузок",        en:"Lilac",        emoji:"💜", fact:"Бузок пахне навесні"},
+    {uk:"Жасмін",       en:"Jasmine",      emoji:"🤍", fact:"Жасмін пахне вночі"},
+    {uk:"Пролісок",     en:"Snowdrop",     emoji:"🤍", fact:"Пролісок — перша весняна квітка"},
+    {uk:"Гіацинт",      en:"Hyacinth",     emoji:"💙", fact:"Гіацинт дуже пахучий"},
+  ],
+};
+
+let plantsCat = "fruits";
+let plantsIdx = 0;
+
+window.setPlantsCategory = function(cat, btn) {
+  plantsCat = cat; plantsIdx = 0;
+  document.querySelectorAll("#plants-level-select .level-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderPlant();
+};
+
+function initPlants() { plantsCat="fruits"; plantsIdx=0; renderPlant(); }
+
+function renderPlant() {
+  const area = document.getElementById("area-plants");
+  const prog = document.getElementById("prog-plants");
+  const data = PLANTS_DATA[plantsCat];
+  const p = data[plantsIdx];
+  prog.style.width = (plantsIdx / data.length * 100) + "%";
+
+  area.innerHTML = `
+    <div class="plant-display">
+      <span class="plant-img">${p.emoji}</span>
+      <div class="plant-name-uk">${p.uk}</div>
+      <div class="plant-name-en">${p.en}</div>
+      <div class="plant-fact">${p.fact}</div>
+    </div>
+    <div class="letter-counter">${plantsIdx+1} / ${data.length}</div>
+    <div class="letter-nav" style="margin-top:20px">
+      ${plantsIdx>0?`<button class="nav-btn secondary" onclick="plantPrev()">← Назад</button>`:""}
+      <button class="nav-btn" onclick="plantNext()">${plantsIdx<data.length-1?"Далі →":"Готово! 🎉"}</button>
+    </div>`;
+}
+
+window.plantNext = function() {
+  const data = PLANTS_DATA[plantsCat];
+  if(plantsIdx<data.length-1){ plantsIdx++; addScore("plants",1); renderPlant(); }
+  else{ addScore("plants",5); showResult("🌱","Молодець!","Ти вивчила всю природу!",3); }
+};
+window.plantPrev = function() { if(plantsIdx>0){plantsIdx--;renderPlant();} };
+
+// ── ОНОВЛЕНИЙ initGame ──
+window.initGame = function(gameId) {
+  switch(gameId) {
+    case "alphabet-uk":  initAlphabet("uk"); break;
+    case "alphabet-en":  initAlphabet("en"); break;
+    case "numbers":      initNumbers(); break;
+    case "math":         initMath("add"); break;
+    case "memory":       initMemory(); break;
+    case "sentences":    initSentences(); break;
+    case "tales":        initTales(); break;
+    case "dictionary":   initDictionary(); break;
+    case "game2048":     init2048(); break;
+    case "achievements": renderAchievements(); break;
+    case "colors":       initColors(); break;
+    case "animals":      initAnimals(); break;
+    case "plants":       initPlants(); break;
   }
 };
