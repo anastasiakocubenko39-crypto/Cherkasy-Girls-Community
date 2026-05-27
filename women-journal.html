@@ -40,13 +40,20 @@
 </section>
 
 <!-- КАТЕГОРІЇ НАВІГАЦІЯ -->
-<nav class="cat-nav">
-  <button class="cat-nav-btn active" onclick="scrollToSection('moms')">Для мам</button>
-  <button class="cat-nav-btn" onclick="scrollToSection('cooking')">Кулінарія</button>
-  <button class="cat-nav-btn" onclick="scrollToSection('health')">Здоров'я</button>
-  <button class="cat-nav-btn" onclick="scrollToSection('money')">Гроші</button>
-  <button class="cat-nav-btn" onclick="scrollToSection('hobby')">Хобі</button>
-  <button class="cat-nav-btn" onclick="scrollToSection('rights')">Права</button>
+<nav class="cat-nav" id="catNav">
+  <button class="cat-nav-btn active" onclick="scrollToSection('moms')">👩 Для мам</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('cooking')">🍰 Кулінарія</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('health')">🌿 Здоров'я</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('money')">💰 Гроші</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('hobby')">🎨 Хобі</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('rights')">⚖️ Права</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('holidays')">🎉 Свята</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('psychology')">🧠 Психологія</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('news')">📰 Новини</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('forme')">💖 Для мене</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('travel')">✈️ Відпустка</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('volunteer')">🇺🇦 Волонтерство</button>
+  <button class="cat-nav-btn" onclick="scrollToSection('promo')">✨ Must Have</button>
 </nav>
 
 <main class="journal-main">
@@ -54,10 +61,7 @@
   <!-- ДЛЯ МАМ -->
   <section class="journal-section" id="moms">
     <div class="section-head" onclick="toggleSection('moms-body')">
-      <div class="section-head-left">
-        <span class="section-emoji">👩</span>
-        <h2>Для мам</h2>
-      </div>
+      <div class="section-head-left"><span class="section-emoji">👩</span><h2>Для мам</h2></div>
       <span class="section-arrow" id="arrow-moms-body">▼</span>
     </div>
     <div class="section-body" id="moms-body">
@@ -69,7 +73,6 @@
         <button class="subcat-btn" onclick="filterArticles('moms','lifehacks',this)">Лайфхаки</button>
         <button class="subcat-btn" onclick="filterArticles('moms','newmom',this)">Поради молодим мамам</button>
       </div>
-      <!-- ПОСИЛАННЯ НА ДИТЯЧУ АКАДЕМІЮ -->
       <a href="games.html" class="games-promo-card">
         <div class="games-promo-left">
           <div class="games-promo-badge">Новинка</div>
@@ -77,24 +80,16 @@
           <p>Інтерактивні ігри для дітей — букви, цифри, математика та пам'ять</p>
           <span class="games-promo-btn">Грати зараз →</span>
         </div>
-        <div class="games-promo-icons">
-          <span>🔤</span><span>🔢</span><span>➕</span><span>🧩</span>
-        </div>
+        <div class="games-promo-icons"><span>🔤</span><span>🔢</span><span>➕</span><span>🧩</span></div>
       </a>
-
-      <div class="articles-grid" id="articles-moms">
-        <div class="loading-pulse">Завантаження...</div>
-      </div>
+      <div class="articles-grid" id="articles-moms"><div class="loading-pulse">Завантаження...</div></div>
     </div>
   </section>
 
   <!-- КУЛІНАРІЯ -->
   <section class="journal-section" id="cooking">
     <div class="section-head" onclick="toggleSection('cooking-body')">
-      <div class="section-head-left">
-        <span class="section-emoji">🍰</span>
-        <h2>Кулінарія</h2>
-      </div>
+      <div class="section-head-left"><span class="section-emoji">🍰</span><h2>Кулінарія</h2></div>
       <span class="section-arrow" id="arrow-cooking-body">▼</span>
     </div>
     <div class="section-body" id="cooking-body">
@@ -107,22 +102,15 @@
         <button class="subcat-btn" onclick="filterArticles('cooking','budget',this)">Бюджетне меню</button>
         <button class="subcat-btn" onclick="filterArticles('cooking','kids',this)">Страви для дітей</button>
       </div>
-      <!-- КАЛЬКУЛЯТОР БЖУ -->
       <div id="bju-calc-wrap" style="margin-bottom:28px"></div>
-
-      <div class="articles-grid" id="articles-cooking">
-        <div class="loading-pulse">Завантаження...</div>
-      </div>
+      <div class="articles-grid" id="articles-cooking"><div class="loading-pulse">Завантаження...</div></div>
     </div>
   </section>
 
   <!-- ЗДОРОВ'Я -->
   <section class="journal-section" id="health">
     <div class="section-head" onclick="toggleSection('health-body')">
-      <div class="section-head-left">
-        <span class="section-emoji">🌿</span>
-        <h2>Здоров'я та самопочуття</h2>
-      </div>
+      <div class="section-head-left"><span class="section-emoji">🌿</span><h2>Здоров'я та самопочуття</h2></div>
       <span class="section-arrow" id="arrow-health-body">▼</span>
     </div>
     <div class="section-body" id="health-body">
@@ -136,19 +124,14 @@
         <button class="subcat-btn" onclick="filterArticles('health','beauty',this)">Догляд за собою</button>
         <button class="subcat-btn" onclick="filterArticles('health','psychology',this)">Психологія</button>
       </div>
-      <div class="articles-grid" id="articles-health">
-        <div class="loading-pulse">Завантаження...</div>
-      </div>
+      <div class="articles-grid" id="articles-health"><div class="loading-pulse">Завантаження...</div></div>
     </div>
   </section>
 
   <!-- ГРОШІ -->
   <section class="journal-section" id="money">
     <div class="section-head" onclick="toggleSection('money-body')">
-      <div class="section-head-left">
-        <span class="section-emoji">💰</span>
-        <h2>Гроші та розвиток</h2>
-      </div>
+      <div class="section-head-left"><span class="section-emoji">💰</span><h2>Гроші та розвиток</h2></div>
       <span class="section-arrow" id="arrow-money-body">▼</span>
     </div>
     <div class="section-body" id="money-body">
@@ -161,19 +144,14 @@
         <button class="subcat-btn" onclick="filterArticles('money','business',this)">Власна справа</button>
         <button class="subcat-btn" onclick="filterArticles('money','stories',this)">Історії успіху</button>
       </div>
-      <div class="articles-grid" id="articles-money">
-        <div class="loading-pulse">Завантаження...</div>
-      </div>
+      <div class="articles-grid" id="articles-money"><div class="loading-pulse">Завантаження...</div></div>
     </div>
   </section>
 
   <!-- ХОБІ -->
   <section class="journal-section" id="hobby">
     <div class="section-head" onclick="toggleSection('hobby-body')">
-      <div class="section-head-left">
-        <span class="section-emoji">🎨</span>
-        <h2>Хобі та творчість</h2>
-      </div>
+      <div class="section-head-left"><span class="section-emoji">🎨</span><h2>Хобі та творчість</h2></div>
       <span class="section-arrow" id="arrow-hobby-body">▼</span>
     </div>
     <div class="section-body" id="hobby-body">
@@ -187,19 +165,14 @@
         <button class="subcat-btn" onclick="filterArticles('hobby','games',this)">Настільні ігри</button>
         <button class="subcat-btn" onclick="filterArticles('hobby','gifts',this)">Ідеї подарунків</button>
       </div>
-      <div class="articles-grid" id="articles-hobby">
-        <div class="loading-pulse">Завантаження...</div>
-      </div>
+      <div class="articles-grid" id="articles-hobby"><div class="loading-pulse">Завантаження...</div></div>
     </div>
   </section>
 
   <!-- ПРАВА -->
   <section class="journal-section" id="rights">
     <div class="section-head" onclick="toggleSection('rights-body')">
-      <div class="section-head-left">
-        <span class="section-emoji">⚖️</span>
-        <h2>Права та безпека</h2>
-      </div>
+      <div class="section-head-left"><span class="section-emoji">⚖️</span><h2>Права та безпека</h2></div>
       <span class="section-arrow" id="arrow-rights-body">▼</span>
     </div>
     <div class="section-body" id="rights-body">
@@ -210,47 +183,229 @@
         <button class="subcat-btn" onclick="filterArticles('rights','violence',this)">Домашнє насильство</button>
         <button class="subcat-btn" onclick="filterArticles('rights','divorce',this)">Розлучення</button>
         <button class="subcat-btn" onclick="filterArticles('rights','labor',this)">Трудові права</button>
+        <button class="subcat-btn" onclick="filterArticles('rights','discrimination',this)">Від дискримінації</button>
+        <button class="subcat-btn" onclick="filterArticles('rights','legal',this)">Безкоштовна допомога</button>
+        <button class="subcat-btn" onclick="filterArticles('rights','bullying',this)">Переслідування</button>
       </div>
-      <div class="articles-grid" id="articles-rights">
-        <div class="loading-pulse">Завантаження...</div>
+      <div class="articles-grid" id="articles-rights"><div class="loading-pulse">Завантаження...</div></div>
+
+      <!-- КУДИ ЗВЕРТАТИСЬ -->
+      <div class="info-block" style="margin-top:28px">
+        <h3 class="info-block-title">📞 Куди звертатися</h3>
+        <div class="info-cards-grid">
+          <div class="info-card"><div class="info-icon">👊</div><div class="info-text"><b>Харасмент</b><p>Поліція 102, Уповноважений з прав людини</p></div></div>
+          <div class="info-card"><div class="info-icon">🏠</div><div class="info-text"><b>Домашнє насильство</b><p>Гаряча лінія 1547, Притулки</p></div></div>
+          <div class="info-card"><div class="info-icon">🏫</div><div class="info-text"><b>Булінг</b><p>МОН України, Шкільний психолог</p></div></div>
+          <div class="info-card"><div class="info-icon">💼</div><div class="info-text"><b>Незаконне звільнення</b><p>Держпраці, Суд, Профспілки</p></div></div>
+        </div>
       </div>
 
-      <!-- ЕКСТРЕНА ДОПОМОГА -->
-      <div class="emergency-block">
-        <h3>Екстрена допомога</h3>
-        <div class="emergency-grid">
-          <a href="tel:102" class="emergency-card police">
-            <span class="em-icon">🚨</span>
-            <span class="em-title">Поліція</span>
-            <span class="em-num">102</span>
+      <!-- ДЕРЖАВНІ СЛУЖБИ -->
+      <div class="info-block" style="margin-top:20px">
+        <h3 class="info-block-title">🏛️ Державні служби</h3>
+        <div class="services-grid">
+          <a href="tel:102" class="service-card"><span>🚨</span><b>Поліція</b><span class="service-num">102</span></a>
+          <a href="tel:1547" class="service-card"><span>💙</span><b>Гаряча лінія</b><span class="service-num">1547</span></a>
+          <a href="tel:0800213103" class="service-card"><span>⚖️</span><b>Правова допомога</b><span class="service-num">0 800 213 103</span></a>
+          <a href="tel:116123" class="service-card"><span>🤝</span><b>Омбудсмен</b><span class="service-num">116 123</span></a>
+          <a href="tel:103" class="service-card"><span>🚑</span><b>Швидка</b><span class="service-num">103</span></a>
+          <a href="tel:0800500335" class="service-card"><span>👶</span><b>Служба дітей</b><span class="service-num">0 800 500 335</span></a>
+        </div>
+      </div>
+
+      <!-- МІЖНАРОДНА ДОПОМОГА -->
+      <div class="info-block" style="margin-top:20px">
+        <h3 class="info-block-title">🌍 Міжнародна допомога</h3>
+        <div class="intl-grid">
+          <div class="intl-card"><span class="intl-flag">🇵🇱</span><b>Польща</b><p>Fundacja Ocalenie<br>telefon: +48 22 621 51 65</p></div>
+          <div class="intl-card"><span class="intl-flag">🇩🇪</span><b>Німеччина</b><p>Caritas Deutschland<br>helpline.de</p></div>
+          <div class="intl-card"><span class="intl-flag">🇨🇿</span><b>Чехія</b><p>Centrum Zuzana<br>+420 222 517 207</p></div>
+          <div class="intl-card"><span class="intl-flag">🇺🇸</span><b>США</b><p>USCIS Ukraine<br>uscis.gov/ukraine</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СВЯТА -->
+  <section class="journal-section" id="holidays">
+    <div class="section-head" onclick="toggleSection('holidays-body')">
+      <div class="section-head-left"><span class="section-emoji">🎉</span><h2>Свята</h2></div>
+      <span class="section-arrow" id="arrow-holidays-body">▼</span>
+    </div>
+    <div class="section-body" id="holidays-body">
+      <div class="subcats">
+        <button class="subcat-btn active" onclick="filterArticles('holidays','all',this)">Всі</button>
+        <button class="subcat-btn" onclick="filterArticles('holidays','birthday',this)">🎂 День народження</button>
+        <button class="subcat-btn" onclick="filterArticles('holidays','wedding',this)">💍 Весілля</button>
+        <button class="subcat-btn" onclick="filterArticles('holidays','march8',this)">🌸 8 Березня</button>
+        <button class="subcat-btn" onclick="filterArticles('holidays','motherday',this)">👩 День матері</button>
+        <button class="subcat-btn" onclick="filterArticles('holidays','mykola',this)">🎅 Миколая</button>
+        <button class="subcat-btn" onclick="filterArticles('holidays','newyear',this)">🎄 Новий рік</button>
+        <button class="subcat-btn" onclick="filterArticles('holidays','christmas',this)">✨ Різдво</button>
+      </div>
+      <div class="articles-grid" id="articles-holidays"><div class="loading-pulse">Завантаження...</div></div>
+    </div>
+  </section>
+
+  <!-- ПСИХОЛОГІЯ -->
+  <section class="journal-section" id="psychology">
+    <div class="section-head" onclick="toggleSection('psychology-body')">
+      <div class="section-head-left"><span class="section-emoji">🧠</span><h2>Психологія</h2></div>
+      <span class="section-arrow" id="arrow-psychology-body">▼</span>
+    </div>
+    <div class="section-body" id="psychology-body">
+      <div class="subcats">
+        <button class="subcat-btn active" onclick="filterArticles('psychology','all',this)">Всі</button>
+        <button class="subcat-btn" onclick="filterArticles('psychology','books',this)">📚 Книги</button>
+        <button class="subcat-btn" onclick="filterArticles('psychology','relations',this)">❤️ Стосунки</button>
+        <button class="subcat-btn" onclick="filterArticles('psychology','child',this)">👶 Психологія дитини</button>
+        <button class="subcat-btn" onclick="filterArticles('psychology','personal',this)">🌿 Особиста психологія</button>
+        <button class="subcat-btn" onclick="filterArticles('psychology','selfesteem',this)">😌 Самооцінка</button>
+        <button class="subcat-btn" onclick="filterArticles('psychology','burnout',this)">🫂 Тривожність</button>
+      </div>
+      <div class="articles-grid" id="articles-psychology"><div class="loading-pulse">Завантаження...</div></div>
+    </div>
+  </section>
+
+  <!-- НОВИНИ -->
+  <section class="journal-section" id="news">
+    <div class="section-head" onclick="toggleSection('news-body')">
+      <div class="section-head-left"><span class="section-emoji">📰</span><h2>Новини</h2></div>
+      <span class="section-arrow" id="arrow-news-body">▼</span>
+    </div>
+    <div class="section-body" id="news-body">
+      <div class="subcats">
+        <button class="subcat-btn active" onclick="filterArticles('news','all',this)">Всі</button>
+        <button class="subcat-btn" onclick="filterArticles('news','general',this)">Загальні</button>
+        <button class="subcat-btn" onclick="filterArticles('news','women',this)">Жіночі</button>
+        <button class="subcat-btn" onclick="filterArticles('news','psychology',this)">Психологія</button>
+        <button class="subcat-btn" onclick="filterArticles('news','health',this)">Здоров'я</button>
+        <button class="subcat-btn" onclick="filterArticles('news','moms',this)">Для мам</button>
+        <button class="subcat-btn" onclick="filterArticles('news','culture',this)">Культура</button>
+      </div>
+      <div class="articles-grid" id="articles-news"><div class="loading-pulse">Завантаження...</div></div>
+    </div>
+  </section>
+
+  <!-- ДЛЯ МЕНЕ -->
+  <section class="journal-section" id="forme">
+    <div class="section-head" onclick="toggleSection('forme-body')">
+      <div class="section-head-left"><span class="section-emoji">💖</span><h2>Для мене</h2></div>
+      <span class="section-arrow" id="arrow-forme-body">▼</span>
+    </div>
+    <div class="section-body" id="forme-body">
+      <div class="subcats">
+        <button class="subcat-btn active" onclick="filterArticles('forme','all',this)">Всі</button>
+        <button class="subcat-btn" onclick="filterArticles('forme','books',this)">📚 Книги</button>
+        <button class="subcat-btn" onclick="filterArticles('forme','series',this)">🎬 Серіали</button>
+        <button class="subcat-btn" onclick="filterArticles('forme','movies',this)">🎥 Кіно</button>
+        <button class="subcat-btn" onclick="filterArticles('forme','concerts',this)">🎵 Концерти</button>
+        <button class="subcat-btn" onclick="filterArticles('forme','rest',this)">☕ Відпочинок</button>
+        <button class="subcat-btn" onclick="filterArticles('forme','places',this)">🌙 Атмосферні місця</button>
+        <button class="subcat-btn" onclick="filterArticles('forme','inspiration',this)">🎨 Натхнення</button>
+      </div>
+      <div class="articles-grid" id="articles-forme"><div class="loading-pulse">Завантаження...</div></div>
+    </div>
+  </section>
+
+  <!-- ВІДПУСТКА -->
+  <section class="journal-section" id="travel">
+    <div class="section-head" onclick="toggleSection('travel-body')">
+      <div class="section-head-left"><span class="section-emoji">✈️</span><h2>Відпустка та подорожі</h2></div>
+      <span class="section-arrow" id="arrow-travel-body">▼</span>
+    </div>
+    <div class="section-body" id="travel-body">
+      <div class="subcats">
+        <button class="subcat-btn active" onclick="filterArticles('travel','all',this)">Всі</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','road',this)">🚗 Дорога</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','hotels',this)">🏨 Готелі</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','restaurants',this)">🍽 Ресторани</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','cities',this)">🏙 Міста</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','countries',this)">🌍 Країни</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','beach',this)">🏖 Пляжі</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','lifehacks',this)">🎒 Лайфхаки</button>
+        <button class="subcat-btn" onclick="filterArticles('travel','budget',this)">💰 Бюджет</button>
+      </div>
+      <div class="articles-grid" id="articles-travel"><div class="loading-pulse">Завантаження...</div></div>
+    </div>
+  </section>
+
+  <!-- ВОЛОНТЕРСТВО -->
+  <section class="journal-section volunteer-section" id="volunteer">
+    <div class="section-head" onclick="toggleSection('volunteer-body')">
+      <div class="section-head-left"><span class="section-emoji">🇺🇦</span><h2>Волонтерство та ЗСУ</h2></div>
+      <span class="section-arrow" id="arrow-volunteer-body">▼</span>
+    </div>
+    <div class="section-body" id="volunteer-body">
+      <div class="subcats">
+        <button class="subcat-btn active" onclick="filterArticles('volunteer','all',this)">Всі</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','collections',this)">💛 Актуальні збори</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','military',this)">🎖 Допомога військовим</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','medical',this)">🚑 Медична допомога</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','cars',this)">🛻 Авто для ЗСУ</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','drones',this)">📡 Дрони та РЕБ</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','clothes',this)">🧥 Одяг та амуніція</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','food',this)">🍲 Гуманітарна допомога</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','animals',this)">🐾 Тварини</button>
+        <button class="subcat-btn" onclick="filterArticles('volunteer','news',this)">📋 Звіти та новини</button>
+      </div>
+      <div class="articles-grid" id="articles-volunteer"><div class="loading-pulse">Завантаження...</div></div>
+
+      <!-- ПЕРЕВІРЕНІ ФОНДИ -->
+      <div class="funds-block">
+        <h3 class="funds-title">❤️ Перевірені фонди України</h3>
+        <div class="funds-grid">
+          <a href="https://savelife.in.ua" target="_blank" class="fund-card">
+            <span class="fund-icon">🛡️</span>
+            <b>Повернись живим</b>
+            <span>savelife.in.ua</span>
           </a>
-          <a href="tel:103" class="emergency-card medical">
-            <span class="em-icon">🚑</span>
-            <span class="em-title">Швидка</span>
-            <span class="em-num">103</span>
+          <a href="https://u24.gov.ua" target="_blank" class="fund-card">
+            <span class="fund-icon">🇺🇦</span>
+            <b>UNITED24</b>
+            <span>u24.gov.ua</span>
           </a>
-          <a href="tel:1547" class="emergency-card support">
-            <span class="em-icon">💙</span>
-            <span class="em-title">Домашнє насильство та переслідування</span>
-            <span class="em-num">15-47</span>
+          <a href="https://prytulafoundation.org" target="_blank" class="fund-card">
+            <span class="fund-icon">🤝</span>
+            <b>Фонд Притули</b>
+            <span>prytulafoundation.org</span>
           </a>
-          <a href="tel:0800213103" class="emergency-card legal">
-            <span class="em-icon">⚖️</span>
-            <span class="em-title">Єдиний контакт-центр системи безоплатної правової допомоги</span>
-            <span class="em-num">0 800 213 103</span>
+          <a href="https://hospitallers.life" target="_blank" class="fund-card">
+            <span class="fund-icon">🚑</span>
+            <b>Госпітальєри</b>
+            <span>hospitallers.life</span>
           </a>
-           <a href="tel:116123" class="emergency-card support">
-            <span class="em-icon">💙</span>
-            <span class="em-title">психологічну підтримку</span>
-            <span class="em-num">📞 0 800 500 335📞 116 123</span>
-          </a>
-           <a href="tel:116111" class="emergency-card support">
-            <span class="em-icon">💙</span>
-            <span class="em-title">Допомога дітям права дитини.</span>
-            <span class="em-num">📞 0 800 500 225📞 116 111</span>
+          <a href="https://aerorozvidka.xyz" target="_blank" class="fund-card">
+            <span class="fund-icon">📡</span>
+            <b>Аеророзвідка</b>
+            <span>aerorozvidka.xyz</span>
           </a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- MUST HAVE / PROMO -->
+  <section class="journal-section promo-section" id="promo">
+    <div class="section-head" onclick="toggleSection('promo-body')">
+      <div class="section-head-left"><span class="section-emoji">✨</span><h2>Must Have — Рекомендуємо</h2></div>
+      <span class="section-arrow" id="arrow-promo-body">▼</span>
+    </div>
+    <div class="section-body" id="promo-body">
+      <div class="subcats">
+        <button class="subcat-btn active" onclick="filterArticles('promo','all',this)">Всі</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','beauty',this)">💄 Beauty</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','fashion',this)">👗 Fashion</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','cafes',this)">☕ Заклади</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','gifts',this)">🎁 Подарунки</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','handmade',this)">🕯 Handmade</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','courses',this)">📚 Курси</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','psychology',this)">🧠 Психологія</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','sweets',this)">🍰 Смаколики</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','rest',this)">🏨 Відпочинок</button>
+        <button class="subcat-btn" onclick="filterArticles('promo','shops',this)">🛍 Магазини</button>
+      </div>
+      <div class="articles-grid promo-grid" id="articles-promo"><div class="loading-pulse">Завантаження...</div></div>
     </div>
   </section>
 
@@ -264,6 +419,7 @@
     <div class="modal-article-tag" id="modal-tag"></div>
     <h2 class="modal-article-title" id="modal-title"></h2>
     <div class="modal-article-body" id="modal-body"></div>
+    <div id="modal-links" class="modal-social-links"></div>
   </div>
 </div>
 
@@ -279,21 +435,6 @@
 </footer>
 
 <script>
-  // Глобальні обгортки для функцій з module
-  function toggleSection(id) {
-    // Чекаємо поки модуль завантажиться
-    if (window._toggleSection) { window._toggleSection(id); return; }
-    setTimeout(() => { if (window._toggleSection) window._toggleSection(id); }, 200);
-  }
-  function filterArticles(cat, sub, btn) {
-    if (window._filterArticles) { window._filterArticles(cat, sub, btn); return; }
-    setTimeout(() => { if (window._filterArticles) window._filterArticles(cat, sub, btn); }, 200);
-  }
-  function scrollToSection(id) {
-    if (window._scrollToSection) { window._scrollToSection(id); return; }
-    setTimeout(() => { if (window._scrollToSection) window._scrollToSection(id); }, 200);
-  }
-
   function toggleTheme() {
     const body = document.body;
     const icon = document.querySelector(".theme-icon");
@@ -306,8 +447,15 @@
   function toggleMenu() { document.getElementById("mobileMenu").classList.toggle("open"); }
   const _t = localStorage.getItem("theme")||"light";
   document.body.className = _t;
-  document.addEventListener("DOMContentLoaded",()=>{ const i=document.querySelector(".theme-icon"); if(i) i.textContent=_t==="dark"?"☀️":"🌙"; });
+  document.addEventListener("DOMContentLoaded",()=>{
+    const i=document.querySelector(".theme-icon");
+    if(i) i.textContent=_t==="dark"?"☀️":"🌙";
+  });
   document.getElementById("year").textContent = new Date().getFullYear();
+  // Global wrappers for module functions
+  function toggleSection(id){ if(window._toggleSection) window._toggleSection(id); else setTimeout(()=>window._toggleSection&&window._toggleSection(id),200); }
+  function filterArticles(cat,sub,btn){ if(window._filterArticles) window._filterArticles(cat,sub,btn); else setTimeout(()=>window._filterArticles&&window._filterArticles(cat,sub,btn),200); }
+  function scrollToSection(id){ if(window._scrollToSection) window._scrollToSection(id); else setTimeout(()=>window._scrollToSection&&window._scrollToSection(id),200); }
 </script>
 <script src="calorie-calculator.js"></script>
 <script type="module" src="women-journal.js"></script>
