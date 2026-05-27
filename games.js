@@ -76,6 +76,8 @@ window.goHome = function() {
   document.getElementById("resultOverlay").classList.add("hidden");
   currentGame = null;
   updateMainScreen();
+  // Scroll to top
+  window.scrollTo({top: 0, behavior: "smooth"});
 };
 
 function updateMainScreen() {
@@ -388,6 +390,14 @@ window.nextLevel = function() {
   document.getElementById("resultOverlay").classList.add("hidden");
   if (currentGame === "memory" && memoryLevel < 3) {
     startMemoryLevel();
+  } else if (currentGame === "sentences") {
+    renderSentence();
+  } else if (currentGame === "tales") {
+    renderTale();
+  } else if (currentGame === "dictionary") {
+    renderDict();
+  } else if (currentGame === "game2048") {
+    init2048();
   } else if (currentGame) {
     initGame(currentGame);
   }
@@ -437,6 +447,46 @@ const SENTENCES_UK = [
   {orig:"Квіти ростуть у саду",words:["Квіти","ростуть","у","саду","полі","падають"]},
   {orig:"Зайчик їсть моркву",words:["Зайчик","їсть","моркву","капусту","лисиця","спить"]},
   {orig:"Дівчинка малює будинок",words:["Дівчинка","малює","будинок","дерево","хлопчик","співає"]},
+  {orig:"Кошеня грає з клубком",words:["Кошеня","грає","з","клубком","мишкою","спить"]},
+  {orig:"Ведмідь живе у лісі",words:["Ведмідь","живе","у","лісі","горах","полі"]},
+  {orig:"Риба плаває у річці",words:["Риба","плаває","у","річці","морі","озері"]},
+  {orig:"Хмари пливуть по небу",words:["Хмари","пливуть","по","небу","полю","морю"]},
+  {orig:"Дощ іде надворі",words:["Дощ","іде","надворі","вдома","сьогодні","вчора"]},
+  {orig:"Бджола збирає мед",words:["Бджола","збирає","мед","нектар","пилок","квіти"]},
+  {orig:"Метелик літає над квіткою",words:["Метелик","літає","над","квіткою","деревом","садом"]},
+  {orig:"Черепаха повзе повільно",words:["Черепаха","повзе","повільно","швидко","обережно","тихо"]},
+  {orig:"Жаба стрибає у болото",words:["Жаба","стрибає","у","болото","воду","траву"]},
+  {orig:"Білочка їсть горіхи",words:["Білочка","їсть","горіхи","гриби","ягоди","шишки"]},
+  {orig:"Тато читає газету",words:["Тато","читає","газету","книгу","журнал","вранці"]},
+  {orig:"Бабуся пече пиріг",words:["Бабуся","пече","пиріг","торт","хліб","печиво"]},
+  {orig:"Дідусь садить квіти",words:["Дідусь","садить","квіти","дерева","овочі","яблука"]},
+  {orig:"Сестра малює картину",words:["Сестра","малює","картину","будинок","квіти","природу"]},
+  {orig:"Брат грає у футбол",words:["Брат","грає","у","футбол","теніс","баскетбол"]},
+  {orig:"Кінь їсть траву",words:["Кінь","їсть","траву","сіно","овес","яблука"]},
+  {orig:"Корова дає молоко",words:["Корова","дає","молоко","тепло","сметану","вранці"]},
+  {orig:"Курка знесла яйце",words:["Курка","знесла","яйце","два","три","яєчко"]},
+  {orig:"Свиня валяється у багнюці",words:["Свиня","валяється","у","багнюці","болоті","воді"]},
+  {orig:"Вовк бігає по лісу",words:["Вовк","бігає","по","лісу","полю","степу"]},
+  {orig:"Лисиця хитра і руда",words:["Лисиця","хитра","і","руда","спритна","красива"]},
+  {orig:"Їжак знайшов гриб",words:["Їжак","знайшов","гриб","яблуко","грушу","листок"]},
+  {orig:"Зима принесла сніг",words:["Зима","принесла","сніг","холод","мороз","лід"]},
+  {orig:"Весна прийшла у ліс",words:["Весна","прийшла","у","ліс","місто","сад"]},
+  {orig:"Літо дарує тепло",words:["Літо","дарує","тепло","радість","сонце","відпочинок"]},
+  {orig:"Осінь фарбує листя",words:["Осінь","фарбує","листя","дерева","ліс","парк"]},
+  {orig:"Місяць світить вночі",words:["Місяць","світить","вночі","яскраво","тихо","гарно"]},
+  {orig:"Зірки мигають на небі",words:["Зірки","мигають","на","небі","горизонті","морі"]},
+  {orig:"Вітер гойдає дерева",words:["Вітер","гойдає","дерева","гілки","квіти","траву"]},
+  {orig:"Хлопчик купається в морі",words:["Хлопчик","купається","в","морі","річці","озері"]},
+  {orig:"Дівчинка збирає квіти",words:["Дівчинка","збирає","квіти","ягоди","гриби","яблука"]},
+  {orig:"Кролик вуха довгі має",words:["Кролик","вуха","довгі","має","пухнасті","білі"]},
+  {orig:"Слон великий і сильний",words:["Слон","великий","і","сильний","добрий","розумний"]},
+  {orig:"Жираф має довгу шию",words:["Жираф","має","довгу","шию","шкіру","ногу"]},
+  {orig:"Папуга говорить і співає",words:["Папуга","говорить","і","співає","танцює","кричить"]},
+  {orig:"Черв'як живе у землі",words:["Черв'як","живе","у","землі","норі","траві"]},
+  {orig:"Равлик повзе по листку",words:["Равлик","повзе","по","листку","гілці","каменю"]},
+  {orig:"Мурашка несе зернятко",words:["Мурашка","несе","зернятко","листочок","крихту","гілочку"]},
+  {orig:"Бабка літає над водою",words:["Бабка","літає","над","водою","квіткою","полем"]},
+  {orig:"Сова спить вдень",words:["Сова","спить","вдень","вночі","у","дупло"]},
 ];
 
 const SENTENCES_EN = [
@@ -450,6 +500,47 @@ const SENTENCES_EN = [
   {orig:"Flowers grow in the garden",words:["Flowers","grow","in","the","garden","field","fall"]},
   {orig:"The rabbit eats a carrot",words:["The","rabbit","eats","a","carrot","fox","sleeps"]},
   {orig:"The girl draws a house",words:["The","girl","draws","a","house","tree","boy","sings"]},
+  {orig:"A butterfly flies over flowers",words:["A","butterfly","flies","over","flowers","trees","field"]},
+  {orig:"The bear lives in the forest",words:["The","bear","lives","in","forest","mountains","river"]},
+  {orig:"Fish swim in the river",words:["Fish","swim","in","the","river","sea","lake"]},
+  {orig:"Clouds float in the sky",words:["Clouds","float","in","the","sky","wind","above"]},
+  {orig:"It rains outside today",words:["It","rains","outside","today","yesterday","morning","evening"]},
+  {orig:"The bee collects honey",words:["The","bee","collects","honey","nectar","pollen","flowers"]},
+  {orig:"The turtle moves slowly",words:["The","turtle","moves","slowly","quickly","carefully","quietly"]},
+  {orig:"The frog jumps into water",words:["The","frog","jumps","into","water","grass","pond"]},
+  {orig:"The squirrel eats nuts",words:["The","squirrel","eats","nuts","mushrooms","berries","seeds"]},
+  {orig:"Grandma bakes a cake",words:["Grandma","bakes","a","cake","pie","bread","cookies"]},
+  {orig:"Grandpa plants flowers",words:["Grandpa","plants","flowers","trees","vegetables","apples"]},
+  {orig:"My sister draws a picture",words:["My","sister","draws","a","picture","house","garden"]},
+  {orig:"My brother plays football",words:["My","brother","plays","football","tennis","basketball","outside"]},
+  {orig:"The horse eats green grass",words:["The","horse","eats","green","grass","hay","oats"]},
+  {orig:"The cow gives us milk",words:["The","cow","gives","us","milk","cream","butter"]},
+  {orig:"Winter brings snow and ice",words:["Winter","brings","snow","and","ice","cold","frost"]},
+  {orig:"Spring comes to the forest",words:["Spring","comes","to","the","forest","city","garden"]},
+  {orig:"Summer gives us warm days",words:["Summer","gives","us","warm","days","sunshine","holidays"]},
+  {orig:"Autumn colors the leaves",words:["Autumn","colors","the","leaves","trees","forest","park"]},
+  {orig:"The moon shines at night",words:["The","moon","shines","at","night","brightly","quietly"]},
+  {orig:"Stars twinkle in the sky",words:["Stars","twinkle","in","the","sky","horizon","darkness"]},
+  {orig:"Wind shakes the tall trees",words:["Wind","shakes","the","tall","trees","branches","flowers"]},
+  {orig:"The elephant is big and strong",words:["The","elephant","is","big","and","strong","gentle","wise"]},
+  {orig:"The giraffe has a long neck",words:["The","giraffe","has","a","long","neck","tail","tongue"]},
+  {orig:"The parrot talks and sings",words:["The","parrot","talks","and","sings","dances","screams"]},
+  {orig:"An ant carries a seed",words:["An","ant","carries","a","seed","leaf","crumb","twig"]},
+  {orig:"The owl sleeps during the day",words:["The","owl","sleeps","during","the","day","night","tree"]},
+  {orig:"A snail crawls on a leaf",words:["A","snail","crawls","on","a","leaf","branch","stone"]},
+  {orig:"The wolf runs through the forest",words:["The","wolf","runs","through","the","forest","field","night"]},
+  {orig:"The fox is clever and red",words:["The","fox","is","clever","and","red","quick","sly"]},
+  {orig:"The hedgehog found a mushroom",words:["The","hedgehog","found","a","mushroom","apple","pear","leaf"]},
+  {orig:"The dragonfly flies over water",words:["The","dragonfly","flies","over","water","flowers","pond"]},
+  {orig:"A little girl picks berries",words:["A","little","girl","picks","berries","mushrooms","flowers","apples"]},
+  {orig:"The kitten plays with a ball",words:["The","kitten","plays","with","a","ball","string","toy"]},
+  {orig:"Dad reads a newspaper",words:["Dad","reads","a","newspaper","book","magazine","morning"]},
+  {orig:"We swim in the blue sea",words:["We","swim","in","the","blue","sea","river","pool"]},
+  {orig:"The pig rolls in the mud",words:["The","pig","rolls","in","the","mud","water","grass"]},
+  {orig:"The hen laid an egg",words:["The","hen","laid","an","egg","two","three","morning"]},
+  {orig:"The parrot has colorful feathers",words:["The","parrot","has","colorful","feathers","wings","beak","tail"]},
+  {orig:"A rainbow appears after rain",words:["A","rainbow","appears","after","rain","storm","clouds"]},
+  {orig:"The worm lives in the ground",words:["The","worm","lives","in","the","ground","soil","dirt"]},
 ];
 
 let sentenceLang = "uk";
@@ -517,17 +608,40 @@ window.removeWord = function(idx) {
 
 window.checkSentence = function(correct) {
   const built = builtSentence.join(" ");
+  const area  = document.getElementById("area-sentences");
+  const data  = sentenceLang === "uk" ? SENTENCES_UK : SENTENCES_EN;
+
   if (built === correct) {
     addScore("sentences", 3);
-    sentenceIdx++;
-    const data = sentenceLang === "uk" ? SENTENCES_UK : SENTENCES_EN;
-    if (sentenceIdx % data.length === 0) {
-      showResult("🎉","Чудово!","Ти склала всі речення правильно!",3);
-    } else {
-      showResult("✅","Правильно!",`Речення складено вірно!`,2);
+    // Flash green then next
+    const card = area.querySelector(".sentence-card");
+    if (card) {
+      card.style.background = "linear-gradient(135deg,rgba(52,211,153,.15),rgba(132,204,22,.1))";
+      card.style.border = "3px solid rgba(52,211,153,.5)";
     }
+    sentenceIdx++;
+    setTimeout(() => {
+      if (sentenceIdx >= data.length) {
+        sentenceIdx = 0;
+        showResult("🎉","Чудово!","Ти склала всі речення правильно!",3);
+      } else {
+        renderSentence();
+      }
+    }, 600);
   } else {
-    showResult("🤔","Спробуй ще!",`Правильно: "${correct}"`,1);
+    // Flash red hint
+    const card = area.querySelector(".sentence-card");
+    if (card) {
+      card.style.border = "3px solid rgba(251,113,133,.5)";
+      setTimeout(() => { card.style.border = ""; }, 800);
+    }
+    // Show correct answer hint
+    const hint = document.createElement("div");
+    hint.style.cssText = "margin-top:12px;padding:12px 16px;background:rgba(251,113,133,.1);border-radius:12px;font-size:15px;color:#c0392b;font-weight:700;text-align:center;";
+    hint.textContent = `Правильно: "${correct}"`;
+    const checkBtn = area.querySelector(".check-sentence-btn");
+    if (checkBtn) checkBtn.parentNode.insertBefore(hint, checkBtn.nextSibling);
+    setTimeout(() => hint.remove(), 2000);
   }
 };
 
