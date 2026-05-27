@@ -269,6 +269,21 @@
 </footer>
 
 <script>
+  // Глобальні обгортки для функцій з module
+  function toggleSection(id) {
+    // Чекаємо поки модуль завантажиться
+    if (window._toggleSection) { window._toggleSection(id); return; }
+    setTimeout(() => { if (window._toggleSection) window._toggleSection(id); }, 200);
+  }
+  function filterArticles(cat, sub, btn) {
+    if (window._filterArticles) { window._filterArticles(cat, sub, btn); return; }
+    setTimeout(() => { if (window._filterArticles) window._filterArticles(cat, sub, btn); }, 200);
+  }
+  function scrollToSection(id) {
+    if (window._scrollToSection) { window._scrollToSection(id); return; }
+    setTimeout(() => { if (window._scrollToSection) window._scrollToSection(id); }, 200);
+  }
+
   function toggleTheme() {
     const body = document.body;
     const icon = document.querySelector(".theme-icon");
