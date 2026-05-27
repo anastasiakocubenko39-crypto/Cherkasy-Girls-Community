@@ -201,12 +201,19 @@
       <label>Заголовок *</label><input id="jn-title" placeholder="Заголовок статті">
       <label>Категорія *</label>
       <select id="jn-category" onchange="updateSubcats()">
-        <option value="moms">Для мам</option>
-        <option value="cooking">Кулінарія</option>
-        <option value="health">Здоров'я</option>
-        <option value="money">Гроші та розвиток</option>
-        <option value="hobby">Хобі та творчість</option>
-        <option value="rights">Права та безпека</option>
+        <option value="moms">👩 Для мам</option>
+        <option value="cooking">🍰 Кулінарія</option>
+        <option value="health">🌿 Здоров'я</option>
+        <option value="money">💰 Гроші</option>
+        <option value="hobby">🎨 Хобі</option>
+        <option value="rights">⚖️ Права та безпека</option>
+        <option value="holidays">🎉 Свята</option>
+        <option value="psychology">🧠 Психологія</option>
+        <option value="news">📰 Новини</option>
+        <option value="forme">💖 Для мене</option>
+        <option value="travel">✈️ Відпустка</option>
+        <option value="volunteer">🇺🇦 Волонтерство</option>
+        <option value="promo">✨ Must Have</option>
       </select>
       <label>Підкатегорія</label>
       <select id="jn-subcategory">
@@ -257,60 +264,19 @@
 </script>
 <script>
 const SUBCATS = {
-  moms: [
-    {v:"kids-places", l:"Куди піти з дитиною у Черкасах"},
-    {v:"clubs",       l:"Корисні гуртки та секції"},
-    {v:"development", l:"Розвиток дитини"},
-    {v:"lifehacks",   l:"Лайфхаки для мам"},
-    {v:"newmom",      l:"Поради для молодих мам"},
-  ],
-  cooking: [
-    {v:"quick",    l:"Швидкі рецепти на кожен день"},
-    {v:"baking",   l:"Домашня випічка"},
-    {v:"desserts", l:"Корисні десерти"},
-    {v:"festive",  l:"Святкові страви"},
-    {v:"budget",   l:"Бюджетне меню на тиждень"},
-    {v:"kids",     l:"Страви для дітей"},
-  ],
-  health: [
-    {v:"womens",     l:"Жіноче здоров'я"},
-    {v:"vitamins",   l:"Вітаміни та харчування"},
-    {v:"sleep",      l:"Сон та відновлення"},
-    {v:"stress",     l:"Боротьба зі стресом"},
-    {v:"fitness",    l:"Домашні тренування"},
-    {v:"beauty",     l:"Догляд за собою"},
-    {v:"psychology", l:"Психологія та емоційний стан"},
-  ],
-  money: [
-    {v:"budget",   l:"Сімейний бюджет"},
-    {v:"save",     l:"Як економити без стресу"},
-    {v:"savings",  l:"Заощадження"},
-    {v:"apps",     l:"Корисні мобільні додатки"},
-    {v:"business", l:"Власна справа та підробіток"},
-    {v:"stories",  l:"Історії успіху жінок"},
-  ],
-  hobby: [
-    {v:"drawing",   l:"Малювання"},
-    {v:"handmade",  l:"Handmade"},
-    {v:"embroidery",l:"Вишивка та рукоділля"},
-    {v:"decor",     l:"Декор дому"},
-    {v:"photo",     l:"Фотографія"},
-    {v:"games",     l:"Настільні ігри"},
-    {v:"gifts",     l:"Ідеї подарунків своїми руками"},
-  ],
-  rights: [
-    {v:"womens",   l:"Права жінок"},
-    {v:"children", l:"Права дитини"},
-    {v:"violence", l:"Домашнє насильство"},
-    {v:"alimony",  l:"Аліменти"},
-    {v:"divorce",  l:"Права при розлученні"},
-    {v:"property", l:"Майно у шлюбі"},
-    {v:"maternity",l:"Декретна відпустка"},
-    {v:"labor",    l:"Трудові права"},
-    {v:"discrimination",l:"Захист від дискримінації"},
-    {v:"legal",    l:"Безкоштовна правова допомога"},
-    {v:"bullying", l:"Переслідування та погрози"},
-  ],
+  moms:       [{v:"kids-places",l:"Куди піти з дитиною"},{v:"clubs",l:"Гуртки та секції"},{v:"development",l:"Розвиток дитини"},{v:"lifehacks",l:"Лайфхаки"},{v:"newmom",l:"Поради молодим мамам"}],
+  cooking:    [{v:"quick",l:"Швидкі рецепти"},{v:"baking",l:"Випічка"},{v:"desserts",l:"Десерти"},{v:"festive",l:"Святкові страви"},{v:"budget",l:"Бюджетне меню"},{v:"kids",l:"Для дітей"}],
+  health:     [{v:"womens",l:"Жіноче здоров'я"},{v:"vitamins",l:"Вітаміни"},{v:"sleep",l:"Сон"},{v:"stress",l:"Стрес"},{v:"fitness",l:"Тренування"},{v:"beauty",l:"Догляд"},{v:"psychology",l:"Психологія"}],
+  money:      [{v:"budget",l:"Сімейний бюджет"},{v:"save",l:"Як економити"},{v:"savings",l:"Заощадження"},{v:"apps",l:"Додатки"},{v:"business",l:"Власна справа"},{v:"stories",l:"Успіх"}],
+  hobby:      [{v:"drawing",l:"Малювання"},{v:"handmade",l:"Handmade"},{v:"embroidery",l:"Вишивка"},{v:"decor",l:"Декор"},{v:"photo",l:"Фото"},{v:"games",l:"Ігри"},{v:"gifts",l:"Подарунки"}],
+  rights:     [{v:"womens",l:"Права жінок"},{v:"children",l:"Права дитини"},{v:"violence",l:"Насильство"},{v:"divorce",l:"Розлучення"},{v:"labor",l:"Трудові права"},{v:"discrimination",l:"Від дискримінації"},{v:"legal",l:"Безкоштовна допомога"},{v:"bullying",l:"Переслідування"}],
+  holidays:   [{v:"birthday",l:"День народження"},{v:"wedding",l:"Весілля"},{v:"march8",l:"8 Березня"},{v:"motherday",l:"День матері"},{v:"mykola",l:"Миколая"},{v:"newyear",l:"Новий рік"},{v:"christmas",l:"Різдво"}],
+  psychology: [{v:"books",l:"Книги"},{v:"relations",l:"Стосунки"},{v:"child",l:"Психологія дитини"},{v:"personal",l:"Особиста"},{v:"selfesteem",l:"Самооцінка"},{v:"burnout",l:"Тривожність"}],
+  news:       [{v:"general",l:"Загальні"},{v:"women",l:"Жіночі"},{v:"psychology",l:"Психологія"},{v:"health",l:"Здоров'я"},{v:"moms",l:"Для мам"},{v:"culture",l:"Культура"}],
+  forme:      [{v:"books",l:"Книги"},{v:"series",l:"Серіали"},{v:"movies",l:"Кіно"},{v:"concerts",l:"Концерти"},{v:"rest",l:"Відпочинок"},{v:"places",l:"Місця"},{v:"inspiration",l:"Натхнення"}],
+  travel:     [{v:"road",l:"Дорога"},{v:"hotels",l:"Готелі"},{v:"restaurants",l:"Ресторани"},{v:"cities",l:"Міста"},{v:"countries",l:"Країни"},{v:"beach",l:"Пляжі"},{v:"lifehacks",l:"Лайфхаки"},{v:"budget",l:"Бюджет"}],
+  volunteer:  [{v:"collections",l:"Збори"},{v:"military",l:"Допомога військовим"},{v:"medical",l:"Медична"},{v:"cars",l:"Авто"},{v:"drones",l:"Дрони"},{v:"clothes",l:"Одяг"},{v:"food",l:"Гуманітарна"},{v:"animals",l:"Тварини"},{v:"news",l:"Звіти"}],
+  promo:      [{v:"beauty",l:"Beauty"},{v:"fashion",l:"Fashion"},{v:"cafes",l:"Заклади"},{v:"gifts",l:"Подарунки"},{v:"handmade",l:"Handmade"},{v:"courses",l:"Курси"},{v:"psychology",l:"Психологія"},{v:"sweets",l:"Смаколики"},{v:"rest",l:"Відпочинок"},{v:"shops",l:"Магазини"}],
 };
 
 function updateSubcats() {
