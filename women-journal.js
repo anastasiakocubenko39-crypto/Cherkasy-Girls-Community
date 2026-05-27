@@ -78,17 +78,18 @@ function renderArticles(category, articles, subcat = "all") {
 
     const subcatLabel = SUBCAT_LABELS[category]?.[article.subcategory] || "";
 
+    const imgHtml = article.imageUrl
+      ? `<div class="article-card-img"><img src="${article.imageUrl}" alt="${article.title}" loading="lazy" onerror="this.closest('.article-card-img').style.display='none'"></div>`
+      : "";
     card.innerHTML = `
-      ${article.imageUrl ? `
-      <div class="article-card-img">
-        <img src="${article.imageUrl}" alt="${article.title}" loading="lazy" onerror="this.parentElement.remove()">
-      </div>` : ""}
+      ${imgHtml}
       <div class="article-card-body">
         ${subcatLabel ? `<span class="article-card-tag">${subcatLabel}</span>` : ""}
         <h3>${article.title}</h3>
         <p>${article.excerpt || article.content?.substring(0,120) || ""}</p>
         <span class="article-read-btn">Читати →</span>
       </div>`;
+    if (!article.imageUrl) card.classList.add("no-img");
     container.appendChild(card);
   });
 }
