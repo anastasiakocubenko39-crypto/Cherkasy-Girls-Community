@@ -101,7 +101,22 @@ function openArticle(article) {
   const body  = document.getElementById("modal-body");
 
   document.getElementById("modal-title").textContent = article.title;
-  const ALL_LABELS = {"kids-places": "Куди піти з дитиною", "clubs": "Гуртки та секції", "development": "Розвиток дитини", "lifehacks": "Лайфхаки", "newmom": "Поради молодим мамам", "quick": "Швидкі рецепти", "baking": "Випічка", "desserts": "Десерти", "festive": "Святкові страви", "budget": "Бюджетне меню", "kids": "Страви для дітей", "womens": "Жіноче здоров"я", "vitamins": "Вітаміни", "sleep": "Сон", "stress": "Стрес", "fitness": "Тренування", "beauty": "Догляд", "psychology": "Психологія", "save": "Як економити", "savings": "Заощадження", "apps": "Додатки", "business": "Власна справа", "stories": "Історії успіху", "drawing": "Малювання", "handmade": "Handmade", "embroidery": "Вишивка", "decor": "Декор дому", "photo": "Фотографія", "games": "Настільні ігри", "gifts": "Подарунки", "violence": "Домашнє насильство", "children": "Права дитини", "divorce": "Розлучення", "labor": "Трудові права", "moms": "Для мам", "cooking": "Кулінарія", "health": "Здоров"я", "money": "Гроші", "hobby": "Хобі", "rights": "Права"};
+  const ALL_LABELS = {
+    "kids-places":"Куди піти з дитиною","clubs":"Гуртки та секції",
+    "development":"Розвиток дитини","lifehacks":"Лайфхаки","newmom":"Поради молодим мамам",
+    "quick":"Швидкі рецепти","baking":"Випічка","desserts":"Десерти",
+    "festive":"Святкові страви","budget":"Бюджетне меню","kids":"Страви для дітей",
+    "womens":"Жіноче здоровя","vitamins":"Вітаміни","sleep":"Сон",
+    "stress":"Стрес","fitness":"Тренування","beauty":"Догляд","psychology":"Психологія",
+    "save":"Як економити","savings":"Заощадження","apps":"Додатки",
+    "business":"Власна справа","stories":"Історії успіху",
+    "drawing":"Малювання","handmade":"Handmade","embroidery":"Вишивка",
+    "decor":"Декор дому","photo":"Фотографія","games":"Настільні ігри","gifts":"Подарунки",
+    "violence":"Домашнє насильство","children":"Права дитини",
+    "divorce":"Розлучення","labor":"Трудові права",
+    "moms":"Для мам","cooking":"Кулінарія","health":"Здоровя",
+    "money":"Гроші","hobby":"Хобі","rights":"Права"
+  };
   const tagLabel = ALL_LABELS[article.subcategory] || ALL_LABELS[article.category] || article.subcategory || article.category || "";
   document.getElementById("modal-tag").textContent = tagLabel;
 
