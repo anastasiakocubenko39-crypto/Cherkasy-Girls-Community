@@ -251,3 +251,61 @@ body.dark .logo-img-dark { display:block; }
 
 .article-card.no-img .article-card-img { display:none!important; }
 .article-card.no-img { border-radius:18px; }
+
+/* ── НОВІ РОЗДІЛИ ── */
+
+/* CAT NAV scroll */
+.cat-nav{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;flex-wrap:nowrap;justify-content:flex-start;padding:16px 20px;}
+.cat-nav::-webkit-scrollbar{display:none;}
+.cat-nav-btn{flex-shrink:0;}
+
+/* INFO BLOCK */
+.info-block{background:var(--bg3);border-radius:20px;padding:24px;border:1px solid var(--border);}
+.info-block-title{font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--accent);margin-bottom:16px;}
+.info-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+.info-card{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border-radius:14px;padding:16px;border:1px solid var(--border);}
+.info-icon{font-size:24px;flex-shrink:0;}
+.info-text b{font-size:14px;font-weight:700;color:var(--text);display:block;margin-bottom:4px;}
+.info-text p{font-size:12px;color:var(--text2);}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.service-card{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 12px;border-radius:14px;background:var(--bg2);border:1.5px solid var(--border);text-decoration:none;transition:all .2s;text-align:center;}
+.service-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+.service-card span{font-size:22px;}
+.service-card b{font-size:12px;font-weight:700;color:var(--text);}
+.service-num{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--accent);}
+
+/* INTERNATIONAL */
+.intl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.intl-card{background:var(--bg2);border-radius:14px;padding:16px;border:1px solid var(--border);}
+.intl-flag{font-size:28px;display:block;margin-bottom:8px;}
+.intl-card b{font-size:15px;font-weight:700;color:var(--text);display:block;margin-bottom:4px;}
+.intl-card p{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* VOLUNTEER SECTION */
+.volunteer-section{border-color:rgba(30,144,255,.2);}
+.volunteer-section .section-head{background:linear-gradient(135deg,rgba(0,87,183,.05),rgba(255,213,0,.05));}
+
+/* FUNDS */
+.funds-block{margin-top:28px;background:linear-gradient(135deg,rgba(0,87,183,.06),rgba(255,213,0,.06));border-radius:20px;padding:24px;border:1.5px solid rgba(0,87,183,.15);}
+.funds-title{font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:16px;color:var(--text);}
+.funds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.fund-card{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px;border-radius:14px;background:var(--bg2);border:1.5px solid var(--border);text-decoration:none;transition:all .2s;text-align:center;}
+.fund-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent);}
+.fund-icon{font-size:28px;}
+.fund-card b{font-size:13px;font-weight:700;color:var(--text);}
+.fund-card span{font-size:11px;color:var(--muted);}
+
+/* PROMO SECTION */
+.promo-section{border-color:rgba(212,56,106,.2);}
+.promo-grid .article-card{position:relative;overflow:hidden;}
+.promo-grid .article-card::after{content:"✨";position:absolute;top:12px;right:12px;background:linear-gradient(135deg,#f59e0b,#ec4899);color:white;font-size:10px;padding:3px 10px;border-radius:100px;font-weight:700;}
+
+/* MODAL SOCIAL LINKS */
+.modal-social-links{padding:0 32px 32px;}
+.modal-social-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+.social-link{padding:10px 20px;border-radius:100px;border:1.5px solid var(--border);color:var(--text2);text-decoration:none;font-size:13px;font-weight:600;transition:all .2s;background:var(--bg3);}
+.social-link:hover{border-color:var(--accent);color:var(--accent);}
+.btn-accent{background:var(--accent);color:#fff!important;border-color:var(--accent)!important;}
+.btn-donate{background:linear-gradient(135deg,#1a56c4,#f5c400);color:#fff!important;border:none!important;}
