@@ -117,10 +117,10 @@ async function loadEvents() {
       const div = document.createElement("div");
       div.className = "list-item";
       div.innerHTML = `
-        <div class="list-item-img">${e.imageUrl ? `<img src="${e.imageUrl}" alt="" onerror="this.style.display='none'">` : "📅"}</div>
+        <div class="list-item-thumb">${e.imageUrl ? `<img src="${e.imageUrl}" alt="" onerror="this.style.display='none'">` : "📅"}</div>
         <div class="list-item-info">
           <div class="list-item-badge">${safeStr(e.category) || "Подія"}</div>
-          <h4>${safeStr(e.title)}</h4>
+          <div class="list-item-title">${safeStr(e.title)}</div>
           <p>${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}${e.location ? " · " + e.location : ""}</p>
         </div>
         <div class="list-item-actions">
@@ -264,8 +264,8 @@ async function loadTeam() {
       const div = document.createElement("div");
       div.className = "list-item";
       div.innerHTML = `
-        <div class="list-item-img">${m.photoUrl ? `<img src="${m.photoUrl}" alt="">` : (m.emoji || "🌸")}</div>
-        <div class="list-item-info"><h4>${safeStr(m.name)}</h4><p>${safeStr(m.role)}</p></div>
+        <div class="list-item-thumb">${m.photoUrl ? `<img src="${m.photoUrl}" alt="">` : (m.emoji || "🌸")}</div>
+        <div class="list-item-info"><div class="list-item-title">${safeStr(m.name)}</div><p>${safeStr(m.role)}</p></div>
         <div class="list-item-actions">
           <button class="btn-outline btn-sm btn-danger" onclick="deleteTeamMember('${d.id}')">Видалити</button>
         </div>`;
@@ -337,10 +337,10 @@ function renderJournal(articles) {
     const div = document.createElement("div");
     div.className = "list-item";
     div.innerHTML = `
-      <div class="list-item-img">${a.imageUrl ? `<img src="${a.imageUrl}" alt="">` : "📖"}</div>
+      <div class="list-item-thumb">${a.imageUrl ? `<img src="${a.imageUrl}" alt="">` : "📖"}</div>
       <div class="list-item-info">
         <div class="list-item-badge">${CAT_LABELS[a.category] || safeStr(a.category)}</div>
-        <h4>${safeStr(a.title)}</h4>
+        <div class="list-item-title">${safeStr(a.title)}</div>
         <p>${(safeStr(a.excerpt) || safeStr(a.content)).substring(0,80)}</p>
       </div>
       <div class="list-item-actions">
@@ -439,10 +439,10 @@ async function loadVolunteer() {
       const div = document.createElement("div");
       div.className = "list-item";
       div.innerHTML = `
-        <div class="list-item-img">${v.imageUrl ? `<img src="${v.imageUrl}" alt="">` : "💛"}</div>
+        <div class="list-item-thumb">${v.imageUrl ? `<img src="${v.imageUrl}" alt="">` : "💛"}</div>
         <div class="list-item-info">
           <div class="list-item-badge">${v.status === "active" ? "✅ Активний" : "🔒 Закритий"}</div>
-          <h4>${safeStr(v.title)}</h4>
+          <div class="list-item-title">${safeStr(v.title)}</div>
           <p>Зібрано: ${safeStr(v.collected)||0} / ${safeStr(v.goalAmount)||0} грн · ${pct}%</p>
           <div style="background:#e5e7eb;border-radius:100px;height:6px;margin-top:6px">
             <div style="background:#1a56c4;height:6px;border-radius:100px;width:${pct}%"></div>
@@ -503,10 +503,10 @@ async function loadPromo() {
       const div = document.createElement("div");
       div.className = "list-item";
       div.innerHTML = `
-        <div class="list-item-img">${p.imageUrl ? `<img src="${p.imageUrl}" alt="">` : "✨"}</div>
+        <div class="list-item-thumb">${p.imageUrl ? `<img src="${p.imageUrl}" alt="">` : "✨"}</div>
         <div class="list-item-info">
           <div class="list-item-badge">${safeStr(p.category)}</div>
-          <h4>${safeStr(p.title)}</h4>
+          <div class="list-item-title">${safeStr(p.title)}</div>
           <p>${safeStr(p.shortDesc).substring(0,80)}</p>
         </div>
         <div class="list-item-actions">
