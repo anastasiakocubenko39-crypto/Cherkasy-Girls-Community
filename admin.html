@@ -3,68 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Адмінка — Cherkasy Girls Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>CGC Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
-<div id="loginPage" class="login-page">
+<!-- LOGIN -->
+<div id="loginScreen" class="login-screen">
   <div class="login-box">
-    <div class="login-logo">🌸 Cherkasy Girls Club</div>
-    <h2>Адмін панель</h2>
-    <p class="login-sub">Введіть пароль для входу</p>
-    <input type="password" id="passInput" placeholder="Пароль" autocomplete="current-password">
-    <button id="loginBtn" class="btn-pink" onclick="doLogin()">Увійти →</button>
-    <p id="loginError" class="error-msg"></p>
+    <div class="login-logo">🌸</div>
+    <h2>CGC Admin</h2>
+    <input type="password" id="loginPass" placeholder="Пароль" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">Увійти</button>
+    <p id="loginErr" style="color:#d4386a;font-size:13px;margin-top:8px;display:none">Невірний пароль</p>
   </div>
 </div>
 
-<div id="adminPage" class="hidden">
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="admin-panel hidden">
+
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo">🌸 CGC Admin</div>
     <nav class="sidebar-nav">
-      <button class="sidebar-btn active" id="nav-events"  onclick="showTab('events')">📅 Події</button>
-      <button class="sidebar-btn"        id="nav-posters" onclick="showTab('posters')">🎨 Афіші</button>
-      <button class="sidebar-btn"        id="nav-photos"  onclick="showTab('photos')">📸 Фото</button>
-      <button class="sidebar-btn"        id="nav-team"    onclick="showTab('team')">👥 Команда</button>
-      <button class="sidebar-btn"        id="nav-journal" onclick="showTab('journal')">📖 Журнал</button>
+      <button id="nav-events"    class="sidebar-btn active" onclick="showTab('events')">📅 Події</button>
+      <button id="nav-posters"   class="sidebar-btn" onclick="showTab('posters')">🎨 Афіші</button>
+      <button id="nav-photos"    class="sidebar-btn" onclick="showTab('photos')">📷 Фото</button>
+      <button id="nav-team"      class="sidebar-btn" onclick="showTab('team')">👥 Команда</button>
+      <button id="nav-journal"   class="sidebar-btn" onclick="showTab('journal')">📖 Журнал</button>
+      <button id="nav-volunteer" class="sidebar-btn" onclick="showTab('volunteer')">🇺🇦 Волонтерство</button>
+      <button id="nav-promo"     class="sidebar-btn" onclick="showTab('promo')">✨ Must Have</button>
     </nav>
-    <button class="logout-btn" onclick="doLogout()">Вийти</button>
+    <button class="sidebar-logout" onclick="doLogout()">Вийти</button>
   </aside>
 
-  <main class="admin-main">
+  <!-- CONTENT -->
+  <main class="admin-content">
 
+    <!-- ПОДІЇ -->
     <div id="tab-events" class="admin-tab">
       <div class="tab-header">
-        <h1>📅 Події</h1>
-        <button class="btn-pink" onclick="openModal('eventModal')">+ Додати подію</button>
+        <h2>📅 Події</h2>
+        <button class="btn-primary" onclick="openModal('eventModal')">+ Додати подію</button>
       </div>
-      <div id="eventsList" class="items-list">Завантаження...</div>
+      <div id="eventsList"></div>
     </div>
 
+    <!-- АФІШІ -->
     <div id="tab-posters" class="admin-tab hidden">
       <div class="tab-header">
-        <h1>🎨 Афіші</h1>
-        <button class="btn-pink" onclick="openModal('posterModal')">+ Додати афішу</button>
+        <h2>🎨 Афіші</h2>
+        <button class="btn-primary" onclick="openModal('posterModal')">+ Додати афішу</button>
       </div>
-      <div id="postersList" class="posters-admin-grid">Завантаження...</div>
+      <div class="admin-img-grid" id="postersList"></div>
     </div>
 
+    <!-- ФОТО -->
     <div id="tab-photos" class="admin-tab hidden">
       <div class="tab-header">
-        <h1>📸 Фото з подій</h1>
-        <button class="btn-pink" onclick="openModal('photoModal')">+ Додати фото</button>
+        <h2>📷 Фото</h2>
+        <button class="btn-primary" onclick="openModal('photoModal')">+ Додати фото</button>
       </div>
-      <div id="photosList" class="photos-admin-grid">Завантаження...</div>
+      <div class="admin-img-grid" id="photosList"></div>
     </div>
 
+    <!-- КОМАНДА -->
+    <div id="tab-team" class="admin-tab hidden">
+      <div class="tab-header">
+        <h2>👥 Команда</h2>
+        <button class="btn-primary" onclick="openModal('teamModal')">+ Додати учасницю</button>
+      </div>
+      <div id="teamList"></div>
+    </div>
+
+    <!-- ЖУРНАЛ -->
     <div id="tab-journal" class="admin-tab hidden">
       <div class="tab-header">
-        <h1>📖 Жіночий журнал</h1>
-        <button class="btn-pink" onclick="openModal('journalModal')">+ Додати статтю</button>
+        <h2>📖 Жіночий журнал</h2>
+        <button class="btn-primary" onclick="openModal('journalModal')">+ Додати статтю</button>
       </div>
-      <div class="journal-filter" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px">
+      <div class="journal-filter">
         <button class="filter-btn active" onclick="filterJournal('all',this)">Всі</button>
         <button class="filter-btn" onclick="filterJournal('moms',this)">Для мам</button>
         <button class="filter-btn" onclick="filterJournal('cooking',this)">Кулінарія</button>
@@ -72,204 +91,323 @@
         <button class="filter-btn" onclick="filterJournal('money',this)">Гроші</button>
         <button class="filter-btn" onclick="filterJournal('hobby',this)">Хобі</button>
         <button class="filter-btn" onclick="filterJournal('rights',this)">Права</button>
+        <button class="filter-btn" onclick="filterJournal('holidays',this)">Свята</button>
+        <button class="filter-btn" onclick="filterJournal('psychology',this)">Психологія</button>
+        <button class="filter-btn" onclick="filterJournal('news',this)">Новини</button>
+        <button class="filter-btn" onclick="filterJournal('forme',this)">Для мене</button>
+        <button class="filter-btn" onclick="filterJournal('travel',this)">Відпустка</button>
+        <button class="filter-btn" onclick="filterJournal('volunteer',this)">Волонтерство</button>
+        <button class="filter-btn" onclick="filterJournal('promo',this)">Must Have</button>
       </div>
-      <div id="journalList" class="items-list">Завантаження...</div>
+      <div id="journalList"></div>
     </div>
 
-    <div id="tab-team" class="admin-tab hidden">
+    <!-- ВОЛОНТЕРСТВО -->
+    <div id="tab-volunteer" class="admin-tab hidden">
       <div class="tab-header">
-        <h1>👥 Команда</h1>
-        <button class="btn-pink" onclick="openModal('teamModal')">+ Додати учасницю</button>
+        <h2>🇺🇦 Волонтерство та збори</h2>
+        <button class="btn-primary" onclick="openModal('volunteerModal')">+ Додати збір</button>
       </div>
-      <div id="teamList" class="items-list">Завантаження...</div>
+      <div id="volunteerList"></div>
+    </div>
+
+    <!-- MUST HAVE -->
+    <div id="tab-promo" class="admin-tab hidden">
+      <div class="tab-header">
+        <h2>✨ Must Have — Promo</h2>
+        <button class="btn-primary" onclick="openModal('promoModal')">+ Додати пост</button>
+      </div>
+      <div id="promoList"></div>
     </div>
 
   </main>
 </div>
 
-<!-- MODAL ПОДІЯ -->
+<!-- ═══════════════════════════════════ -->
+<!-- МОДАЛЬНІ ВІКНА                      -->
+<!-- ═══════════════════════════════════ -->
+
+<!-- ПОДІЯ -->
 <div id="eventModal" class="modal hidden">
   <div class="modal-box">
-    <div class="modal-header"><h3>📅 Нова подія</h3><button class="modal-close" onclick="closeModal('eventModal')">×</button></div>
-    <div class="modal-body">
-      <label>Назва *</label><input id="ev-title" placeholder="Назва події">
-      <label>Дата та час *</label><input id="ev-date" type="datetime-local">
-      <label>Категорія</label>
-      <select id="ev-category">
-        <option value="Зустріч">Зустріч</option>
-        <option value="Майстер-клас">Майстер-клас</option>
-        <option value="Відпочинок">Відпочинок</option>
-        <option value="Фото">Фото</option>
-        <option value="Інше">Інше</option>
-      </select>
-      <label>Місце</label><input id="ev-location" placeholder="Адреса або назва місця">
-      <label>Ціна</label><input id="ev-price" placeholder="Безкоштовно / 200 грн">
-      <label>Опис</label><textarea id="ev-desc" rows="3" placeholder="Опис події..."></textarea>
-      <label>Завантажити фото або вставити URL</label>
-      <div class="upload-area" onclick="document.getElementById('ev-file').click()" id="ev-upload-area">
-        <div class="upload-icon">📅</div>
-        <p>Натисніть щоб вибрати файл</p>
-      </div>
-      <input id="ev-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'ev-image-url','ev-preview','ev-upload-area')">
-      <input id="ev-image-url" placeholder="або вставте URL https://..." oninput="previewUrl('ev-image-url','ev-preview')" style="margin-top:8px">
-      <img id="ev-preview" class="img-preview hidden">
+    <div class="modal-head"><h3>📅 Нова подія</h3><button class="modal-close" onclick="closeModal('eventModal')">×</button></div>
+    <label>Назва *</label>
+    <input id="ev-title" placeholder="Назва події">
+    <label>Дата *</label>
+    <input id="ev-date" type="date">
+    <label>Категорія</label>
+    <select id="ev-category">
+      <option value="Подія">Подія</option>
+      <option value="Майстер-клас">Майстер-клас</option>
+      <option value="Вебінар">Вебінар</option>
+      <option value="Зустріч">Зустріч</option>
+      <option value="Концерт">Концерт</option>
+    </select>
+    <label>Місце</label>
+    <input id="ev-location" placeholder="Адреса або посилання">
+    <label>Ціна</label>
+    <input id="ev-price" placeholder="Безкоштовно / 200 грн">
+    <label>Опис</label>
+    <textarea id="ev-desc" rows="3" placeholder="Короткий опис події..."></textarea>
+    <label>Фото (файл або URL)</label>
+    <div class="upload-area" onclick="document.getElementById('ev-file').click()" id="ev-upload-area">
+      <div class="upload-icon">📅</div><p>Натисніть щоб вибрати файл</p>
     </div>
+    <input id="ev-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'ev-image-url','ev-preview','ev-upload-area')">
+    <input id="ev-image-url" placeholder="або вставте URL https://..." oninput="previewUrl('ev-image-url','ev-preview')" style="margin-top:8px">
+    <img id="ev-preview" class="img-preview hidden">
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('eventModal')">Скасувати</button>
-      <button class="btn-pink" onclick="saveEvent()">Зберегти</button>
+      <button class="btn-primary" onclick="saveEvent()">Зберегти</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL АФІША -->
+<!-- АФІША -->
 <div id="posterModal" class="modal hidden">
   <div class="modal-box">
-    <div class="modal-header"><h3>🎨 Нова афіша</h3><button class="modal-close" onclick="closeModal('posterModal')">×</button></div>
-    <div class="modal-body">
-      <label>Назва *</label><input id="po-title" placeholder="Назва події на афіші">
-      <label>Дата</label><input id="po-date" placeholder="15 червня 2026">
-      <label>Завантажити фото або вставити URL</label>
-      <div class="upload-area" onclick="document.getElementById('po-file').click()" id="po-upload-area">
-        <div class="upload-icon">🖼</div>
-        <p>Натисніть щоб вибрати файл</p>
-        <p class="upload-hint">JPG, PNG до 2MB</p>
-      </div>
-      <input id="po-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'po-url','po-preview','po-upload-area')">
-      <input id="po-url" placeholder="або вставте URL https://..." oninput="previewUrl('po-url','po-preview')" style="margin-top:8px">
-      <img id="po-preview" class="img-preview hidden">
+    <div class="modal-head"><h3>🎨 Нова афіша</h3><button class="modal-close" onclick="closeModal('posterModal')">×</button></div>
+    <label>Назва *</label>
+    <input id="po-title" placeholder="Назва афіші">
+    <label>Дата</label>
+    <input id="po-date" placeholder="20.05.2026">
+    <label>Фото (файл або URL) *</label>
+    <div class="upload-area" onclick="document.getElementById('po-file').click()" id="po-upload-area">
+      <div class="upload-icon">🖼</div><p>Натисніть щоб вибрати файл</p>
     </div>
+    <input id="po-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'po-url','po-preview','po-upload-area')">
+    <input id="po-url" placeholder="або вставте URL https://..." oninput="previewUrl('po-url','po-preview')" style="margin-top:8px">
+    <img id="po-preview" class="img-preview hidden">
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('posterModal')">Скасувати</button>
-      <button class="btn-pink" onclick="savePoster()">Зберегти</button>
+      <button class="btn-primary" onclick="savePoster()">Зберегти</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL ФОТО -->
+<!-- ФОТО -->
 <div id="photoModal" class="modal hidden">
   <div class="modal-box">
-    <div class="modal-header"><h3>📸 Додати фото</h3><button class="modal-close" onclick="closeModal('photoModal')">×</button></div>
-    <div class="modal-body">
-      <label>Підпис</label><input id="ph-caption" placeholder="Опис фото (необов'язково)">
-      <label>Завантажити фото або вставити URL</label>
-      <div class="upload-area" onclick="document.getElementById('ph-file').click()" id="ph-upload-area">
-        <div class="upload-icon">📷</div>
-        <p>Натисніть щоб вибрати файл</p>
-        <p class="upload-hint">JPG, PNG до 2MB</p>
-      </div>
-      <input id="ph-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'ph-url','ph-preview','ph-upload-area')">
-      <input id="ph-url" placeholder="або вставте URL https://..." oninput="previewUrl('ph-url','ph-preview')" style="margin-top:8px">
-      <img id="ph-preview" class="img-preview hidden">
+    <div class="modal-head"><h3>📷 Нове фото</h3><button class="modal-close" onclick="closeModal('photoModal')">×</button></div>
+    <label>Підпис</label>
+    <input id="ph-caption" placeholder="Підпис до фото">
+    <label>Фото (файл або URL) *</label>
+    <div class="upload-area" onclick="document.getElementById('ph-file').click()" id="ph-upload-area">
+      <div class="upload-icon">📷</div><p>Натисніть щоб вибрати файл</p>
     </div>
+    <input id="ph-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'ph-url','ph-preview','ph-upload-area')">
+    <input id="ph-url" placeholder="або вставте URL https://..." oninput="previewUrl('ph-url','ph-preview')" style="margin-top:8px">
+    <img id="ph-preview" class="img-preview hidden">
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('photoModal')">Скасувати</button>
-      <button class="btn-pink" onclick="savePhoto()">Зберегти</button>
+      <button class="btn-primary" onclick="savePhoto()">Зберегти</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL КОМАНДА -->
+<!-- КОМАНДА -->
 <div id="teamModal" class="modal hidden">
   <div class="modal-box">
-    <div class="modal-header"><h3>👥 Додати до команди</h3><button class="modal-close" onclick="closeModal('teamModal')">×</button></div>
-    <div class="modal-body">
-      <label>Ім'я *</label><input id="tm-name" placeholder="Ім'я">
-      <label>Роль *</label><input id="tm-role" placeholder="Організатор, Фотограф...">
-      <label>Emoji (замість фото)</label><input id="tm-emoji" placeholder="🌸" maxlength="2">
-      <label>Завантажити фото або вставити URL</label>
-      <div class="upload-area" onclick="document.getElementById('tm-file').click()" id="tm-upload-area">
-        <div class="upload-icon">👤</div>
-        <p>Натисніть щоб вибрати файл</p>
-      </div>
-      <input id="tm-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'tm-url','tm-preview','tm-upload-area')">
-      <input id="tm-url" placeholder="або вставте URL https://..." oninput="previewUrl('tm-url','tm-preview')" style="margin-top:8px">
-      <img id="tm-preview" class="img-preview hidden">
-      <label>Порядок</label><input id="tm-order" type="number" placeholder="1" value="1">
+    <div class="modal-head"><h3>👤 Нова учасниця</h3><button class="modal-close" onclick="closeModal('teamModal')">×</button></div>
+    <label>Ім'я *</label>
+    <input id="tm-name" placeholder="Ім'я учасниці">
+    <label>Роль</label>
+    <input id="tm-role" placeholder="Організатор, Волонтер...">
+    <label>Емодзі</label>
+    <input id="tm-emoji" placeholder="🌸">
+    <label>Порядок</label>
+    <input id="tm-order" type="number" value="1" min="1">
+    <label>Фото (файл або URL)</label>
+    <div class="upload-area" onclick="document.getElementById('tm-file').click()" id="tm-upload-area">
+      <div class="upload-icon">👤</div><p>Натисніть щоб вибрати фото</p>
     </div>
+    <input id="tm-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'tm-url','tm-preview','tm-upload-area')">
+    <input id="tm-url" placeholder="або вставте URL https://..." oninput="previewUrl('tm-url','tm-preview')" style="margin-top:8px">
+    <img id="tm-preview" class="img-preview hidden">
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('teamModal')">Скасувати</button>
-      <button class="btn-pink" onclick="saveTeamMember()">Зберегти</button>
+      <button class="btn-primary" onclick="saveTeamMember()">Зберегти</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL ЖУРНАЛ -->
+<!-- ЖУРНАЛ -->
 <div id="journalModal" class="modal hidden">
-  <div class="modal-box">
-    <div class="modal-header"><h3>📖 Нова стаття</h3><button class="modal-close" onclick="closeModal('journalModal')">×</button></div>
-    <div class="modal-body">
-      <label>Заголовок *</label><input id="jn-title" placeholder="Заголовок статті">
-      <label>Категорія *</label>
-      <select id="jn-category" onchange="updateSubcats()">
-        <option value="moms">👩 Для мам</option>
-        <option value="cooking">🍰 Кулінарія</option>
-        <option value="health">🌿 Здоров'я</option>
-        <option value="money">💰 Гроші</option>
-        <option value="hobby">🎨 Хобі</option>
-        <option value="rights">⚖️ Права та безпека</option>
-        <option value="holidays">🎉 Свята</option>
-        <option value="psychology">🧠 Психологія</option>
-        <option value="news">📰 Новини</option>
-        <option value="forme">💖 Для мене</option>
-        <option value="travel">✈️ Відпустка</option>
-        <option value="volunteer">🇺🇦 Волонтерство</option>
-        <option value="promo">✨ Must Have</option>
-      </select>
-      <label>Підкатегорія</label>
-      <select id="jn-subcategory">
-        <option value="">— Оберіть підкатегорію —</option>
-      </select>
-      <label>Короткий опис</label>
-      <textarea id="jn-excerpt" rows="2" placeholder="Короткий опис для картки (1-2 речення)"></textarea>
-      <label>Текст статті *</label>
-      <textarea id="jn-content" rows="8" placeholder="Повний текст статті..."></textarea>
-      <label>Блоки статті (фото + текст)</label>
-      <div id="jn-blocks-wrap">
-        <!-- блоки додаються динамічно -->
+  <div class="modal-box modal-box-wide">
+    <div class="modal-head"><h3>📖 Нова стаття</h3><button class="modal-close" onclick="closeModal('journalModal')">×</button></div>
+    <label>Заголовок *</label>
+    <input id="jn-title" placeholder="Заголовок статті">
+    <label>Дата публікації</label>
+    <input id="jn-date" type="date">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <label>Категорія *</label>
+        <select id="jn-category" onchange="updateSubcats()">
+          <option value="moms">👩 Для мам</option>
+          <option value="cooking">🍰 Кулінарія</option>
+          <option value="health">🌿 Здоров'я</option>
+          <option value="money">💰 Гроші</option>
+          <option value="hobby">🎨 Хобі</option>
+          <option value="rights">⚖️ Права</option>
+          <option value="holidays">🎉 Свята</option>
+          <option value="psychology">🧠 Психологія</option>
+          <option value="news">📰 Новини</option>
+          <option value="forme">💖 Для мене</option>
+          <option value="travel">✈️ Відпустка</option>
+          <option value="volunteer">🇺🇦 Волонтерство</option>
+          <option value="promo">✨ Must Have</option>
+        </select>
       </div>
-      <button type="button" class="btn-outline" style="width:100%;margin-top:8px" onclick="addJournalBlock()">+ Додати блок (фото + текст)</button>
+      <div>
+        <label>Підкатегорія</label>
+        <select id="jn-subcategory"><option value="">— Оберіть —</option></select>
+      </div>
     </div>
+    <label>Короткий опис</label>
+    <textarea id="jn-excerpt" rows="2" placeholder="1-2 речення для картки..."></textarea>
+    <label>Текст статті</label>
+    <textarea id="jn-content" rows="5" placeholder="Повний текст статті..."></textarea>
+    <label>Блоки (фото + текст)</label>
+    <div id="jn-blocks-wrap"></div>
+    <button type="button" class="btn-outline" style="width:100%;margin-top:8px" onclick="addJournalBlock()">+ Додати блок (фото + текст)</button>
+    <details style="margin-top:16px">
+      <summary style="cursor:pointer;font-weight:600;color:var(--accent);font-size:14px">🔗 Посилання (для Promo / Волонтерства)</summary>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+        <input id="jn-instagram"  placeholder="Instagram URL">
+        <input id="jn-telegram"   placeholder="Telegram URL">
+        <input id="jn-tiktok"     placeholder="TikTok URL">
+        <input id="jn-website"    placeholder="Сайт URL">
+        <input id="jn-mono"       placeholder="Monobank URL (для зборів)">
+        <input id="jn-goal"       placeholder="Ціль збору (грн)">
+        <input id="jn-collected"  placeholder="Зібрано (грн)">
+      </div>
+    </details>
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('journalModal')">Скасувати</button>
-      <button class="btn-pink" onclick="saveJournalArticle()">Зберегти</button>
+      <button class="btn-primary" onclick="saveJournalArticle()">Зберегти</button>
     </div>
   </div>
 </div>
 
+<!-- ВОЛОНТЕРСТВО -->
+<div id="volunteerModal" class="modal hidden">
+  <div class="modal-box">
+    <div class="modal-head"><h3>🇺🇦 Новий збір</h3><button class="modal-close" onclick="closeModal('volunteerModal')">×</button></div>
+    <label>Назва збору *</label>
+    <input id="vol-title" placeholder="Назва збору">
+    <label>Категорія</label>
+    <select id="vol-category">
+      <option value="military">🎖 Допомога військовим</option>
+      <option value="medical">🚑 Медична допомога</option>
+      <option value="cars">🛻 Авто для ЗСУ</option>
+      <option value="drones">📡 Дрони та РЕБ</option>
+      <option value="clothes">🧥 Одяг та амуніція</option>
+      <option value="food">🍲 Гуманітарна допомога</option>
+      <option value="animals">🐾 Тварини</option>
+    </select>
+    <label>Опис</label>
+    <textarea id="vol-desc" rows="3" placeholder="Опис збору..."></textarea>
+    <label>Ціль (грн)</label>
+    <input id="vol-goal" type="number" placeholder="100000">
+    <label>Зібрано (грн)</label>
+    <input id="vol-collected" type="number" placeholder="0">
+    <label>Monobank URL</label>
+    <input id="vol-mono" placeholder="https://send.monobank.ua/...">
+    <label>Статус</label>
+    <select id="vol-status">
+      <option value="active">✅ Активний</option>
+      <option value="closed">🔒 Закритий</option>
+    </select>
+    <label>Фото</label>
+    <div class="upload-area" onclick="document.getElementById('vol-file').click()" id="vol-upload-area">
+      <div class="upload-icon">🇺🇦</div><p>Натисніть щоб вибрати фото</p>
+    </div>
+    <input id="vol-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'vol-imageUrl','vol-preview','vol-upload-area')">
+    <input id="vol-imageUrl" placeholder="або вставте URL https://..." oninput="previewUrl('vol-imageUrl','vol-preview')" style="margin-top:8px">
+    <img id="vol-preview" class="img-preview hidden">
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal('volunteerModal')">Скасувати</button>
+      <button class="btn-primary" onclick="saveVolunteer()">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROMO -->
+<div id="promoModal" class="modal hidden">
+  <div class="modal-box modal-box-wide">
+    <div class="modal-head"><h3>✨ Новий Promo-пост</h3><button class="modal-close" onclick="closeModal('promoModal')">×</button></div>
+    <label>Назва *</label>
+    <input id="pr-title" placeholder="Назва бренду / послуги">
+    <label>Категорія</label>
+    <select id="pr-category">
+      <option value="beauty">💄 Beauty</option>
+      <option value="fashion">👗 Fashion</option>
+      <option value="cafes">☕ Заклади</option>
+      <option value="gifts">🎁 Подарунки</option>
+      <option value="handmade">🕯 Handmade</option>
+      <option value="courses">📚 Курси</option>
+      <option value="psychology">🧠 Психологія</option>
+      <option value="sweets">🍰 Смаколики</option>
+      <option value="rest">🏨 Відпочинок</option>
+      <option value="shops">🛍 Магазини</option>
+    </select>
+    <label>Короткий опис</label>
+    <textarea id="pr-short" rows="2" placeholder="1-2 речення..."></textarea>
+    <label>Повний текст</label>
+    <textarea id="pr-content" rows="4" placeholder="Детальний опис..."></textarea>
+    <label>Фото</label>
+    <div class="upload-area" onclick="document.getElementById('pr-file').click()" id="pr-upload-area">
+      <div class="upload-icon">✨</div><p>Натисніть щоб вибрати фото</p>
+    </div>
+    <input id="pr-file" type="file" accept="image/*" style="display:none" onchange="handleFileUpload(this,'pr-imageUrl','pr-preview','pr-upload-area')">
+    <input id="pr-imageUrl" placeholder="або вставте URL https://..." oninput="previewUrl('pr-imageUrl','pr-preview')" style="margin-top:8px">
+    <img id="pr-preview" class="img-preview hidden">
+    <label>Instagram</label><input id="pr-instagram" placeholder="https://instagram.com/...">
+    <label>Telegram</label><input id="pr-telegram"  placeholder="https://t.me/...">
+    <label>TikTok</label>   <input id="pr-tiktok"    placeholder="https://tiktok.com/...">
+    <label>Сайт</label>     <input id="pr-website"   placeholder="https://...">
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal('promoModal')">Скасувати</button>
+      <button class="btn-primary" onclick="savePromo()">Зберегти</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
 <div id="toast" class="toast hidden"></div>
+
 <script>
-  function doLogin() {
-    const pass = document.getElementById("passInput").value.trim();
-    const err  = document.getElementById("loginError");
-    if (pass === "123456789") {
-      sessionStorage.setItem("cgc_admin", "true");
-      document.getElementById("loginPage").classList.add("hidden");
-      document.getElementById("adminPage").classList.remove("hidden");
-      // trigger load
-      window._adminReady && window._adminReady();
-    } else {
-      err.textContent = "Невірний пароль";
-      document.getElementById("passInput").style.borderColor = "#e86f6f";
-      setTimeout(() => document.getElementById("passInput").style.borderColor = "", 1000);
-    }
+// ── LOGIN ──
+const PASS = "123456789";
+let clickCount = 0;
+
+function doLogin() {
+  const pass = document.getElementById("loginPass").value;
+  if (pass === PASS) {
+    sessionStorage.setItem("cgc_admin","1");
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("adminPanel").classList.remove("hidden");
+    if (window._adminReady) window._adminReady();
+  } else {
+    document.getElementById("loginErr").style.display = "block";
+    setTimeout(() => document.getElementById("loginErr").style.display = "none", 2000);
   }
-  document.addEventListener("DOMContentLoaded", () => {
-    const p = document.getElementById("passInput");
-    if (p) p.addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
-    if (sessionStorage.getItem("cgc_admin") === "true") {
-      document.getElementById("loginPage").classList.add("hidden");
-      document.getElementById("adminPage").classList.remove("hidden");
-    }
-  });
-</script>
-<script>
+}
+
+// Check session
+if (sessionStorage.getItem("cgc_admin") === "1") {
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("adminPanel").classList.remove("hidden");
+}
+
+// ── SUBCATS ──
 const SUBCATS = {
-  moms:       [{v:"kids-places",l:"Куди піти з дитиною"},{v:"clubs",l:"Гуртки та секції"},{v:"development",l:"Розвиток дитини"},{v:"lifehacks",l:"Лайфхаки"},{v:"newmom",l:"Поради молодим мамам"}],
-  cooking:    [{v:"quick",l:"Швидкі рецепти"},{v:"baking",l:"Випічка"},{v:"desserts",l:"Десерти"},{v:"festive",l:"Святкові страви"},{v:"budget",l:"Бюджетне меню"},{v:"kids",l:"Для дітей"}],
+  moms:       [{v:"kids-places",l:"Куди піти"},{v:"clubs",l:"Гуртки"},{v:"development",l:"Розвиток"},{v:"lifehacks",l:"Лайфхаки"},{v:"newmom",l:"Молодим мамам"}],
+  cooking:    [{v:"quick",l:"Швидкі рецепти"},{v:"baking",l:"Випічка"},{v:"desserts",l:"Десерти"},{v:"festive",l:"Святкові"},{v:"budget",l:"Бюджетне меню"},{v:"kids",l:"Для дітей"}],
   health:     [{v:"womens",l:"Жіноче здоров'я"},{v:"vitamins",l:"Вітаміни"},{v:"sleep",l:"Сон"},{v:"stress",l:"Стрес"},{v:"fitness",l:"Тренування"},{v:"beauty",l:"Догляд"},{v:"psychology",l:"Психологія"}],
-  money:      [{v:"budget",l:"Сімейний бюджет"},{v:"save",l:"Як економити"},{v:"savings",l:"Заощадження"},{v:"apps",l:"Додатки"},{v:"business",l:"Власна справа"},{v:"stories",l:"Успіх"}],
+  money:      [{v:"budget",l:"Бюджет"},{v:"save",l:"Як економити"},{v:"savings",l:"Заощадження"},{v:"apps",l:"Додатки"},{v:"business",l:"Власна справа"},{v:"stories",l:"Успіх"}],
   hobby:      [{v:"drawing",l:"Малювання"},{v:"handmade",l:"Handmade"},{v:"embroidery",l:"Вишивка"},{v:"decor",l:"Декор"},{v:"photo",l:"Фото"},{v:"games",l:"Ігри"},{v:"gifts",l:"Подарунки"}],
-  rights:     [{v:"womens",l:"Права жінок"},{v:"children",l:"Права дитини"},{v:"violence",l:"Насильство"},{v:"divorce",l:"Розлучення"},{v:"labor",l:"Трудові права"},{v:"discrimination",l:"Від дискримінації"},{v:"legal",l:"Безкоштовна допомога"},{v:"bullying",l:"Переслідування"}],
+  rights:     [{v:"womens",l:"Права жінок"},{v:"children",l:"Права дитини"},{v:"violence",l:"Насильство"},{v:"divorce",l:"Розлучення"},{v:"labor",l:"Трудові права"},{v:"discrimination",l:"Дискримінація"},{v:"legal",l:"Правова допомога"},{v:"bullying",l:"Переслідування"}],
   holidays:   [{v:"birthday",l:"День народження"},{v:"wedding",l:"Весілля"},{v:"march8",l:"8 Березня"},{v:"motherday",l:"День матері"},{v:"mykola",l:"Миколая"},{v:"newyear",l:"Новий рік"},{v:"christmas",l:"Різдво"}],
   psychology: [{v:"books",l:"Книги"},{v:"relations",l:"Стосунки"},{v:"child",l:"Психологія дитини"},{v:"personal",l:"Особиста"},{v:"selfesteem",l:"Самооцінка"},{v:"burnout",l:"Тривожність"}],
   news:       [{v:"general",l:"Загальні"},{v:"women",l:"Жіночі"},{v:"psychology",l:"Психологія"},{v:"health",l:"Здоров'я"},{v:"moms",l:"Для мам"},{v:"culture",l:"Культура"}],
@@ -287,8 +425,8 @@ function updateSubcats() {
     opts.map(o => `<option value="${o.v}">${o.l}</option>`).join("");
 }
 
+// ── JOURNAL BLOCKS ──
 let blockCount = 0;
-
 window.addJournalBlock = function() {
   blockCount++;
   const wrap = document.getElementById("jn-blocks-wrap");
@@ -299,25 +437,16 @@ window.addJournalBlock = function() {
   div.innerHTML = `
     <div class="block-header">
       <span class="block-num">Блок ${blockCount}</span>
-      <button type="button" class="block-remove" onclick="removeBlock('${id}')">✕ Видалити</button>
+      <button type="button" class="block-remove" onclick="document.getElementById('${id}').remove()">✕</button>
     </div>
-    <label>Фото блоку (файл або URL)</label>
     <div class="upload-area block-upload" onclick="document.getElementById('bf-${blockCount}').click()" id="bfa-${blockCount}">
       <div class="upload-icon">🖼</div><p>Натисніть щоб вибрати фото</p>
     </div>
-    <input id="bf-${blockCount}" type="file" accept="image/*" style="display:none"
-      onchange="blockFileUpload(this,${blockCount})">
-    <input id="burl-${blockCount}" class="block-url-input" placeholder="або вставте URL фото https://..."
-      oninput="blockUrlPreview(${blockCount})">
+    <input id="bf-${blockCount}" type="file" accept="image/*" style="display:none" onchange="blockFileUpload(this,${blockCount})">
+    <input id="burl-${blockCount}" placeholder="або вставте URL фото https://..." oninput="blockUrlPreview(${blockCount})" style="margin-top:6px">
     <img id="bprev-${blockCount}" class="img-preview hidden" style="margin-bottom:8px">
-    <label>Текст блоку</label>
-    <textarea id="btxt-${blockCount}" rows="4" placeholder="Текст для цього блоку..."></textarea>
-  `;
+    <textarea id="btxt-${blockCount}" rows="3" placeholder="Текст цього блоку..."></textarea>`;
   wrap.appendChild(div);
-};
-
-window.removeBlock = function(id) {
-  document.getElementById(id)?.remove();
 };
 
 window.blockFileUpload = function(input, num) {
@@ -328,9 +457,11 @@ window.blockFileUpload = function(input, num) {
   if (area) area.innerHTML = `<div class="upload-icon">⏳</div><p>Завантаження...</p>`;
   const reader = new FileReader();
   reader.onload = e => {
-    document.getElementById("burl-"+num).value = e.target.result;
-    const prev = document.getElementById("bprev-"+num);
-    prev.src = e.target.result; prev.classList.remove("hidden");
+    const b64 = e.target.result;
+    const urlEl = document.getElementById("burl-"+num);
+    const prev  = document.getElementById("bprev-"+num);
+    if (urlEl) urlEl.value = b64;
+    if (prev) { prev.src = b64; prev.classList.remove("hidden"); }
     if (area) area.innerHTML = `<div class="upload-icon">✅</div><p>${file.name}</p>`;
   };
   reader.readAsDataURL(file);
@@ -343,26 +474,16 @@ window.blockUrlPreview = function(num) {
   else prev.classList.add("hidden");
 };
 
-window.getJournalBlocks = function() {
-  const wrap = document.getElementById("jn-blocks-wrap");
-  if (!wrap) return [];
-  const blocks = [];
-  wrap.querySelectorAll(".journal-block-item").forEach((item, i) => {
-    const num = item.id.replace("block-","");
-    const img  = document.getElementById("burl-"+num)?.value.trim() || "";
-    const text = document.getElementById("btxt-"+num)?.value.trim() || "";
-    if (img || text) blocks.push({ img, text, order: i });
-  });
-  return blocks;
-};
-
-// Init on page load
+// Init
 document.addEventListener("DOMContentLoaded", () => {
   updateSubcats();
-  // Add one default block
   addJournalBlock();
+  if (sessionStorage.getItem("cgc_admin") === "1" && window._adminReady) {
+    window._adminReady();
+  }
 });
 </script>
+
 <script type="module" src="admin.js"></script>
 </body>
 </html>
