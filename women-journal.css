@@ -248,3 +248,6 @@ body.dark .logo-img-dark { display:block; }
 .hist-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--bg3);border-radius:10px;font-size:13px;color:var(--text2);border:1px solid var(--border);}
 .hist-row b{color:var(--accent);font-weight:700;}
 @media(max-width:600px){.calc-macros{grid-template-columns:1fr 1fr;}.calc-row{flex-direction:column;}.calc-input-wrap,.calc-amount{width:100%;}.calc-amount{text-align:left;}}
+
+.article-card.no-img .article-card-img { display:none!important; }
+.article-card.no-img { border-radius:18px; }
