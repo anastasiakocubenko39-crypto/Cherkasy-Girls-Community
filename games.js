@@ -422,3 +422,504 @@ function unlock(achieveId) {
 
 // ── ІНІТ ──
 updateMainScreen();
+
+// ══════════════════════════════════════
+// РЕЧЕННЯ
+// ══════════════════════════════════════
+const SENTENCES_UK = [
+  {orig:"Сонце світить яскраво",words:["Сонце","світить","яскраво","хмара","дощ"]},
+  {orig:"Кіт спить на дивані",words:["Кіт","спить","на","дивані","бігає","дерево"]},
+  {orig:"Діти грають у парку",words:["Діти","грають","у","парку","школі","сплять"]},
+  {orig:"Мама готує смачний обід",words:["Мама","готує","смачний","обід","вечеря","тато"]},
+  {orig:"Пташка співає пісню",words:["Пташка","співає","пісню","танцює","риба","кіт"]},
+  {orig:"Хлопчик читає цікаву книгу",words:["Хлопчик","читає","цікаву","книгу","малює","нудну"]},
+  {orig:"Собака біжить швидко",words:["Собака","біжить","швидко","повільно","кіт","стрибає"]},
+  {orig:"Квіти ростуть у саду",words:["Квіти","ростуть","у","саду","полі","падають"]},
+  {orig:"Зайчик їсть моркву",words:["Зайчик","їсть","моркву","капусту","лисиця","спить"]},
+  {orig:"Дівчинка малює будинок",words:["Дівчинка","малює","будинок","дерево","хлопчик","співає"]},
+];
+
+const SENTENCES_EN = [
+  {orig:"The sun shines bright",words:["The","sun","shines","bright","cloud","rain"]},
+  {orig:"The cat sleeps on the sofa",words:["The","cat","sleeps","on","sofa","runs","tree"]},
+  {orig:"Children play in the park",words:["Children","play","in","the","park","school","sleep"]},
+  {orig:"Mom cooks a tasty lunch",words:["Mom","cooks","a","tasty","lunch","dinner","dad"]},
+  {orig:"The bird sings a song",words:["The","bird","sings","a","song","dances","fish"]},
+  {orig:"The boy reads a book",words:["The","boy","reads","a","book","draws","boring"]},
+  {orig:"The dog runs fast",words:["The","dog","runs","fast","slow","cat","jumps"]},
+  {orig:"Flowers grow in the garden",words:["Flowers","grow","in","the","garden","field","fall"]},
+  {orig:"The rabbit eats a carrot",words:["The","rabbit","eats","a","carrot","fox","sleeps"]},
+  {orig:"The girl draws a house",words:["The","girl","draws","a","house","tree","boy","sings"]},
+];
+
+let sentenceLang = "uk";
+let sentenceIdx  = 0;
+let builtSentence = [];
+
+window.setSentenceLang = function(lang, btn) {
+  sentenceLang = lang;
+  sentenceIdx  = 0;
+  builtSentence = [];
+  document.querySelectorAll("#game-sentences .level-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderSentence();
+};
+
+function initSentences() {
+  sentenceLang = "uk"; sentenceIdx = 0; builtSentence = [];
+  renderSentence();
+}
+
+function renderSentence() {
+  const data  = sentenceLang === "uk" ? SENTENCES_UK : SENTENCES_EN;
+  const area  = document.getElementById("area-sentences");
+  const prog  = document.getElementById("prog-sentences");
+  const item  = data[sentenceIdx % data.length];
+  prog.style.width = ((sentenceIdx % data.length) / data.length * 100) + "%";
+  builtSentence = [];
+
+  const words = shuffle([...item.words]);
+  area.innerHTML = `
+    <div class="sentence-card">
+      <div class="sentence-original">${item.orig}</div>
+      <div class="sentence-hint">Склади це речення зі слів нижче</div>
+      <div class="sentence-builder" id="sent-builder">
+        <span style="color:rgba(255,255,255,.3);font-size:13px">Натискай слова...</span>
+      </div>
+      <div class="word-bank">
+        ${words.map((w,i) => `<button class="word-chip" id="wc-${i}" onclick="addWord('${w}',${i})">${w}</button>`).join("")}
+      </div>
+      <button class="check-sentence-btn" onclick="checkSentence('${item.orig.replace(/'/g,"\'")}')">Перевірити ✓</button>
+    </div>
+    <div class="letter-counter">${sentenceIdx % data.length + 1} / ${data.length}</div>`;
+}
+
+window.addWord = function(word, idx) {
+  builtSentence.push(word);
+  document.getElementById(`wc-${idx}`).classList.add("used");
+  const builder = document.getElementById("sent-builder");
+  builder.innerHTML = builtSentence.map((w,i) =>
+    `<span class="placed-word" onclick="removeWord(${i})">${w}</span>`
+  ).join("") || `<span style="color:rgba(255,255,255,.3);font-size:13px">Натискай слова...</span>`;
+};
+
+window.removeWord = function(idx) {
+  const word = builtSentence[idx];
+  builtSentence.splice(idx, 1);
+  // Re-enable chip
+  const chips = document.querySelectorAll(".word-chip");
+  chips.forEach(c => { if (c.textContent === word && c.classList.contains("used")) { c.classList.remove("used"); } });
+  const builder = document.getElementById("sent-builder");
+  builder.innerHTML = builtSentence.map((w,i) =>
+    `<span class="placed-word" onclick="removeWord(${i})">${w}</span>`
+  ).join("") || `<span style="color:rgba(255,255,255,.3);font-size:13px">Натискай слова...</span>`;
+};
+
+window.checkSentence = function(correct) {
+  const built = builtSentence.join(" ");
+  if (built === correct) {
+    addScore("sentences", 3);
+    sentenceIdx++;
+    const data = sentenceLang === "uk" ? SENTENCES_UK : SENTENCES_EN;
+    if (sentenceIdx % data.length === 0) {
+      showResult("🎉","Чудово!","Ти склала всі речення правильно!",3);
+    } else {
+      showResult("✅","Правильно!",`Речення складено вірно!`,2);
+    }
+  } else {
+    showResult("🤔","Спробуй ще!",`Правильно: "${correct}"`,1);
+  }
+};
+
+// ══════════════════════════════════════
+// КАЗКИ
+// ══════════════════════════════════════
+const TALES_UK = [
+  {title:"Курочка Ряба",emoji:"🐔",text:`Жили собі дід та баба. Була в них курочка Ряба.\n\nЗнесла курочка яєчко — не просте, а золоте!\n\nДід бив-бив — не розбив. Баба била-білa — не розбила.\n\nМишка бігла, хвостиком махнула — яєчко впало і розбилось.\n\nДід плаче, баба плаче, а курочка кудкудаче:\n\n— Не плачте, дідусю та бабусю! Я знесу вам яєчко нове — не золоте, а просте!`},
+  {title:"Ріпка",emoji:"🌱",text:`Посадив дід ріпку. Виросла ріпка велика-превелика!\n\nТягне дід ріпку — тягне-потягне, витягнути не може.\n\nПокликав дід бабу. Баба за діда, дід за ріпку — тягнуть-потягнуть, витягнути не можуть.\n\nПокликала баба внучку. Внучка за бабу, баба за діда — тягнуть, витягнути не можуть.\n\nПокликала внучка Жучку. Жучка за внучку... Покликала Жучка кішку, кішка — мишку.\n\nМишка за кішку — і витягнули ріпку!`},
+  {title:"Три ведмеді",emoji:"🐻",text:`Жили в лісі три ведмеді: тато Михайло, мама Настасія і малюк Мишко.\n\nОдного дня дівчинка Маша заблукала в лісі і знайшла їхній будиночок.\n\nВона спробувала кашу: з першої миски — гаряча, з другої — холодна, з третьої — якраз!\n\nМаша з'їла кашу Мишка, посиділа на його стільці і заснула в його ліжечку.\n\nКоли ведмеді повернулися — Маша прокинулась і втекла додому!`},
+];
+
+const TALES_NATURE = [
+  {
+    title:"Троянда — королева квітів",
+    emoji:"🌹",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Sunflower_from_Silesia2.jpg/640px-Sunflower_from_Silesia2.jpg",
+    text:`Троянда — найкрасивіша квітка у світі. Вона буває червона, рожева, біла і жовта.\n\nУ троянди є гострі шипи — це її захист від тварин.\n\nПелюстки троянди дуже ніжні і пахучі. З них роблять духи та чай.\n\nТроянда любить сонце і воду. Якщо доглядати за нею — вона цвіте все літо!\n\n🌹 Троянда — символ краси і любові.`
+  },
+  {
+    title:"Соняшник — сонячна квітка",
+    emoji:"🌻",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/640px-Sunflower_sky_backdrop.jpg",
+    text:`Соняшник — висока і яскрава квітка. Вона може вирости вище за людину!\n\nСоняшник завжди повертається до сонця. Вранці він дивиться на схід, а ввечері — на захід.\n\nУ центрі соняшника — насіння. Їх їдять птахи, білки і люди.\n\nЗ насіння соняшника роблять олію для приготування їжі.\n\n🌻 Соняшник — символ України!`
+  },
+  {
+    title:"Ромашка — лісова лікарка",
+    emoji:"🌼",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Daisy_%28Bellis_perennis%29_white_3.jpg/640px-Daisy_%28Bellis_perennis%29_white_3.jpg",
+    text:`Ромашка — маленька біла квітка з жовтою серединкою.\n\nВона росте на луках, у полях і садах.\n\nРомашка — справжня лікарка! З неї варять чай, який допомагає при застуді.\n\nДіти плетуть з ромашок вінки. Це давній український звичай!\n\nРомашка цвіте з весни до пізньої осені. Вона дуже невибаглива — росте скрізь!\n\n🌼 Нарви букет ромашок для мами — вона точно зрадіє!`
+  },
+  {
+    title:"Білий гриб — цар грибів",
+    emoji:"🍄",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Boletus_edulis_LA.jpg/640px-Boletus_edulis_LA.jpg",
+    text:`Білий гриб — найцінніший гриб у лісі. Його ще називають боровик.\n\nВін має товсту коричневу шапку і білу товсту ніжку.\n\nБілий гриб росте під дубами та соснами. Якщо знайшов один — шукай поруч ще!\n\nЦей гриб можна варити, смажити і сушити. Сушені білі гриби пахнуть дуже смачно!\n\n⚠️ Увага: Збирати гриби можна тільки з дорослими! Є отруйні гриби, схожі на їстівні.`
+  },
+  {
+    title:"Мухомор — красивий але небезпечний",
+    emoji:"🔴",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Amanita_muscaria_2006G.jpg/640px-Amanita_muscaria_2006G.jpg",
+    text:`Мухомор — найвідоміший отруйний гриб. Він яскраво-червоний з білими цятками.\n\nМухомор дуже красивий, але їсти його не можна! Він дуже отруйний.\n\nЦей гриб є лісовою аптекою для звірів. Олені і лосі іноді їдять маленькі шматочки мухомора під час хвороби.\n\nМухомор росте в лісі під березами і ялинами з липня по жовтень.\n\n⚠️ Правило: Побачив яскравий незнайомий гриб — не чіпай! Краще помилуйся здалеку.`
+  },
+  {
+    title:"Дуб — велетень лісу",
+    emoji:"🌳",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Quercus_robur_001.jpg/640px-Quercus_robur_001.jpg",
+    text:`Дуб — найсильніше і найдовговічніше дерево України. Деякі дуби живуть тисячу років!\n\nДуб має широке могутнє гілля і темно-зелене листя. Восени листя стає жовтим і коричневим.\n\nПлоди дуба — жолуді. Їх дуже люблять білки та кабани.\n\nДеревина дуба дуже тверда. З неї роблять меблі, паркет і бочки для вина.\n\nУ дупло старого дуба часто оселяються птахи, їжаки і кажани.\n\n🌳 Дуб — символ сили і довголіття в Україні!`
+  },
+];
+
+const TALES_EN = [
+  {title:"Little Red Riding Hood",emoji:"🔴",text:`Once upon a time, a little girl lived in a village near the forest.\n\nEveryone loved her, but her grandmother loved her most of all. She gave her a red cape and hood — so everyone called her Little Red Riding Hood.\n\nOne day, her mother said: "Take this basket of food to grandmother. She is sick."\n\nOn the way, she met a wolf. He asked where she was going. She told him.\n\nThe wolf ran ahead to grandmother's house. But the woodcutters heard grandmother cry out and came to save her.\n\nAnd everyone lived happily ever after!`},
+  {title:"The Three Little Pigs",emoji:"🐷",text:`Once upon a time there were three little pigs who left home to build their own houses.\n\nThe first pig built a house of straw. The second built a house of sticks. The third built a house of bricks.\n\nA big bad wolf came and said: "I'll huff and I'll puff and I'll blow your house down!"\n\nHe blew down the straw house. He blew down the stick house.\n\nBut he could not blow down the brick house! The three pigs were safe inside.\n\nThe wolf gave up and ran away. The three pigs lived happily ever after!`},
+  {title:"Goldilocks",emoji:"🌟",text:`Once there was a girl named Goldilocks. One day she walked into the forest and found a house.\n\nInside she found three bowls of porridge. One was too hot, one was too cold, and one was just right — she ate it all up!\n\nShe tried three chairs. One was too big, one was too big, and one was just right — but it broke!\n\nShe went upstairs and tried three beds. One was too hard, one was too soft, and one was just right — she fell asleep.\n\nWhen the three bears came home, Goldilocks woke up and ran away as fast as she could!`},
+];
+
+let taleLang = "uk";
+let taleIdx  = 0;
+
+window.setTaleLang = function(lang, btn) {
+  taleLang = lang; taleIdx = 0;
+  document.querySelectorAll("#game-tales .level-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderTale();
+};
+
+function initTales() { taleLang = "uk"; taleIdx = 0; renderTale(); }
+
+function renderTale() {
+  const data = taleLang === "uk" ? TALES_UK : taleLang === "en" ? TALES_EN : TALES_NATURE;
+  const area = document.getElementById("area-tales");
+  const tale = data[taleIdx];
+  area.innerHTML = `
+    <div class="tale-card">
+      ${tale.img ? `<img src="${tale.img}" alt="${tale.title}" style="width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin-bottom:16px;" onerror="this.style.display='none'">` : ""}
+      <span class="tale-emoji">${tale.emoji}</span>
+      <div class="tale-title">${tale.title}</div>
+      <div class="tale-text">${tale.text.replace(/\n\n/g,"<br><br>")}</div>
+    </div>
+    <div class="tale-nav">
+      ${taleIdx > 0 ? `<button class="nav-btn secondary" onclick="prevTale()">← Назад</button>` : ""}
+      <button class="nav-btn" onclick="nextTale()">${taleIdx < data.length-1 ? "Наступна →" : "Спочатку ↺"}</button>
+    </div>
+    <div class="tale-counter">${taleIdx+1} / ${data.length}</div>`;
+}
+
+window.nextTale = function() {
+  const data = taleLang === "uk" ? TALES_UK : taleLang === "en" ? TALES_EN : TALES_NATURE;
+  taleIdx = (taleIdx + 1) % data.length;
+  addScore("tales", 2);
+  renderTale();
+};
+window.prevTale = function() { if(taleIdx > 0) { taleIdx--; renderTale(); } };
+
+// ══════════════════════════════════════
+// СЛОВНИК
+// ══════════════════════════════════════
+const DICTIONARY = [
+  // Фрукти
+  {uk:"Яблуко",en:"Apple",e:"🍎",cat:"Фрукти"},
+  {uk:"Банан",en:"Banana",e:"🍌",cat:"Фрукти"},
+  {uk:"Апельсин",en:"Orange",e:"🍊",cat:"Фрукти"},
+  {uk:"Полуниця",en:"Strawberry",e:"🍓",cat:"Фрукти"},
+  {uk:"Виноград",en:"Grapes",e:"🍇",cat:"Фрукти"},
+  {uk:"Кавун",en:"Watermelon",e:"🍉",cat:"Фрукти"},
+  {uk:"Персик",en:"Peach",e:"🍑",cat:"Фрукти"},
+  {uk:"Груша",en:"Pear",e:"🍐",cat:"Фрукти"},
+  {uk:"Лимон",en:"Lemon",e:"🍋",cat:"Фрукти"},
+  {uk:"Вишня",en:"Cherry",e:"🍒",cat:"Фрукти"},
+  // Овочі
+  {uk:"Морква",en:"Carrot",e:"🥕",cat:"Овочі"},
+  {uk:"Помідор",en:"Tomato",e:"🍅",cat:"Овочі"},
+  {uk:"Огірок",en:"Cucumber",e:"🥒",cat:"Овочі"},
+  {uk:"Картопля",en:"Potato",e:"🥔",cat:"Овочі"},
+  {uk:"Капуста",en:"Cabbage",e:"🥬",cat:"Овочі"},
+  {uk:"Часник",en:"Garlic",e:"🧄",cat:"Овочі"},
+  {uk:"Цибуля",en:"Onion",e:"🧅",cat:"Овочі"},
+  {uk:"Броколі",en:"Broccoli",e:"🥦",cat:"Овочі"},
+  {uk:"Перець",en:"Pepper",e:"🌶️",cat:"Овочі"},
+  {uk:"Кукурудза",en:"Corn",e:"🌽",cat:"Овочі"},
+  // Тварини
+  {uk:"Кіт",en:"Cat",e:"🐱",cat:"Тварини"},
+  {uk:"Собака",en:"Dog",e:"🐶",cat:"Тварини"},
+  {uk:"Кінь",en:"Horse",e:"🐴",cat:"Тварини"},
+  {uk:"Корова",en:"Cow",e:"🐮",cat:"Тварини"},
+  {uk:"Слон",en:"Elephant",e:"🐘",cat:"Тварини"},
+  {uk:"Лев",en:"Lion",e:"🦁",cat:"Тварини"},
+  {uk:"Жираф",en:"Giraffe",e:"🦒",cat:"Тварини"},
+  {uk:"Зебра",en:"Zebra",e:"🦓",cat:"Тварини"},
+  {uk:"Ведмідь",en:"Bear",e:"🐻",cat:"Тварини"},
+  {uk:"Вовк",en:"Wolf",e:"🐺",cat:"Тварини"},
+  {uk:"Лисиця",en:"Fox",e:"🦊",cat:"Тварини"},
+  {uk:"Заєць",en:"Rabbit",e:"🐰",cat:"Тварини"},
+  {uk:"Їжак",en:"Hedgehog",e:"🦔",cat:"Тварини"},
+  {uk:"Мавпа",en:"Monkey",e:"🐒",cat:"Тварини"},
+  {uk:"Тигр",en:"Tiger",e:"🐯",cat:"Тварини"},
+  // Птахи
+  {uk:"Пташка",en:"Bird",e:"🐦",cat:"Птахи"},
+  {uk:"Орел",en:"Eagle",e:"🦅",cat:"Птахи"},
+  {uk:"Сова",en:"Owl",e:"🦉",cat:"Птахи"},
+  {uk:"Пінгвін",en:"Penguin",e:"🐧",cat:"Птахи"},
+  {uk:"Папуга",en:"Parrot",e:"🦜",cat:"Птахи"},
+  {uk:"Лебідь",en:"Swan",e:"🦢",cat:"Птахи"},
+  {uk:"Фламінго",en:"Flamingo",e:"🦩",cat:"Птахи"},
+  // Квіти та рослини
+  {uk:"Троянда",en:"Rose",e:"🌹",cat:"Квіти"},
+  {uk:"Соняшник",en:"Sunflower",e:"🌻",cat:"Квіти"},
+  {uk:"Ромашка",en:"Daisy",e:"🌼",cat:"Квіти"},
+  {uk:"Тюльпан",en:"Tulip",e:"🌷",cat:"Квіти"},
+  {uk:"Квітка",en:"Flower",e:"🌸",cat:"Квіти"},
+  {uk:"Дерево",en:"Tree",e:"🌳",cat:"Рослини"},
+  {uk:"Листок",en:"Leaf",e:"🍃",cat:"Рослини"},
+  {uk:"Трава",en:"Grass",e:"🌿",cat:"Рослини"},
+  {uk:"Кактус",en:"Cactus",e:"🌵",cat:"Рослини"},
+  {uk:"Гриб",en:"Mushroom",e:"🍄",cat:"Рослини"},
+  // Природа
+  {uk:"Сонце",en:"Sun",e:"☀️",cat:"Природа"},
+  {uk:"Місяць",en:"Moon",e:"🌙",cat:"Природа"},
+  {uk:"Зірка",en:"Star",e:"⭐",cat:"Природа"},
+  {uk:"Хмара",en:"Cloud",e:"☁️",cat:"Природа"},
+  {uk:"Дощ",en:"Rain",e:"🌧️",cat:"Природа"},
+  {uk:"Сніг",en:"Snow",e:"❄️",cat:"Природа"},
+  {uk:"Веселка",en:"Rainbow",e:"🌈",cat:"Природа"},
+  {uk:"Море",en:"Sea",e:"🌊",cat:"Природа"},
+  {uk:"Гора",en:"Mountain",e:"⛰️",cat:"Природа"},
+  {uk:"Вогонь",en:"Fire",e:"🔥",cat:"Природа"},
+  // Транспорт
+  {uk:"Машина",en:"Car",e:"🚗",cat:"Транспорт"},
+  {uk:"Літак",en:"Airplane",e:"✈️",cat:"Транспорт"},
+  {uk:"Корабель",en:"Ship",e:"🚢",cat:"Транспорт"},
+  {uk:"Поїзд",en:"Train",e:"🚂",cat:"Транспорт"},
+  {uk:"Велосипед",en:"Bicycle",e:"🚲",cat:"Транспорт"},
+  {uk:"Ракета",en:"Rocket",e:"🚀",cat:"Транспорт"},
+  {uk:"Вертоліт",en:"Helicopter",e:"🚁",cat:"Транспорт"},
+  {uk:"Автобус",en:"Bus",e:"🚌",cat:"Транспорт"},
+  // Їжа
+  {uk:"Хліб",en:"Bread",e:"🍞",cat:"Їжа"},
+  {uk:"Піца",en:"Pizza",e:"🍕",cat:"Їжа"},
+  {uk:"Суп",en:"Soup",e:"🍲",cat:"Їжа"},
+  {uk:"Торт",en:"Cake",e:"🎂",cat:"Їжа"},
+  {uk:"Морозиво",en:"Ice cream",e:"🍦",cat:"Їжа"},
+  {uk:"Мед",en:"Honey",e:"🍯",cat:"Їжа"},
+  {uk:"Молоко",en:"Milk",e:"🥛",cat:"Їжа"},
+  {uk:"Яйце",en:"Egg",e:"🥚",cat:"Їжа"},
+  // Кольори
+  {uk:"Червоний",en:"Red",e:"🔴",cat:"Кольори"},
+  {uk:"Синій",en:"Blue",e:"🔵",cat:"Кольори"},
+  {uk:"Зелений",en:"Green",e:"🟢",cat:"Кольори"},
+  {uk:"Жовтий",en:"Yellow",e:"🟡",cat:"Кольори"},
+  {uk:"Помаранчевий",en:"Orange",e:"🟠",cat:"Кольори"},
+  {uk:"Фіолетовий",en:"Purple",e:"🟣",cat:"Кольори"},
+  {uk:"Білий",en:"White",e:"⬜",cat:"Кольори"},
+  {uk:"Чорний",en:"Black",e:"⬛",cat:"Кольори"},
+  // Речі
+  {uk:"Будинок",en:"House",e:"🏠",cat:"Речі"},
+  {uk:"Книга",en:"Book",e:"📚",cat:"Речі"},
+  {uk:"М'яч",en:"Ball",e:"⚽",cat:"Речі"},
+  {uk:"Олівець",en:"Pencil",e:"✏️",cat:"Речі"},
+  {uk:"Телефон",en:"Phone",e:"📱",cat:"Речі"},
+  {uk:"Годинник",en:"Clock",e:"⏰",cat:"Речі"},
+  {uk:"Рюкзак",en:"Backpack",e:"🎒",cat:"Речі"},
+  {uk:"Ключ",en:"Key",e:"🔑",cat:"Речі"},
+  {uk:"Музика",en:"Music",e:"🎵",cat:"Речі"},
+  {uk:"М'яч",en:"Ball",e:"🏀",cat:"Спорт"},
+];
+
+let dictMode = "learn";
+let dictIdx  = 0;
+let dictQuizAnswer = "";
+
+window.setDictMode = function(mode, btn) {
+  dictMode = mode; dictIdx = 0;
+  document.querySelectorAll("#game-dictionary .level-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderDict();
+};
+
+function initDictionary() { dictMode = "learn"; dictIdx = 0; renderDict(); }
+
+function renderDict() {
+  const area = document.getElementById("area-dictionary");
+  const prog = document.getElementById("prog-dictionary");
+  prog.style.width = (dictIdx / DICTIONARY.length * 100) + "%";
+  const item = DICTIONARY[dictIdx % DICTIONARY.length];
+
+  if (dictMode === "learn") {
+    area.innerHTML = `
+      <div class="dict-card">
+        <span class="dict-emoji">${item.e}</span>
+        <span class="dict-category">${item.cat}</span>
+        <span class="dict-uk">${item.uk}</span>
+        <span class="dict-en">${item.en}</span>
+      </div>
+      <div class="letter-counter">${dictIdx % DICTIONARY.length + 1} / ${DICTIONARY.length}</div>
+      <div class="letter-nav" style="margin-top:20px">
+        ${dictIdx > 0 ? `<button class="nav-btn secondary" onclick="dictPrev()">← Назад</button>` : ""}
+        <button class="nav-btn" onclick="dictNext()">${dictIdx < DICTIONARY.length-1 ? "Далі →" : "Спочатку ↺"}</button>
+      </div>`;
+  } else {
+    // Quiz mode
+    const opts = new Set([item.en]);
+    while(opts.size < 4) {
+      opts.add(DICTIONARY[Math.floor(Math.random()*DICTIONARY.length)].en);
+    }
+    dictQuizAnswer = item.en;
+    area.innerHTML = `
+      <div class="dict-card">
+        <span class="dict-emoji">${item.e}</span>
+        <span class="dict-uk">${item.uk}</span>
+        <div style="margin-top:8px;color:rgba(255,255,255,.5);font-size:14px">Як це по-англійськи?</div>
+      </div>
+      <div class="dict-quiz-opts">
+        ${shuffle([...opts]).map(o => `<button class="dict-opt" onclick="checkDictQuiz('${o}',this)">${o}</button>`).join("")}
+      </div>
+      <div class="letter-counter" style="margin-top:16px">${dictIdx % DICTIONARY.length + 1} / ${DICTIONARY.length}</div>`;
+  }
+}
+
+window.checkDictQuiz = function(val, btn) {
+  document.querySelectorAll(".dict-opt").forEach(b => b.disabled = true);
+  if (val === dictQuizAnswer) {
+    btn.classList.add("correct");
+    addScore("dictionary", 2);
+    setTimeout(() => { dictIdx++; renderDict(); }, 700);
+  } else {
+    btn.classList.add("wrong");
+    document.querySelectorAll(".dict-opt").forEach(b => {
+      if (b.textContent === dictQuizAnswer) b.classList.add("correct");
+    });
+    setTimeout(() => renderDict(), 1000);
+  }
+};
+
+window.dictNext = function() { dictIdx = (dictIdx+1) % DICTIONARY.length; addScore("dictionary",1); renderDict(); };
+window.dictPrev = function() { if(dictIdx>0){dictIdx--;renderDict();} };
+
+// ══════════════════════════════════════
+// 2048
+// ══════════════════════════════════════
+let board2048 = [];
+let score2048 = 0;
+let best2048  = parseInt(localStorage.getItem("best2048")||"0");
+
+function init2048() {
+  board2048 = Array(4).fill(null).map(()=>Array(4).fill(0));
+  score2048 = 0;
+  addRandom2048(); addRandom2048();
+  render2048();
+  setupSwipe2048();
+}
+
+function addRandom2048() {
+  const empty = [];
+  for(let r=0;r<4;r++) for(let c=0;c<4;c++) if(!board2048[r][c]) empty.push([r,c]);
+  if(!empty.length) return;
+  const [r,c] = empty[Math.floor(Math.random()*empty.length)];
+  board2048[r][c] = Math.random()<.9 ? 2 : 4;
+}
+
+function render2048() {
+  const area = document.getElementById("area-game2048");
+  document.getElementById("score-game2048").textContent = score2048;
+  if(score2048 > best2048) { best2048=score2048; localStorage.setItem("best2048",best2048); }
+  area.innerHTML = `
+    <div class="game2048-wrap">
+      <div class="game2048-info">
+        <span class="game2048-best">Рекорд: ${best2048}</span>
+        <button class="game2048-new" onclick="init2048()">Нова гра</button>
+      </div>
+      <div class="board-2048" id="board2048">
+        ${board2048.flat().map(v => `<div class="cell-2048-wrap ${v?'c'+v:''}">${v||""}</div>`).join("")}
+      </div>
+      <div style="color:rgba(255,255,255,.4);font-size:12px;text-align:center;margin-top:12px">
+        Свайп або клавіші ← ↑ → ↓
+      </div>
+    </div>`;
+}
+
+function move2048(dir) {
+  let moved = false;
+  const b = board2048;
+  const rotate = m => m[0].map((_,i)=>m.map(r=>r[i]).reverse());
+
+  function slideRow(row) {
+    let r = row.filter(x=>x);
+    for(let i=0;i<r.length-1;i++) {
+      if(r[i]===r[i+1]){ r[i]*=2; score2048+=r[i]; r.splice(i+1,1); }
+    }
+    while(r.length<4) r.push(0);
+    return r;
+  }
+
+  let rotated = b;
+  const times = {left:0,right:2,up:3,down:1};
+  for(let i=0;i<times[dir];i++) rotated=rotate(rotated);
+  const newB = rotated.map(row=>{
+    const slid=slideRow([...row]);
+    if(slid.join()!==row.join()) moved=true;
+    return slid;
+  });
+  let result=newB;
+  const back=4-times[dir];
+  for(let i=0;i<back;i++) result=rotate(result);
+  board2048=result;
+  if(moved){addRandom2048(); render2048();}
+  if(isGameOver2048()) {
+    setTimeout(()=>showResult("🎮","Гра закінчена!",`Рахунок: ${score2048}`,score2048>=2048?3:score2048>=512?2:1),300);
+  }
+}
+
+function isGameOver2048(){
+  for(let r=0;r<4;r++) for(let c=0;c<4;c++){
+    if(!board2048[r][c]) return false;
+    if(c<3&&board2048[r][c]===board2048[r][c+1]) return false;
+    if(r<3&&board2048[r][c]===board2048[r+1][c]) return false;
+  }
+  return true;
+}
+
+function setupSwipe2048(){
+  let sx,sy;
+  document.addEventListener("keydown", e=>{
+    if(!document.getElementById("game-game2048").classList.contains("active")) return;
+    const map={ArrowLeft:"left",ArrowRight:"right",ArrowUp:"up",ArrowDown:"down"};
+    if(map[e.key]){e.preventDefault();move2048(map[e.key]);}
+  },{passive:false});
+
+  const board = document.getElementById("board2048");
+  if(!board) return;
+  board.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  board.addEventListener("touchend",e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    const dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>Math.abs(dy)){move2048(dx>0?"right":"left");}
+    else{move2048(dy>0?"down":"up");}
+  },{passive:true});
+}
+
+// ── ОНОВЛЕНИЙ initGame ──
+const _origInitGame = window.initGame || function(){};
+window.initGame = function(gameId) {
+  switch(gameId) {
+    case "alphabet-uk":  initAlphabet("uk"); break;
+    case "alphabet-en":  initAlphabet("en"); break;
+    case "numbers":      initNumbers(); break;
+    case "math":         initMath("add"); break;
+    case "memory":       initMemory(); break;
+    case "sentences":    initSentences(); break;
+    case "tales":        initTales(); break;
+    case "dictionary":   initDictionary(); break;
+    case "game2048":     init2048(); break;
+    case "achievements": renderAchievements(); break;
+  }
+};
