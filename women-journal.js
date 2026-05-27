@@ -76,7 +76,7 @@ function renderArticles(category, articles, subcat = "all") {
     card.className = "article-card";
     card.onclick = () => openArticle(article);
 
-    const subcatLabel = SUBCAT_LABELS[category]?.[article.subcategory] || "";
+    const subcatLabel = SUBCAT_LABELS[category]?.[article.subcategory] || article.subcategory || "";
 
     const imgHtml = article.imageUrl
       ? `<div class="article-card-img"><img src="${article.imageUrl}" alt="${article.title}" loading="lazy" onerror="this.closest('.article-card-img').style.display='none'"></div>`
@@ -101,24 +101,35 @@ function openArticle(article) {
   const body  = document.getElementById("modal-body");
 
   document.getElementById("modal-title").textContent = article.title;
-  document.getElementById("modal-tag").textContent   = article.subcategory || article.category || "";
+  const ALL_LABELS = {"kids-places": "Куди піти з дитиною", "clubs": "Гуртки та секції", "development": "Розвиток дитини", "lifehacks": "Лайфхаки", "newmom": "Поради молодим мамам", "quick": "Швидкі рецепти", "baking": "Випічка", "desserts": "Десерти", "festive": "Святкові страви", "budget": "Бюджетне меню", "kids": "Страви для дітей", "womens": "Жіноче здоров"я", "vitamins": "Вітаміни", "sleep": "Сон", "stress": "Стрес", "fitness": "Тренування", "beauty": "Догляд", "psychology": "Психологія", "save": "Як економити", "savings": "Заощадження", "apps": "Додатки", "business": "Власна справа", "stories": "Історії успіху", "drawing": "Малювання", "handmade": "Handmade", "embroidery": "Вишивка", "decor": "Декор дому", "photo": "Фотографія", "games": "Настільні ігри", "gifts": "Подарунки", "violence": "Домашнє насильство", "children": "Права дитини", "divorce": "Розлучення", "labor": "Трудові права", "moms": "Для мам", "cooking": "Кулінарія", "health": "Здоров"я", "money": "Гроші", "hobby": "Хобі", "rights": "Права"};
+  const tagLabel = ALL_LABELS[article.subcategory] || ALL_LABELS[article.category] || article.subcategory || article.category || "";
+  document.getElementById("modal-tag").textContent = tagLabel;
 
   // Ховаємо головне фото (покажемо в блоках)
   img.classList.add("hidden");
 
-  // Відображаємо блоки фото+текст
-  if (article.blocks && article.blocks.length > 0) {
+  // Відображаємо контент
+  const hasBlocks = article.blocks && article.blocks.some(b => b.img || b.text);
+
+  if (hasBlocks) {
+    // Новий формат — блоки фото+текст
     body.innerHTML = article.blocks.map(b => `
       ${b.img ? `<img src="${b.img}" alt="" style="width:100%;border-radius:14px;margin-bottom:14px;object-fit:cover;max-height:320px" onerror="this.style.display='none'">` : ""}
-      ${b.text ? `<p style="margin-bottom:20px;white-space:pre-wrap">${b.text}</p>` : ""}
-    `).join('<hr style="border:none;border-top:1px solid var(--border);margin:16px 0">');
-  } else {
+      ${b.text ? `<p style="margin-bottom:20px;white-space:pre-wrap;line-height:1.8;font-size:15px">${b.text}</p>` : ""}
+    `).join("");
+    // Також показуємо основний текст якщо є
+    if (article.content) {
+      body.innerHTML += `<p style="white-space:pre-wrap;line-height:1.8;font-size:15px;margin-top:16px">${article.content}</p>`;
+    }
+  } else if (article.content) {
     // Старий формат — просто текст
-    body.innerHTML = `<p style="white-space:pre-wrap">${article.content || ""}</p>`;
+    body.innerHTML = `<p style="white-space:pre-wrap;line-height:1.8;font-size:15px">${article.content}</p>`;
     if (article.imageUrl) {
       img.src = article.imageUrl;
       img.classList.remove("hidden");
     }
+  } else {
+    body.innerHTML = `<p style="color:var(--muted);font-size:15px">Текст статті відсутній</p>`;
   }
 
   modal.classList.remove("hidden");
