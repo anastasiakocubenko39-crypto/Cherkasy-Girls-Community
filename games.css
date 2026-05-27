@@ -17,8 +17,9 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;color:va
 @keyframes cloudMoveReverse{0%{transform:translateX(-45%);}100%{transform:translateX(-55%);}}
 .screen{display:none;min-height:100vh;position:relative;z-index:1;}
 .screen.active{display:block;}
-.back-home{position:fixed;top:16px;left:16px;z-index:1000;background:rgba(255,255,255,.78);color:var(--purple-dark);padding:10px 18px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:900;backdrop-filter:blur(12px);border:2px solid rgba(155,92,255,.18);box-shadow:var(--shadow2);transition:.2s;cursor:pointer;font-family:'Nunito',sans-serif;}
+.back-home{position:fixed;top:16px;left:16px;z-index:1000;background:rgba(255,255,255,.88);color:var(--purple-dark);padding:10px 18px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:900;backdrop-filter:blur(12px);border:2px solid rgba(155,92,255,.18);box-shadow:var(--shadow2);transition:.2s;cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap;}
 .back-home:hover{transform:translateY(-2px);background:#fff;}
+@media(max-width:500px){.back-home{top:8px;left:8px;padding:8px 12px;font-size:11px;}}
 .main-hero{text-align:center;padding:90px 20px 36px;position:relative;}
 .academy-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;padding:10px 24px;border-radius:999px;font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px;box-shadow:0 12px 28px rgba(155,92,255,.28);}
 .academy-badge::before{content:"🎒";font-size:18px;}
@@ -74,7 +75,7 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;color:va
 
 /* LETTERS */
 .letter-display{background:white;border-radius:35px;padding:40px;text-align:center;box-shadow:var(--shadow);}
-.big-letter{font-family:'Fredoka One',cursive;font-size:220px;line-height:1;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:letterPop .3s ease;}
+.big-letter{font-family:'Fredoka One',cursive;font-size:clamp(80px,35vw,220px);line-height:1;background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:letterPop .3s ease;}
 @keyframes letterPop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
 .letter-word{font-size:38px;font-weight:900;color:var(--purple-dark);margin-top:10px;}
 .letter-emoji{font-size:80px;margin-top:20px;display:block;}
@@ -86,7 +87,7 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;color:va
 
 /* NUMBERS */
 .number-display{background:white;border-radius:35px;padding:40px;text-align:center;box-shadow:var(--shadow);}
-.big-number{font-family:'Fredoka One',cursive;font-size:180px;line-height:1;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.big-number{font-family:'Fredoka One',cursive;font-size:clamp(80px,30vw,180px);line-height:1;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .number-dots{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;max-width:500px;margin:25px auto;}
 .dot{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--yellow),var(--green));box-shadow:0 6px 12px rgba(0,0,0,.12);animation:dotAppear .25s ease;}
 @keyframes dotAppear{from{transform:scale(.4);opacity:0;}to{transform:scale(1);opacity:1;}}
@@ -206,3 +207,36 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;color:va
   .game-header h2{font-size:22px;}
   .memory-grid.size-8,.memory-grid.size-12,.memory-grid.size-16{grid-template-columns:repeat(4,1fr);}
 }
+
+/* COLORS GAME */
+.color-display{background:white;border-radius:32px;padding:40px;text-align:center;box-shadow:var(--shadow);margin-bottom:24px;}
+.color-circle{width:clamp(140px,40vw,200px);height:clamp(140px,40vw,200px);border-radius:50%;margin:0 auto 24px;box-shadow:0 12px 40px rgba(0,0,0,.15);transition:transform .3s;animation:popIn .4s ease;}
+.color-circle:hover{transform:scale(1.05);}
+.color-name-uk{font-family:'Fredoka One',cursive;font-size:clamp(36px,8vw,56px);color:var(--purple-dark);margin-bottom:8px;}
+.color-name-en{font-size:clamp(18px,4vw,26px);color:var(--text2);font-weight:700;}
+.color-quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px;}
+.color-opt{padding:16px;border-radius:18px;border:3px solid rgba(155,92,255,.2);background:white;cursor:pointer;transition:all .2s;font-family:'Fredoka One',cursive;font-size:clamp(16px,4vw,22px);box-shadow:var(--shadow2);display:flex;align-items:center;justify-content:center;gap:10px;}
+.color-opt:hover{border-color:var(--purple);transform:translateY(-2px);}
+.color-opt.correct{background:linear-gradient(135deg,var(--green),#84cc16);color:white;border-color:var(--green);}
+.color-opt.wrong{background:linear-gradient(135deg,var(--red),#ef4444);color:white;border-color:var(--red);}
+.color-dot{width:32px;height:32px;border-radius:50%;flex-shrink:0;}
+
+/* ANIMALS GAME */
+.animal-display{background:white;border-radius:32px;padding:32px;text-align:center;box-shadow:var(--shadow);margin-bottom:24px;}
+.animal-img{font-size:clamp(80px,20vw,120px);display:block;margin:0 auto 16px;animation:popIn .4s ease;}
+.animal-name-uk{font-family:'Fredoka One',cursive;font-size:clamp(32px,7vw,52px);color:var(--purple-dark);margin-bottom:6px;}
+.animal-name-en{font-size:clamp(16px,3.5vw,24px);color:var(--text2);font-weight:700;margin-bottom:16px;}
+.animal-sound-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:100px;background:linear-gradient(135deg,var(--blue),#818cf8);color:white;border:none;font-family:'Fredoka One',cursive;font-size:clamp(16px,3.5vw,20px);cursor:pointer;box-shadow:var(--shadow2);transition:all .2s;margin-bottom:16px;}
+.animal-sound-btn:hover{transform:scale(1.05);}
+.animal-quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.animal-opt{padding:14px;border-radius:18px;border:3px solid rgba(155,92,255,.2);background:white;cursor:pointer;transition:all .2s;font-family:'Fredoka One',cursive;font-size:clamp(15px,3.5vw,20px);box-shadow:var(--shadow2);text-align:center;}
+.animal-opt:hover{border-color:var(--purple);transform:translateY(-2px);}
+.animal-opt.correct{background:linear-gradient(135deg,var(--green),#84cc16);color:white;border-color:var(--green);}
+.animal-opt.wrong{background:linear-gradient(135deg,var(--red),#ef4444);color:white;border-color:var(--red);}
+
+/* PLANTS GAME */
+.plant-display{background:white;border-radius:32px;padding:32px;text-align:center;box-shadow:var(--shadow);margin-bottom:24px;}
+.plant-img{font-size:clamp(80px,20vw,120px);display:block;margin:0 auto 16px;animation:popIn .4s ease;}
+.plant-name-uk{font-family:'Fredoka One',cursive;font-size:clamp(30px,7vw,50px);color:var(--purple-dark);margin-bottom:6px;}
+.plant-name-en{font-size:clamp(16px,3.5vw,22px);color:var(--text2);font-weight:700;margin-bottom:16px;}
+.plant-fact{font-size:clamp(13px,3vw,16px);color:var(--text2);line-height:1.6;background:var(--bg2);border-radius:14px;padding:14px;margin-bottom:16px;font-weight:600;}
