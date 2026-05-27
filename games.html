@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<a href="index.html" class="back-home">← На головну</a>
+<button class="back-home" onclick="goToSiteHome()">← На сайт</button>
 
 <!-- ГОЛОВНИЙ ЕКРАН -->
 <div id="mainScreen" class="screen active">
@@ -28,7 +28,6 @@
   </div>
 
   <div class="games-grid">
-    
     <div class="game-card purple" onclick="openGame('alphabet-uk')">
       <div class="game-icon">🔤</div>
       <div class="game-title">Букви</div>
@@ -77,25 +76,20 @@
       <div class="game-sub">Укр + Англ</div>
       <div class="game-stars" id="stars-tales">⭐⭐⭐</div>
     </div>
-   <div class="game-card indigo" onclick="openGame('dictionary')">
-  <div class="game-icon">📚</div>
-  <div class="game-title">Словник</div>
-  <div class="game-sub">Укр — Англ</div>
-  <div class="game-stars" id="stars-dictionary">⭐⭐⭐</div>
+    <div class="game-card indigo" onclick="openGame('dictionary')">
+      <div class="game-icon">📚</div>
+      <div class="game-title">Словник</div>
+      <div class="game-sub">Укр — Англ</div>
+      <div class="game-stars" id="stars-dictionary">⭐⭐⭐</div>
+    </div>
+    <div class="game-card red" onclick="openGame('game2048')">
+      <div class="game-icon">🎮</div>
+      <div class="game-title">2048</div>
+      <div class="game-sub">Головоломка</div>
+      <div class="game-stars" id="stars-game2048">⭐⭐⭐</div>
+    </div>
+  </div>
 </div>
-
-<!-- ГРА 2048 -->
-<div class="game-card orange" onclick="openGame('game2048')">
-  <div class="game-icon">🎮</div>
-  <div class="game-title">2048</div>
-  <div class="game-sub">Логічна гра</div>
-  <div class="game-stars">⭐⭐⭐</div>
-</div>
-
-</div>
-</div>
-
-<!-- ГРА: БУКВИ УКРАЇНСЬКІ -->
 
 <!-- ГРА: БУКВИ УКРАЇНСЬКІ -->
 <div id="game-alphabet-uk" class="screen game-screen">
@@ -235,5 +229,10 @@
 </div>
 
 <script src="games.js"></script>
+<script>
+  function goToSiteHome() {
+    window.location.href = "index.html";
+  }
+</script>
 </body>
 </html>
