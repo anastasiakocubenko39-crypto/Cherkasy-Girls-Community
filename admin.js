@@ -365,19 +365,44 @@ window.saveJournalArticle = async function() {
   const category    = document.getElementById("jn-category")?.value;
   const subcategory = document.getElementById("jn-subcategory")?.value.trim();
   const excerpt     = document.getElementById("jn-excerpt")?.value.trim();
-  const content     = document.getElementById("jn-content")?.value.trim();
-  const imageUrl    = document.getElementById("jn-image")?.value.trim();
-  if (!title)   { toast("Введіть заголовок", "error"); return; }
-  if (!content) { toast("Введіть текст статті", "error"); return; }
+  const mainContent = document.getElementById("jn-content")?.value.trim() || "";
+
+  if (!title) { toast("Введіть заголовок", "error"); return; }
+
+  // Збираємо блоки фото+текст
+  const blocks = window.getJournalBlocks ? window.getJournalBlocks() : [];
+
+  // Перший блок = головне фото для картки
+  const imageUrl = blocks.length > 0 ? blocks[0].img : "";
+
+  // Формуємо контент з блоків
+  const blockContent = blocks.map(b =>
+    [b.img ? `[IMG:${b.img}]` : "", b.text].filter(Boolean).join("
+")
+  ).join("
+
+---
+
+");
+
+  const content = mainContent || blockContent || "";
+  if (!content && blocks.length === 0) { toast("Додайте хоча б один блок", "error"); return; }
+
   try {
     await addDoc(collection(db, "journal_articles"), {
-      title, category, subcategory, excerpt, content, imageUrl,
+      title, category, subcategory, excerpt,
+      content: mainContent || "",
+      blocks,
+      imageUrl,
       createdAt: serverTimestamp()
     });
     toast("✅ Статтю додано!");
     closeModal("journalModal");
-    clearInputs(["jn-title","jn-subcategory","jn-excerpt","jn-content","jn-image"]);
-    hidePreview("jn-preview");
+    clearInputs(["jn-title","jn-subcategory","jn-excerpt","jn-content"]);
+    // Reset blocks
+    const wrap = document.getElementById("jn-blocks-wrap");
+    if (wrap) { wrap.innerHTML = ""; window.blockCount = 0; }
+    if (window.addJournalBlock) window.addJournalBlock();
     loadJournal();
   } catch(e) { console.error(e); toast("Помилка: " + e.message, "error"); }
 };
