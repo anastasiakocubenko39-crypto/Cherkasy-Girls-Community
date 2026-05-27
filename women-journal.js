@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, orderBy, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, query, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyATAMeZCC69E0kaC0u9YBTMvzjI9qZudMc",
@@ -33,15 +33,23 @@ const SUBCAT_LABELS = {
 async function loadArticles(category) {
   if (articlesCache[category]) return articlesCache[category];
   try {
-    const q = query(collection(db, "journal_articles"),
-      where("category", "==", category),
-      orderBy("createdAt", "desc"));
+    // Без orderBy щоб уникнути потреби в індексі
+    const q = query(
+      collection(db, "journal_articles"),
+      where("category", "==", category)
+    );
     const snap = await getDocs(q);
     const articles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    // Сортуємо на клієнті
+    articles.sort((a, b) => {
+      const ta = a.createdAt?.seconds || 0;
+      const tb = b.createdAt?.seconds || 0;
+      return tb - ta;
+    });
     articlesCache[category] = articles;
     return articles;
   } catch(e) {
-    console.error(e);
+    console.error("loadArticles error:", e);
     return [];
   }
 }
