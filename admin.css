@@ -98,3 +98,12 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--text);
   .admin-main { margin-left: 0; padding: 20px; }
   .tab-header { flex-direction: column; gap: 16px; align-items: flex-start; }
 }
+
+/* JOURNAL BLOCKS */
+.journal-block-item{background:var(--bg3);border-radius:14px;padding:18px;margin-bottom:14px;border:1px solid var(--border);}
+.block-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.block-num{font-weight:700;color:var(--accent);font-size:14px;}
+.block-remove{background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:12px;transition:all .2s;}
+.block-remove:hover{background:#fde8e8;color:#e86f6f;border-color:#f4a0a0;}
+.block-upload{padding:16px;margin-bottom:8px;}
+.block-url-input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;margin-bottom:8px;}
