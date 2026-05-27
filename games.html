@@ -28,6 +28,7 @@
   </div>
 
   <div class="games-grid">
+    
     <div class="game-card purple" onclick="openGame('alphabet-uk')">
       <div class="game-icon">🔤</div>
       <div class="game-title">Букви</div>
@@ -64,8 +65,37 @@
       <div class="game-sub">Мої нагороди</div>
       <div class="game-stars"></div>
     </div>
-  </div>
+    <div class="game-card orange" onclick="openGame('sentences')">
+      <div class="game-icon">📝</div>
+      <div class="game-title">Речення</div>
+      <div class="game-sub">Укр + Англ</div>
+      <div class="game-stars" id="stars-sentences">⭐⭐⭐</div>
+    </div>
+    <div class="game-card teal" onclick="openGame('tales')">
+      <div class="game-icon">📖</div>
+      <div class="game-title">Казки</div>
+      <div class="game-sub">Укр + Англ</div>
+      <div class="game-stars" id="stars-tales">⭐⭐⭐</div>
+    </div>
+   <div class="game-card indigo" onclick="openGame('dictionary')">
+  <div class="game-icon">📚</div>
+  <div class="game-title">Словник</div>
+  <div class="game-sub">Укр — Англ</div>
+  <div class="game-stars" id="stars-dictionary">⭐⭐⭐</div>
 </div>
+
+<!-- ГРА 2048 -->
+<div class="game-card orange" onclick="openGame('game2048')">
+  <div class="game-icon">🎮</div>
+  <div class="game-title">2048</div>
+  <div class="game-sub">Логічна гра</div>
+  <div class="game-stars">⭐⭐⭐</div>
+</div>
+
+</div>
+</div>
+
+<!-- ГРА: БУКВИ УКРАЇНСЬКІ -->
 
 <!-- ГРА: БУКВИ УКРАЇНСЬКІ -->
 <div id="game-alphabet-uk" class="screen game-screen">
@@ -135,6 +165,61 @@
     <h2>Мої досягнення</h2>
   </div>
   <div class="achievements-area" id="achievements-area"></div>
+</div>
+
+<!-- ГРА: РЕЧЕННЯ -->
+<div id="game-sentences" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Склади речення</h2>
+    <div class="score-badge" id="score-sentences">0</div>
+  </div>
+  <div class="level-select">
+    <button class="level-btn active" onclick="setSentenceLang('uk',this)">🇺🇦 Українська</button>
+    <button class="level-btn" onclick="setSentenceLang('en',this)">🇬🇧 English</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-sentences"></div></div>
+  <div class="game-area" id="area-sentences"></div>
+</div>
+
+<!-- ГРА: КАЗКИ -->
+<div id="game-tales" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Казки</h2>
+    <div class="score-badge" id="score-tales">0</div>
+  </div>
+  <div class="level-select">
+    <button class="level-btn active" onclick="setTaleLang('uk',this)">🇺🇦 Українська</button>
+    <button class="level-btn" onclick="setTaleLang('en',this)">🇬🇧 English</button>
+    <button class="level-btn" onclick="setTaleLang('nature',this)">🌿 Природа</button>
+  </div>
+  <div class="game-area" id="area-tales"></div>
+</div>
+
+<!-- ГРА: СЛОВНИК -->
+<div id="game-dictionary" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>Словник</h2>
+    <div class="score-badge" id="score-dictionary">0</div>
+  </div>
+  <div class="level-select">
+    <button class="level-btn active" onclick="setDictMode('learn',this)">📚 Вчити</button>
+    <button class="level-btn" onclick="setDictMode('quiz',this)">🎯 Тест</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-dictionary"></div></div>
+  <div class="game-area" id="area-dictionary"></div>
+</div>
+
+<!-- ГРА: 2048 -->
+<div id="game-game2048" class="screen game-screen">
+  <div class="game-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>2048</h2>
+    <div class="score-badge" id="score-game2048">0</div>
+  </div>
+  <div class="game-area" id="area-game2048"></div>
 </div>
 
 <!-- РЕЗУЛЬТАТ -->
