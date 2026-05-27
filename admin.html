@@ -200,7 +200,7 @@
     <div class="modal-body">
       <label>Заголовок *</label><input id="jn-title" placeholder="Заголовок статті">
       <label>Категорія *</label>
-      <select id="jn-category">
+      <select id="jn-category" onchange="updateSubcats()">
         <option value="moms">Для мам</option>
         <option value="cooking">Кулінарія</option>
         <option value="health">Здоров'я</option>
@@ -209,7 +209,9 @@
         <option value="rights">Права та безпека</option>
       </select>
       <label>Підкатегорія</label>
-      <input id="jn-subcategory" placeholder="напр. quick, baking, womens...">
+      <select id="jn-subcategory">
+        <option value="">— Оберіть підкатегорію —</option>
+      </select>
       <label>Короткий опис</label>
       <textarea id="jn-excerpt" rows="2" placeholder="Короткий опис для картки (1-2 речення)"></textarea>
       <label>Текст статті *</label>
@@ -255,6 +257,77 @@
       document.getElementById("adminPage").classList.remove("hidden");
     }
   });
+</script>
+<script>
+const SUBCATS = {
+  moms: [
+    {v:"kids-places", l:"Куди піти з дитиною у Черкасах"},
+    {v:"clubs",       l:"Корисні гуртки та секції"},
+    {v:"development", l:"Розвиток дитини"},
+    {v:"lifehacks",   l:"Лайфхаки для мам"},
+    {v:"newmom",      l:"Поради для молодих мам"},
+  ],
+  cooking: [
+    {v:"quick",    l:"Швидкі рецепти на кожен день"},
+    {v:"baking",   l:"Домашня випічка"},
+    {v:"desserts", l:"Корисні десерти"},
+    {v:"festive",  l:"Святкові страви"},
+    {v:"budget",   l:"Бюджетне меню на тиждень"},
+    {v:"kids",     l:"Страви для дітей"},
+  ],
+  health: [
+    {v:"womens",     l:"Жіноче здоров'я"},
+    {v:"vitamins",   l:"Вітаміни та харчування"},
+    {v:"sleep",      l:"Сон та відновлення"},
+    {v:"stress",     l:"Боротьба зі стресом"},
+    {v:"fitness",    l:"Домашні тренування"},
+    {v:"beauty",     l:"Догляд за собою"},
+    {v:"psychology", l:"Психологія та емоційний стан"},
+  ],
+  money: [
+    {v:"budget",   l:"Сімейний бюджет"},
+    {v:"save",     l:"Як економити без стресу"},
+    {v:"savings",  l:"Заощадження"},
+    {v:"apps",     l:"Корисні мобільні додатки"},
+    {v:"business", l:"Власна справа та підробіток"},
+    {v:"stories",  l:"Історії успіху жінок"},
+  ],
+  hobby: [
+    {v:"drawing",   l:"Малювання"},
+    {v:"handmade",  l:"Handmade"},
+    {v:"embroidery",l:"Вишивка та рукоділля"},
+    {v:"decor",     l:"Декор дому"},
+    {v:"photo",     l:"Фотографія"},
+    {v:"games",     l:"Настільні ігри"},
+    {v:"gifts",     l:"Ідеї подарунків своїми руками"},
+  ],
+  rights: [
+    {v:"womens",   l:"Права жінок"},
+    {v:"children", l:"Права дитини"},
+    {v:"violence", l:"Домашнє насильство"},
+    {v:"alimony",  l:"Аліменти"},
+    {v:"divorce",  l:"Права при розлученні"},
+    {v:"property", l:"Майно у шлюбі"},
+    {v:"maternity",l:"Декретна відпустка"},
+    {v:"labor",    l:"Трудові права"},
+    {v:"discrimination",l:"Захист від дискримінації"},
+    {v:"legal",    l:"Безкоштовна правова допомога"},
+    {v:"bullying", l:"Переслідування та погрози"},
+  ],
+};
+
+function updateSubcats() {
+  const cat = document.getElementById("jn-category").value;
+  const sel = document.getElementById("jn-subcategory");
+  const opts = SUBCATS[cat] || [];
+  sel.innerHTML = '<option value="">— Оберіть підкатегорію —</option>' +
+    opts.map(o => `<option value="${o.v}">${o.l}</option>`).join("");
+}
+
+// Init on page load
+document.addEventListener("DOMContentLoaded", () => {
+  updateSubcats();
+});
 </script>
 <script type="module" src="admin.js"></script>
 </body>
