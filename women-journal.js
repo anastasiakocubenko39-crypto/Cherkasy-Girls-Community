@@ -15,30 +15,25 @@ const db  = getFirestore(app);
 
 const articlesCache = {};
 
-const SUBCAT_LABELS = {
-  moms:    { "kids-places":"Куди піти з дитиною", clubs:"Гуртки", development:"Розвиток", lifehacks:"Лайфхаки", newmom:"Поради молодим мамам" },
-  cooking: { quick:"Швидкі рецепти", baking:"Випічка", desserts:"Десерти", festive:"Святкові страви", budget:"Бюджетне меню", kids:"Страви для дітей" },
-  health:  { womens:"Жіноче здоров'я", vitamins:"Вітаміни", sleep:"Сон", stress:"Стрес", fitness:"Тренування", beauty:"Догляд", psychology:"Психологія" },
-  money:   { budget:"Бюджет", save:"Як економити", savings:"Заощадження", apps:"Додатки", business:"Власна справа", stories:"Історії успіху" },
-  hobby:   { drawing:"Малювання", handmade:"Handmade", embroidery:"Вишивка", decor:"Декор", photo:"Фото", games:"Ігри", gifts:"Подарунки" },
-  rights:  { womens:"Права жінок", children:"Права дитини", violence:"Насильство", divorce:"Розлучення", labor:"Трудові права" },
-};
+const ALL_CATEGORIES = [
+  "moms","cooking","health","money","hobby","rights",
+  "holidays","psychology","news","forme","travel","volunteer","promo"
+];
 
-const ALL_LABELS = {
-  "kids-places":"Куди піти з дитиною", "clubs":"Гуртки та секції",
-  "development":"Розвиток дитини", "lifehacks":"Лайфхаки", "newmom":"Поради молодим мамам",
-  "quick":"Швидкі рецепти", "baking":"Випічка", "desserts":"Десерти",
-  "festive":"Святкові страви", "budget":"Бюджетне меню", "kids":"Страви для дітей",
-  "womens":"Жіноче здоров'я", "vitamins":"Вітаміни", "sleep":"Сон",
-  "stress":"Стрес", "fitness":"Тренування", "beauty":"Догляд", "psychology":"Психологія",
-  "save":"Як економити", "savings":"Заощадження", "apps":"Додатки",
-  "business":"Власна справа", "stories":"Історії успіху",
-  "drawing":"Малювання", "handmade":"Handmade", "embroidery":"Вишивка",
-  "decor":"Декор дому", "photo":"Фотографія", "games":"Настільні ігри", "gifts":"Подарунки",
-  "violence":"Домашнє насильство", "children":"Права дитини",
-  "divorce":"Розлучення", "labor":"Трудові права",
-  "moms":"Для мам", "cooking":"Кулінарія", "health":"Здоров'я",
-  "money":"Гроші", "hobby":"Хобі", "rights":"Права"
+const SUBCAT_LABELS = {
+  moms:       {"kids-places":"Куди піти","clubs":"Гуртки","development":"Розвиток","lifehacks":"Лайфхаки","newmom":"Молодим мамам"},
+  cooking:    {"quick":"Швидкі рецепти","baking":"Випічка","desserts":"Десерти","festive":"Святкові","budget":"Бюджетне меню","kids":"Для дітей"},
+  health:     {"womens":"Жіноче здоров'я","vitamins":"Вітаміни","sleep":"Сон","stress":"Стрес","fitness":"Тренування","beauty":"Догляд","psychology":"Психологія"},
+  money:      {"budget":"Бюджет","save":"Як економити","savings":"Заощадження","apps":"Додатки","business":"Власна справа","stories":"Успіх"},
+  hobby:      {"drawing":"Малювання","handmade":"Handmade","embroidery":"Вишивка","decor":"Декор","photo":"Фото","games":"Ігри","gifts":"Подарунки"},
+  rights:     {"womens":"Права жінок","children":"Права дитини","violence":"Насильство","divorce":"Розлучення","labor":"Трудові права","discrimination":"Від дискримінації","legal":"Безкоштовна допомога","bullying":"Переслідування"},
+  holidays:   {"birthday":"День народження","wedding":"Весілля","march8":"8 Березня","motherday":"День матері","mykola":"Миколая","newyear":"Новий рік","christmas":"Різдво"},
+  psychology: {"books":"Книги","relations":"Стосунки","child":"Психологія дитини","personal":"Особиста","selfesteem":"Самооцінка","burnout":"Тривожність"},
+  news:       {"general":"Загальні","women":"Жіночі","psychology":"Психологія","health":"Здоров'я","moms":"Для мам","culture":"Культура"},
+  forme:      {"books":"Книги","series":"Серіали","movies":"Кіно","concerts":"Концерти","rest":"Відпочинок","places":"Місця","inspiration":"Натхнення"},
+  travel:     {"road":"Дорога","hotels":"Готелі","restaurants":"Ресторани","cities":"Міста","countries":"Країни","beach":"Пляжі","lifehacks":"Лайфхаки","budget":"Бюджет"},
+  volunteer:  {"collections":"Збори","military":"Допомога військовим","medical":"Медична","cars":"Авто","drones":"Дрони","clothes":"Одяг","food":"Гуманітарна","animals":"Тварини","news":"Звіти"},
+  promo:      {"beauty":"Beauty","fashion":"Fashion","cafes":"Заклади","gifts":"Подарунки","handmade":"Handmade","courses":"Курси","psychology":"Психологія","sweets":"Смаколики","rest":"Відпочинок","shops":"Магазини"},
 };
 
 async function loadArticles(category) {
@@ -95,10 +90,15 @@ function openArticle(article) {
   const modal = document.getElementById("articleModal");
   const img   = document.getElementById("modal-img");
   const body  = document.getElementById("modal-body");
+  const links = document.getElementById("modal-links");
 
   document.getElementById("modal-title").textContent = article.title;
 
-  const tagLabel = ALL_LABELS[article.subcategory] || ALL_LABELS[article.category] || article.subcategory || "";
+  // Find label
+  let tagLabel = article.subcategory || article.category || "";
+  for (const [cat, subs] of Object.entries(SUBCAT_LABELS)) {
+    if (subs[article.subcategory]) { tagLabel = subs[article.subcategory]; break; }
+  }
   document.getElementById("modal-tag").textContent = tagLabel;
 
   img.classList.add("hidden");
@@ -110,14 +110,23 @@ function openArticle(article) {
       (b.img ? `<img src="${b.img}" alt="" style="width:100%;border-radius:14px;margin-bottom:14px;object-fit:cover;max-height:320px" onerror="this.style.display='none'">` : "") +
       (b.text ? `<p style="margin-bottom:20px;white-space:pre-wrap;line-height:1.8;font-size:15px">${b.text}</p>` : "")
     ).join("");
-    if (article.content) {
-      body.innerHTML += `<p style="white-space:pre-wrap;line-height:1.8;font-size:15px;margin-top:16px">${article.content}</p>`;
-    }
+    if (article.content) body.innerHTML += `<p style="white-space:pre-wrap;line-height:1.8;font-size:15px;margin-top:16px">${article.content}</p>`;
   } else if (article.content) {
     body.innerHTML = `<p style="white-space:pre-wrap;line-height:1.8;font-size:15px">${article.content}</p>`;
     if (article.imageUrl) { img.src = article.imageUrl; img.classList.remove("hidden"); }
   } else {
     body.innerHTML = `<p style="color:var(--muted);font-size:15px">Текст статті відсутній</p>`;
+  }
+
+  // Social links for promo
+  if (links) {
+    const socials = [];
+    if (article.instagram) socials.push(`<a href="${article.instagram}" target="_blank" class="social-link">📸 Instagram</a>`);
+    if (article.telegram)  socials.push(`<a href="${article.telegram}" target="_blank" class="social-link">✈️ Telegram</a>`);
+    if (article.tiktok)    socials.push(`<a href="${article.tiktok}" target="_blank" class="social-link">🎵 TikTok</a>`);
+    if (article.website)   socials.push(`<a href="${article.website}" target="_blank" class="social-link btn-accent">Перейти →</a>`);
+    if (article.monoUrl)   socials.push(`<a href="${article.monoUrl}" target="_blank" class="social-link btn-donate">💛 Підтримати</a>`);
+    links.innerHTML = socials.length ? `<div class="modal-social-row">${socials.join("")}</div>` : "";
   }
 
   modal.classList.remove("hidden");
@@ -169,9 +178,9 @@ window._scrollToSection = window.scrollToSection = function(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior:"smooth", block:"start" });
   const bodyEl = document.getElementById(id + "-body");
-  if (bodyEl && !bodyEl.classList.contains("open")) toggleSection(id + "-body");
+  if (bodyEl && !bodyEl.classList.contains("open")) window._toggleSection(id + "-body");
   document.querySelectorAll(".cat-nav-btn").forEach(b => {
-    b.classList.toggle("active", (b.getAttribute("onclick")||"").includes(id));
+    b.classList.toggle("active", (b.getAttribute("onclick")||"").includes("'" + id + "'"));
   });
 };
 
@@ -185,13 +194,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("scroll", () => {
   let current = "";
-  ["moms","cooking","health","money","hobby","rights"].forEach(id => {
+  ALL_CATEGORIES.forEach(id => {
     const el = document.getElementById(id);
     if (el && el.getBoundingClientRect().top < 200) current = id;
   });
   if (current) {
     document.querySelectorAll(".cat-nav-btn").forEach(b => {
-      b.classList.toggle("active", (b.getAttribute("onclick")||"").includes(current));
+      b.classList.toggle("active", (b.getAttribute("onclick")||"").includes("'" + current + "'"));
     });
   }
 });
