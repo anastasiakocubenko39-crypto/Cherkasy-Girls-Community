@@ -3,126 +3,296 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cherkasy Girls Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>Cherkasy Girls Club — Жіноча спільнота Черкас</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
 </head>
 <body class="light">
 
-<header class="header">
-  <div class="logo">
-    <img src="logo-light.png" alt="Cherkasy Girls Club" class="logo-img logo-img-light">
-    <img src="logo-dark.png" alt="Cherkasy Girls Club" class="logo-img logo-img-dark">
-  </div>
+<!-- HEADER -->
+<header class="header" id="header">
+  <a href="index.html" class="logo">
+    <span class="logo-mark">CGC</span>
+    <span class="logo-text">Cherkasy<br><em>Girls Club</em></span>
+  </a>
   <nav class="nav">
     <a href="index.html" class="nav-link active">Головна</a>
     <a href="events.html" class="nav-link">Події</a>
-    <a href="about.html" class="nav-link">Ми</a>
     <a href="women-journal.html" class="nav-link">Журнал</a>
-    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="nav-link tg-link">Telegram</a>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="nav-link nav-tg">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.012 9.487c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.875.734z"/></svg>
+      Telegram
+    </a>
   </nav>
-  <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
-  <button class="burger" onclick="toggleMenu()">☰</button>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Змінити тему">
+    <span class="theme-icon">🌙</span>
+  </button>
+  <button class="burger" onclick="toggleMenu()" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
 </header>
 
 <nav class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Головна</a>
-  <a href="events.html" onclick="toggleMenu()">Події</a>
-  <a href="about.html" onclick="toggleMenu()">Ми</a>
-  <a href="women-journal.html" onclick="toggleMenu()">Журнал</a>
-  <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" onclick="toggleMenu()">Telegram</a>
+  <a href="index.html" onclick="closeMenu()">Головна</a>
+  <a href="events.html" onclick="closeMenu()">Події</a>
+  <a href="women-journal.html" onclick="closeMenu()">Журнал</a>
+  <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram 💬</a>
 </nav>
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <!-- HERO -->
-
-
-<!-- ПРО НАС -->
-<section class="about-preview">
-  <div class="about-preview-grid">
-    <div class="about-preview-text">
-      <div class="section-tag">Хто ми</div>
-      <h2>Місце сили<br>для кожної з нас</h2>
-      <p>Cherkasy Girls Club — це простір де дівчата зустрічаються, підтримують одна одну та разом створюють незабутні моменти.</p>
-      <ul class="about-list">
-        <li>Щомісячні зустрічі та події</li>
-        <li>Підтримка та дружба</li>
-        <li>Майстер-класи та активності</li>
-        <li>Фотосесії та спогади</li>
-      </ul>
-      <div class="hero-btns">
-        <a href="about.html" class="btn-main">Дізнатися більше</a>
-        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-tg">💬 Приєднатись</a>
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-blob b1"></div>
+    <div class="hero-blob b2"></div>
+    <div class="hero-blob b3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      Жіноча спільнота Черкас
+      <span class="dot"></span>
+    </div>
+    <h1 class="hero-title">
+      Місце де<br>
+      <em>дівчата</em><br>
+      розквітають
+    </h1>
+    <p class="hero-sub">Cherkasy Girls Club — простір підтримки, дружби та натхнення. Зустрічаємось, спілкуємось, ростемо разом.</p>
+    <div class="hero-actions">
+      <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.012 9.487c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.875.734z"/></svg>
+        Приєднатись до нас
+      </a>
+      <a href="women-journal.html" class="btn-ghost">Читати журнал →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-n">200+</span>
+        <span class="stat-l">учасниць</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="stat-n">50+</span>
+        <span class="stat-l">подій</span>
+      </div>
+      <div class="hero-stat-div"></div>
+      <div class="hero-stat">
+        <span class="stat-n">2+</span>
+        <span class="stat-l">роки разом</span>
       </div>
     </div>
-    <div class="about-visual">
-      <div class="visual-circle c1">🌸</div>
-      <div class="visual-circle c2">🤍</div>
-      <div class="visual-circle c3">✨</div>
-      <div class="visual-circle c4">🌺</div>
-      <div class="visual-center">CGC</div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card hc-main">
+      <div class="hc-glow"></div>
+      <div class="hc-inner">
+        <span class="hc-emoji">🌸</span>
+        <span class="hc-label">Girls Club</span>
+      </div>
+    </div>
+    <div class="hero-card hc-float f1">✨ Підтримка</div>
+    <div class="hero-card hc-float f2">🤍 Дружба</div>
+    <div class="hero-card hc-float f3">🎨 Майстер-класи</div>
+    <div class="hero-card hc-float f4">🌺 Натхнення</div>
+    <div class="hero-petal p1">🌸</div>
+    <div class="hero-petal p2">🌷</div>
+    <div class="hero-petal p3">✿</div>
+  </div>
+</section>
+
+<!-- ЩО У НАС Є -->
+<section class="features-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Наш простір</span>
+      <h2 class="section-title">Що тебе чекає<br>у нашій спільноті</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fc-large">
+        <div class="fc-icon">🤝</div>
+        <h3>Зустрічі та події</h3>
+        <p>Щомісячні зустрічі, пікніки, майстер-класи та вечірки в найкращих місцях Черкас. Кожна подія — це нові спогади та нові подруги.</p>
+        <a href="events.html" class="fc-link">Переглянути події →</a>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">💬</div>
+        <h3>Живе спілкування</h3>
+        <p>Теплий чат де завжди є підтримка, поради та гарний настрій.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🌿</div>
+        <h3>Розвиток</h3>
+        <p>Лекції, воркшопи та ком'юніті де можна ділитися досвідом.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">📸</div>
+        <h3>Фотосесії</h3>
+        <p>Спільні фотосесії та контент-дні в красивих локаціях міста.</p>
+      </div>
+      <div class="feature-card fc-accent">
+        <div class="fc-icon">🇺🇦</div>
+        <h3>Волонтерство</h3>
+        <p>Разом збираємо кошти та допомагаємо нашим захисникам. Разом ми сильніші.</p>
+        <a href="women-journal.html" class="fc-link fc-link-light">Дізнатись більше →</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- JOIN -->
-<section class="join-section">
-  <div class="join-content">
-    <h2>Хочеш приєднатись?</h2>
-    <p>Ми раді кожній новій дівчині у нашій спільноті 🌸</p>
-    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-tg">Вступити до спільноти</a>
+<!-- АТМОСФЕРА -->
+<section class="vibe-section">
+  <div class="vibe-left">
+    <div class="vibe-mosaic">
+      <div class="vm-card vm-big" style="background: linear-gradient(135deg, #fce4eb, #f9c0d0)">
+        <span style="font-size: 80px">🌸</span>
+        <span class="vm-label">Тепло</span>
+      </div>
+      <div class="vm-card" style="background: linear-gradient(135deg, #f9d0da, #f0a8c0)">
+        <span style="font-size: 44px">🤍</span>
+        <span class="vm-label">Любов</span>
+      </div>
+      <div class="vm-card" style="background: linear-gradient(135deg, #fdf0f3, #fce4eb)">
+        <span style="font-size: 44px">✨</span>
+        <span class="vm-label">Магія</span>
+      </div>
+      <div class="vm-card" style="background: linear-gradient(135deg, #f9c0d0, #f4a0b8)">
+        <span style="font-size: 44px">🌺</span>
+        <span class="vm-label">Краса</span>
+      </div>
+    </div>
+  </div>
+  <div class="vibe-right">
+    <span class="section-tag">Наша атмосфера</span>
+    <h2 class="section-title">Тут тебе<br><em>зрозуміють</em></h2>
+    <p class="vibe-text">Ми створили простір де кожна дівчина може бути собою. Без масок, без критики — тільки справжність, тепло та взаємна підтримка.</p>
+    <div class="vibe-list">
+      <div class="vibe-item">
+        <span class="vi-dot"></span>
+        Безпечний простір для кожної
+      </div>
+      <div class="vibe-item">
+        <span class="vi-dot"></span>
+        Підтримка в радості та труднощах
+      </div>
+      <div class="vibe-item">
+        <span class="vi-dot"></span>
+        Зустрічі що надихають
+      </div>
+      <div class="vibe-item">
+        <span class="vi-dot"></span>
+        Дружба що залишається назавжди
+      </div>
+    </div>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-primary">Стати частиною клубу</a>
   </div>
 </section>
 
-<footer class="footer">
-  <div class="footer-logo">🌸 Cherkasy Girls Club</div>
-  <div class="footer-links">
-    <a href="index.html">Головна</a>
-    <a href="events.html">Події</a>
-    <a href="about.html">Ми</a>
-    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram</a>
+<!-- ЖУРНАЛ PREVIEW -->
+<section class="journal-preview">
+  <div class="container">
+    <div class="jp-header">
+      <div>
+        <span class="section-tag">Жіночий журнал</span>
+        <h2 class="section-title">Читай, надихайся,<br><em>розвивайся</em></h2>
+        <p class="jp-sub">Корисна інформація, жіночі теми, психологія, здоров'я, рецепти та натхнення — нові статті щотижня.</p>
+      </div>
+      <a href="women-journal.html" class="btn-ghost">Всі статті →</a>
+    </div>
+    <div class="jp-cards">
+      <a href="women-journal.html" class="jp-card jp-card-featured">
+        <div class="jp-card-bg" style="background: linear-gradient(135deg, #fce4eb 0%, #f9c0d0 100%)">
+          <span style="font-size: 72px; opacity: 0.4; position: absolute; right: 20px; bottom: 10px">🧘</span>
+        </div>
+        <div class="jp-card-body">
+          <span class="jp-tag">Психологія</span>
+          <h3>Як дбати про себе: повний гайд для зайнятої жінки</h3>
+          <p>Прості практики для ментального здоров'я, які змінять твій день</p>
+        </div>
+      </a>
+      <a href="women-journal.html" class="jp-card">
+        <div class="jp-card-bg" style="background: linear-gradient(135deg, #f0e8fd 0%, #ddc8f8 100%)">
+          <span style="font-size: 52px; opacity: 0.4; position: absolute; right: 16px; bottom: 8px">🍰</span>
+        </div>
+        <div class="jp-card-body">
+          <span class="jp-tag">Кулінарія</span>
+          <h3>5 швидких рецептів для насиченого дня</h3>
+        </div>
+      </a>
+      <a href="women-journal.html" class="jp-card">
+        <div class="jp-card-bg" style="background: linear-gradient(135deg, #e8f5fd 0%, #c8e4f8 100%)">
+          <span style="font-size: 52px; opacity: 0.4; position: absolute; right: 16px; bottom: 8px">🌿</span>
+        </div>
+        <div class="jp-card-body">
+          <span class="jp-tag">Здоров'я</span>
+          <h3>Жіноче здоров'я: що важливо знати кожній</h3>
+        </div>
+      </a>
+      <a href="women-journal.html" class="jp-card">
+        <div class="jp-card-bg" style="background: linear-gradient(135deg, #fdf5e8 0%, #f8ddb8 100%)">
+          <span style="font-size: 52px; opacity: 0.4; position: absolute; right: 16px; bottom: 8px">💰</span>
+        </div>
+        <div class="jp-card-body">
+          <span class="jp-tag">Гроші</span>
+          <h3>Як почати відкладати: перші кроки до фінансової свободи</h3>
+        </div>
+      </a>
+    </div>
+    <div class="jp-cta">
+      <a href="women-journal.html" class="btn-primary">
+        📖 Перейти в журнал
+      </a>
+    </div>
   </div>
-  <p class="footer-copy">© <span id="year"></span> Cherkasy Girls Club. З любов'ю 🤍</p>
+</section>
+
+<!-- JOIN CTA -->
+<section class="cta-section">
+  <div class="cta-bg">
+    <div class="cta-blob"></div>
+  </div>
+  <div class="cta-content">
+    <span style="font-size: 56px; display: block; margin-bottom: 20px; animation: float 3s ease-in-out infinite">🌸</span>
+    <h2>Готова стати частиною<br><em>Cherkasy Girls Club?</em></h2>
+    <p>Приєднуйся до нашої спільноти дівчат які підтримують одна одну кожен день</p>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-cta">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.012 9.487c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.875.734z"/></svg>
+      Приєднатись у Telegram
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo footer-logo">
+        <span class="logo-mark">CGC</span>
+        <span class="logo-text">Cherkasy<br><em>Girls Club</em></span>
+      </a>
+      <p class="footer-tagline">Жіноча спільнота де кожна розквітає</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <span class="footer-col-title">Сторінки</span>
+        <a href="index.html">Головна</a>
+        <a href="events.html">Події</a>
+        <a href="women-journal.html">Журнал</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-title">Спільнота</span>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram чат</a>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Приєднатись</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span id="year"></span> Cherkasy Girls Club</span>
+    <span>Зроблено з 🤍 у Черкасах</span>
+  </div>
 </footer>
 
-<script type="module" src="index.js"></script>
-<script>
-  function toggleTheme() {
-    const body = document.body;
-    const icon = document.querySelector(".theme-icon");
-    if (body.classList.contains("light")) {
-      body.classList.replace("light", "dark");
-      icon.textContent = "☀️";
-      localStorage.setItem("theme", "dark");
-    } else {
-      body.classList.replace("dark", "light");
-      icon.textContent = "🌙";
-      localStorage.setItem("theme", "light");
-    }
-  }
-  function toggleMenu() {
-    document.getElementById("mobileMenu").classList.toggle("open");
-  }
-  // Apply saved theme on load
-  const _t = localStorage.getItem("theme") || "light";
-  document.body.className = _t;
-  document.addEventListener("DOMContentLoaded", function() {
-    const icon = document.querySelector(".theme-icon");
-    if (icon) icon.textContent = _t === "dark" ? "☀️" : "🌙";
-  });
-</script>
-
-<script>
-// ── SECRET ADMIN ACCESS ──
-let logoClicks = 0, logoTimer = null;
-document.querySelector('.logo').addEventListener('click', function() {
-  logoClicks++;
-  clearTimeout(logoTimer);
-  if (logoClicks >= 5) {
-    window.location.href = 'admin.html';
-    logoClicks = 0;
-  }
-  logoTimer = setTimeout(() => { logoClicks = 0; }, 2000);
-});
-</script>
+<script src="script.js"></script>
 </body>
 </html>
