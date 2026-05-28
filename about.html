@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ми — Cherkasy Girls Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="about.css">
+  <script>(function(){ const t=localStorage.getItem("theme")||"light"; document.documentElement.setAttribute("data-theme",t); })();</script>
 </head>
-<body class="light">
+<body>
 
 <header class="header">
   <div class="logo">
@@ -18,6 +20,7 @@
     <a href="index.html" class="nav-link">Головна</a>
     <a href="events.html" class="nav-link">Події</a>
     <a href="about.html" class="nav-link active">Ми</a>
+    <a href="women-journal.html" class="nav-link">Журнал</a>
     <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="nav-link tg-link">Telegram 💬</a>
   </nav>
   <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
@@ -25,11 +28,13 @@
 </header>
 
 <nav class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Головна</a>
-  <a href="events.html" onclick="toggleMenu()">Події</a>
-  <a href="about.html" onclick="toggleMenu()">Ми</a>
-  <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram 💬</a>
+  <a href="index.html" onclick="closeMenu()">Головна</a>
+  <a href="events.html" onclick="closeMenu()">Події</a>
+  <a href="about.html" onclick="closeMenu()">Ми</a>
+  <a href="women-journal.html" onclick="closeMenu()">Журнал</a>
+  <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" onclick="closeMenu()">Telegram 💬</a>
 </nav>
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <section class="page-hero">
   <div class="section-tag">Про нас</div>
@@ -88,6 +93,7 @@
   <div class="section-tag">Організатори</div>
   <h2 class="section-title">Дівчата які це роблять</h2>
   <div id="teamGrid" class="team-grid">
+    <!-- Завантажується з about.js -->
     <div class="loading-pulse">Завантаження...</div>
   </div>
 </section>
@@ -107,6 +113,7 @@
     <a href="index.html">Головна</a>
     <a href="events.html">Події</a>
     <a href="about.html">Ми</a>
+    <a href="women-journal.html">Журнал</a>
     <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram</a>
   </div>
   <p class="footer-copy">© <span id="year"></span> Cherkasy Girls Club. З любов'ю 🤍</p>
@@ -114,42 +121,39 @@
 
 <script type="module" src="about.js"></script>
 <script>
-  function toggleTheme() {
-    const body = document.body;
+  function applyTheme(t) {
+    document.body.classList.remove("light","dark");
+    document.body.classList.add(t);
     const icon = document.querySelector(".theme-icon");
-    if (body.classList.contains("light")) {
-      body.classList.replace("light", "dark");
-      icon.textContent = "☀️";
-      localStorage.setItem("theme", "dark");
-    } else {
-      body.classList.replace("dark", "light");
-      icon.textContent = "🌙";
-      localStorage.setItem("theme", "light");
-    }
+    if (icon) icon.textContent = t === "dark" ? "☀️" : "🌙";
+  }
+  function toggleTheme() {
+    const next = document.body.classList.contains("dark") ? "light" : "dark";
+    applyTheme(next);
+    localStorage.setItem("theme", next);
   }
   function toggleMenu() {
-    document.getElementById("mobileMenu").classList.toggle("open");
+    const menu = document.getElementById("mobileMenu");
+    const overlay = document.getElementById("menuOverlay");
+    const isOpen = menu.classList.toggle("open");
+    overlay.classList.toggle("open", isOpen);
+    document.body.style.overflow = isOpen ? "hidden" : "";
   }
-  const _t = localStorage.getItem("theme") || "light";
-  document.body.className = _t;
+  function closeMenu() {
+    document.getElementById("mobileMenu").classList.remove("open");
+    document.getElementById("menuOverlay").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  applyTheme(localStorage.getItem("theme") || "light");
   document.addEventListener("DOMContentLoaded", function() {
-    const icon = document.querySelector(".theme-icon");
-    if (icon) icon.textContent = _t === "dark" ? "☀️" : "🌙";
+    document.getElementById("year").textContent = new Date().getFullYear();
+    let lc=0,lt=null;
+    document.querySelector(".logo").addEventListener("click", function(){
+      lc++; clearTimeout(lt);
+      if (lc >= 5) { window.location.href = "admin.html"; lc = 0; }
+      lt = setTimeout(() => { lc = 0; }, 2000);
+    });
   });
-</script>
-
-<script>
-// ── SECRET ADMIN ACCESS ──
-let logoClicks = 0, logoTimer = null;
-document.querySelector('.logo').addEventListener('click', function() {
-  logoClicks++;
-  clearTimeout(logoTimer);
-  if (logoClicks >= 5) {
-    window.location.href = 'admin.html';
-    logoClicks = 0;
-  }
-  logoTimer = setTimeout(() => { logoClicks = 0; }, 2000);
-});
 </script>
 </body>
 </html>
