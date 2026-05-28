@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Події — Cherkasy Girls Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="events.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
 </head>
 <body class="light">
 
 <header class="header">
-  <div class="logo">
-    <img src="logo-light.png" alt="Cherkasy Girls Club" class="logo-img logo-img-light">
-    <img src="logo-dark.png" alt="Cherkasy Girls Club" class="logo-img logo-img-dark">
+  <div class="logo" id="logoWrap" onclick="logoClick()">
+    <img src="logo-light.png" alt="CGC" class="logo-img logo-img-light">
+    <img src="logo-dark.png" alt="CGC" class="logo-img logo-img-dark">
   </div>
   <nav class="nav">
     <a href="index.html" class="nav-link">Головна</a>
@@ -29,10 +29,42 @@
   <a href="index.html" onclick="toggleMenu()">Головна</a>
   <a href="events.html" onclick="toggleMenu()">Події</a>
   <a href="about.html" onclick="toggleMenu()">Ми</a>
+  <a href="women-journal.html" onclick="toggleMenu()">Журнал</a>
   <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram 💬</a>
 </nav>
 
+<section class="page-hero">
+  <div class="section-tag">Календар</div>
+  <h1>Наші <em style="color:var(--accent);font-style:italic">події</em></h1>
+  <p>Зустрічі, майстер-класи, пікніки та багато іншого 🌸</p>
+</section>
 
+<!-- НАЙБЛИЖЧА -->
+<section class="section" style="padding-bottom:0">
+  <div class="section-tag">Скоро</div>
+  <h2 class="section-title">Найближча подія</h2>
+  <div id="nextEventCard">
+    <div class="loading-pulse">Завантаження...</div>
+  </div>
+</section>
+
+<!-- ВСІ ПОДІЇ -->
+<section class="section">
+  <div class="section-tag">Всі події</div>
+  <h2 class="section-title">Минулі та майбутні</h2>
+  <div class="events-grid" id="eventsGrid">
+    <div class="loading-pulse">Завантаження...</div>
+  </div>
+</section>
+
+<!-- АФІШІ -->
+<section class="section" style="padding-top:0">
+  <div class="section-tag">Анонси</div>
+  <h2 class="section-title">Афіші подій</h2>
+  <div class="posters-grid" id="postersGrid">
+    <div class="loading-pulse">Завантаження...</div>
+  </div>
+</section>
 
 <footer class="footer">
   <div class="footer-logo">🌸 Cherkasy Girls Club</div>
@@ -40,49 +72,36 @@
     <a href="index.html">Головна</a>
     <a href="events.html">Події</a>
     <a href="about.html">Ми</a>
+    <a href="women-journal.html">Журнал</a>
     <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram</a>
   </div>
   <p class="footer-copy">© <span id="year"></span> Cherkasy Girls Club. З любов'ю 🤍</p>
 </footer>
 
-<script type="module" src="events.js"></script>
 <script>
+  document.getElementById("year").textContent = new Date().getFullYear();
   function toggleTheme() {
     const body = document.body;
     const icon = document.querySelector(".theme-icon");
     if (body.classList.contains("light")) {
-      body.classList.replace("light", "dark");
-      icon.textContent = "☀️";
-      localStorage.setItem("theme", "dark");
+      body.classList.replace("light","dark"); icon.textContent="☀️"; localStorage.setItem("theme","dark");
     } else {
-      body.classList.replace("dark", "light");
-      icon.textContent = "🌙";
-      localStorage.setItem("theme", "light");
+      body.classList.replace("dark","light"); icon.textContent="🌙"; localStorage.setItem("theme","light");
     }
   }
-  function toggleMenu() {
-    document.getElementById("mobileMenu").classList.toggle("open");
+  function toggleMenu() { document.getElementById("mobileMenu").classList.toggle("open"); }
+  let logoClickCount = 0;
+  function logoClick() {
+    logoClickCount++;
+    if (logoClickCount >= 5) { logoClickCount = 0; window.location.href = "admin.html"; }
   }
   const _t = localStorage.getItem("theme") || "light";
   document.body.className = _t;
-  document.addEventListener("DOMContentLoaded", function() {
-    const icon = document.querySelector(".theme-icon");
-    if (icon) icon.textContent = _t === "dark" ? "☀️" : "🌙";
+  document.addEventListener("DOMContentLoaded", () => {
+    const i = document.querySelector(".theme-icon");
+    if (i) i.textContent = _t === "dark" ? "☀️" : "🌙";
   });
 </script>
-
-<script>
-// ── SECRET ADMIN ACCESS ──
-let logoClicks = 0, logoTimer = null;
-document.querySelector('.logo').addEventListener('click', function() {
-  logoClicks++;
-  clearTimeout(logoTimer);
-  if (logoClicks >= 5) {
-    window.location.href = 'admin.html';
-    logoClicks = 0;
-  }
-  logoTimer = setTimeout(() => { logoClicks = 0; }, 2000);
-});
-</script>
+<script type="module" src="events.js"></script>
 </body>
 </html>
