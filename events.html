@@ -7,11 +7,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="events.css">
+  <!-- Тема застосовується ДО рендеру щоб не мерехтіло -->
+  <script>
+    (function(){
+      const t = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
 </head>
-<body class="light">
+<body>
 
 <header class="header">
-  <div class="logo" id="logoWrap" onclick="logoClick()">
+  <div class="logo" id="logoWrap">
     <img src="logo-light.png" alt="CGC" class="logo-img logo-img-light">
     <img src="logo-dark.png" alt="CGC" class="logo-img logo-img-dark">
   </div>
@@ -22,17 +29,18 @@
     <a href="women-journal.html" class="nav-link">Журнал</a>
     <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="nav-link tg-link">Telegram 💬</a>
   </nav>
-  <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
+  <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon"></span></button>
   <button class="burger" onclick="toggleMenu()">☰</button>
 </header>
 
 <nav class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Головна</a>
-  <a href="events.html" onclick="toggleMenu()">Події</a>
-  <a href="about.html" onclick="toggleMenu()">Ми</a>
-  <a href="women-journal.html" onclick="toggleMenu()">Журнал</a>
-  <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank">Telegram 💬</a>
+  <a href="index.html" onclick="closeMenu()">Головна</a>
+  <a href="events.html" onclick="closeMenu()">Події</a>
+  <a href="about.html" onclick="closeMenu()">Ми</a>
+  <a href="women-journal.html" onclick="closeMenu()">Журнал</a>
+  <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" onclick="closeMenu()">Telegram 💬</a>
 </nav>
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <section class="page-hero">
   <div class="section-tag">Календар подій</div>
@@ -51,7 +59,7 @@
 
 <!-- ════════════════════════════════════════════════════
      АФІШІ — ПРОСТЕ ДОДАВАННЯ ЧЕРЕЗ HTML
-     
+
      ✅ Щоб додати нову афішу:
      1. Збережи фото у папку posters/
      2. Скопіюй блок .poster-card нижче
@@ -74,14 +82,12 @@
           <span>📅 15 Червня 2025</span>
           <span>📍 Черкаси, назва місця</span>
         </div>
-        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
-          Хочу піти ✨
-        </a>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">Хочу піти ✨</a>
       </div>
     </div>
     ══════════════════════════════════ -->
 
-    <!-- РЕАЛЬНА АФІША — є фото -->
+    <!-- РЕАЛЬНА АФІША -->
     <div class="poster-card">
       <img src="postersevent1.jpg" alt="Запрошення до групи"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -93,13 +99,10 @@
           <span>📅 Черкаси, 2025</span>
           <span>💬 Наша спільнота</span>
         </div>
-        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
-          Приєднатись →
-        </a>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">Приєднатись →</a>
       </div>
     </div>
 
-    <!-- PLACEHOLDER 2 — заміни на реальну афішу -->
     <div class="poster-card">
       <div class="poster-placeholder-img" style="height:320px;background:linear-gradient(135deg,#f0e8fd,#b890e8);display:flex;align-items:center;justify-content:center;font-size:80px">🎨</div>
       <div class="poster-info">
@@ -109,13 +112,10 @@
           <span>📅 Черкаси, 2025</span>
           <span>📍 Арт-простір</span>
         </div>
-        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
-          Реєструватись →
-        </a>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">Реєструватись →</a>
       </div>
     </div>
 
-    <!-- PLACEHOLDER 3 -->
     <div class="poster-card">
       <div class="poster-placeholder-img" style="height:320px;background:linear-gradient(135deg,#e8f5fd,#88bbf0);display:flex;align-items:center;justify-content:center;font-size:80px">☀️</div>
       <div class="poster-info">
@@ -125,9 +125,7 @@
           <span>📅 Черкаси, 2025</span>
           <span>📍 Парк</span>
         </div>
-        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
-          Хочу піти ✨
-        </a>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">Хочу піти ✨</a>
       </div>
     </div>
 
@@ -177,17 +175,43 @@
 </footer>
 
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-  function toggleTheme() {
-    const body = document.body; const icon = document.querySelector(".theme-icon");
-    if (body.classList.contains("light")) { body.classList.replace("light","dark"); icon.textContent="☀️"; localStorage.setItem("theme","dark"); }
-    else { body.classList.replace("dark","light"); icon.textContent="🌙"; localStorage.setItem("theme","light"); }
+  // ── Тема ──
+  function applyTheme(t) {
+    document.body.classList.remove("light","dark");
+    document.body.classList.add(t);
+    const icon = document.querySelector(".theme-icon");
+    if (icon) icon.textContent = t === "dark" ? "☀️" : "🌙";
   }
-  function toggleMenu() { document.getElementById("mobileMenu").classList.toggle("open"); }
-  let logoClickCount=0;
-  function logoClick(){ logoClickCount++; if(logoClickCount>=5){logoClickCount=0;window.location.href="admin.html";} }
-  const _t=localStorage.getItem("theme")||"light"; document.body.className=_t;
-  document.addEventListener("DOMContentLoaded",function(){const i=document.querySelector(".theme-icon");if(i)i.textContent=_t==="dark"?"☀️":"🌙";});
+  function toggleTheme() {
+    const next = document.body.classList.contains("dark") ? "light" : "dark";
+    applyTheme(next);
+    localStorage.setItem("theme", next);
+  }
+  // ── Меню ──
+  function toggleMenu() {
+    const menu = document.getElementById("mobileMenu");
+    const overlay = document.getElementById("menuOverlay");
+    const isOpen = menu.classList.toggle("open");
+    overlay.classList.toggle("open", isOpen);
+    document.body.style.overflow = isOpen ? "hidden" : "";
+  }
+  function closeMenu() {
+    document.getElementById("mobileMenu").classList.remove("open");
+    document.getElementById("menuOverlay").classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  // ── Ініціалізація ──
+  applyTheme(localStorage.getItem("theme") || "light");
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Secret admin
+    let lc=0,lt=null;
+    document.getElementById("logoWrap").addEventListener("click", function(){
+      lc++; clearTimeout(lt);
+      if (lc >= 5) { window.location.href = "admin.html"; lc = 0; }
+      lt = setTimeout(() => { lc = 0; }, 2000);
+    });
+  });
 </script>
 <script type="module" src="events.js"></script>
 </body>
