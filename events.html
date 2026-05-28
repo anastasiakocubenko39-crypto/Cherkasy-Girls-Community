@@ -6,6 +6,7 @@
   <title>Події — Cherkasy Girls Club</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="events.css">
 </head>
 <body class="light">
 
@@ -19,7 +20,7 @@
     <a href="events.html" class="nav-link active">Події</a>
     <a href="about.html" class="nav-link">Ми</a>
     <a href="women-journal.html" class="nav-link">Журнал</a>
-    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="nav-link tg-link">Telegram</a>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="nav-link tg-link">Telegram 💬</a>
   </nav>
   <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
   <button class="burger" onclick="toggleMenu()">☰</button>
@@ -34,12 +35,12 @@
 </nav>
 
 <section class="page-hero">
-  <div class="section-tag">Календар</div>
-  <h1>Наші <em style="color:var(--accent);font-style:italic">події</em></h1>
+  <div class="section-tag">Календар подій</div>
+  <h1>Наші <em>події</em></h1>
   <p>Зустрічі, майстер-класи, пікніки та багато іншого 🌸</p>
 </section>
 
-<!-- НАЙБЛИЖЧА -->
+<!-- НАЙБЛИЖЧА ПОДІЯ (з Firebase) -->
 <section class="section" style="padding-bottom:0">
   <div class="section-tag">Скоро</div>
   <h2 class="section-title">Найближча подія</h2>
@@ -48,8 +49,93 @@
   </div>
 </section>
 
-<!-- ВСІ ПОДІЇ -->
-<section class="section">
+<!-- ════════════════════════════════════════════════════
+     АФІШІ — ПРОСТЕ ДОДАВАННЯ ЧЕРЕЗ HTML
+     
+     ✅ Щоб додати нову афішу:
+     1. Збережи фото у папку posters/
+     2. Скопіюй блок .poster-card нижче
+     3. Заміни src, текст і дату
+     4. Зберегти — готово!
+════════════════════════════════════════════════════ -->
+<section class="section posters-section">
+  <div class="section-tag">Анонси</div>
+  <h2 class="section-title">Афіші подій</h2>
+
+  <div class="posters-grid" id="postersGrid">
+
+    <!-- ══ ШАБЛОН — КОПІЮЙ ЦЕЙ БЛОК ══
+    <div class="poster-card">
+      <img src="posters/event1.jpg" alt="Назва події">
+      <div class="poster-info">
+        <span class="poster-tag">Майстер-клас</span>
+        <h3 class="poster-title">Назва події</h3>
+        <div class="poster-meta">
+          <span>📅 15 Червня 2025</span>
+          <span>📍 Черкаси, назва місця</span>
+        </div>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
+          Хочу піти ✨
+        </a>
+      </div>
+    </div>
+    ══════════════════════════════════ -->
+
+    <!-- РЕАЛЬНА АФІША — є фото -->
+    <div class="poster-card">
+      <img src="postersevent1.jpg" alt="Запрошення до групи"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="poster-placeholder-img" style="display:none;height:320px;background:linear-gradient(135deg,#fce4eb,#e870a0);align-items:center;justify-content:center;font-size:80px">🌸</div>
+      <div class="poster-info">
+        <span class="poster-tag">Запрошення</span>
+        <h3 class="poster-title">Приєднуйся до нас!</h3>
+        <div class="poster-meta">
+          <span>📅 Черкаси, 2025</span>
+          <span>💬 Наша спільнота</span>
+        </div>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
+          Приєднатись →
+        </a>
+      </div>
+    </div>
+
+    <!-- PLACEHOLDER 2 — заміни на реальну афішу -->
+    <div class="poster-card">
+      <div class="poster-placeholder-img" style="height:320px;background:linear-gradient(135deg,#f0e8fd,#b890e8);display:flex;align-items:center;justify-content:center;font-size:80px">🎨</div>
+      <div class="poster-info">
+        <span class="poster-tag">Майстер-клас</span>
+        <h3 class="poster-title">Вечір акварелі</h3>
+        <div class="poster-meta">
+          <span>📅 Черкаси, 2025</span>
+          <span>📍 Арт-простір</span>
+        </div>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
+          Реєструватись →
+        </a>
+      </div>
+    </div>
+
+    <!-- PLACEHOLDER 3 -->
+    <div class="poster-card">
+      <div class="poster-placeholder-img" style="height:320px;background:linear-gradient(135deg,#e8f5fd,#88bbf0);display:flex;align-items:center;justify-content:center;font-size:80px">☀️</div>
+      <div class="poster-info">
+        <span class="poster-tag">Зустріч</span>
+        <h3 class="poster-title">Пікнік на природі</h3>
+        <div class="poster-meta">
+          <span>📅 Черкаси, 2025</span>
+          <span>📍 Парк</span>
+        </div>
+        <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="poster-btn">
+          Хочу піти ✨
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ВСІ ПОДІЇ (з Firebase) -->
+<section class="section" style="padding-top:0">
   <div class="section-tag">Всі події</div>
   <h2 class="section-title">Минулі та майбутні</h2>
   <div class="events-grid" id="eventsGrid">
@@ -57,26 +143,26 @@
   </div>
 </section>
 
-<!-- НОВА АФІША -->
-<div class="poster-card">
-  
-  <img src="postersevent1.jpg" 
-       alt="Афіша події"
-       onerror="this.closest('.poster-card').style.display='none'">
-
-  <div class="poster-info">
-
-    <div class="poster-title">
-      Запрошення до группи 
-    </div>
-
-    <div class="poster-date">
-      
-    </div>
-
+<!-- ГАЛЕРЕЯ ФОТО -->
+<section class="section" style="padding-top:0">
+  <div class="section-tag">Наші моменти</div>
+  <h2 class="section-title">Фото з подій</h2>
+  <div class="gallery-grid" id="photoGrid">
+    <div class="gallery-item g-big"><div class="gallery-placeholder">👯‍♀️</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">🌸</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">🎨</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">✨</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder">🧘</div></div>
   </div>
-</div>
+</section>
 
+<section class="join-section">
+  <div class="join-content">
+    <h2>Не пропусти наступну подію 💌</h2>
+    <p>Підписуйся на Telegram — там всі анонси першою!</p>
+    <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" class="btn-tg">💬 Слідкуй у Telegram</a>
+  </div>
+</section>
 
 <footer class="footer">
   <div class="footer-logo">🌸 Cherkasy Girls Club</div>
@@ -93,26 +179,15 @@
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
   function toggleTheme() {
-    const body = document.body;
-    const icon = document.querySelector(".theme-icon");
-    if (body.classList.contains("light")) {
-      body.classList.replace("light","dark"); icon.textContent="☀️"; localStorage.setItem("theme","dark");
-    } else {
-      body.classList.replace("dark","light"); icon.textContent="🌙"; localStorage.setItem("theme","light");
-    }
+    const body = document.body; const icon = document.querySelector(".theme-icon");
+    if (body.classList.contains("light")) { body.classList.replace("light","dark"); icon.textContent="☀️"; localStorage.setItem("theme","dark"); }
+    else { body.classList.replace("dark","light"); icon.textContent="🌙"; localStorage.setItem("theme","light"); }
   }
   function toggleMenu() { document.getElementById("mobileMenu").classList.toggle("open"); }
-  let logoClickCount = 0;
-  function logoClick() {
-    logoClickCount++;
-    if (logoClickCount >= 5) { logoClickCount = 0; window.location.href = "admin.html"; }
-  }
-  const _t = localStorage.getItem("theme") || "light";
-  document.body.className = _t;
-  document.addEventListener("DOMContentLoaded", () => {
-    const i = document.querySelector(".theme-icon");
-    if (i) i.textContent = _t === "dark" ? "☀️" : "🌙";
-  });
+  let logoClickCount=0;
+  function logoClick(){ logoClickCount++; if(logoClickCount>=5){logoClickCount=0;window.location.href="admin.html";} }
+  const _t=localStorage.getItem("theme")||"light"; document.body.className=_t;
+  document.addEventListener("DOMContentLoaded",function(){const i=document.querySelector(".theme-icon");if(i)i.textContent=_t==="dark"?"☀️":"🌙";});
 </script>
 <script type="module" src="events.js"></script>
 </body>
