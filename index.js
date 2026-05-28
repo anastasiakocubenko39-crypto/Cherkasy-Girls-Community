@@ -1,152 +1,103 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, orderBy, limit, getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// ══════════════════════════════════════
+//  CGC — Cherkasy Girls Club
+//  Main Script
+// ══════════════════════════════════════
 
-const firebaseConfig = {
-  apiKey: "AIzaSyATAMeZCC69E0kaC0u9YBTMvzjI9qZudMc",
-  authDomain: "girls-club-6160c.firebaseapp.com",
-  projectId: "girls-club-6160c",
-  storageBucket: "girls-club-6160c.firebasestorage.app",
-  messagingSenderId: "492918751105",
-  appId: "1:492918751105:web:3e8fc21d93ace0ef183280"
-};
+document.addEventListener('DOMContentLoaded', function () {
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+  // ── YEAR ──
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-document.getElementById("year").textContent = new Date().getFullYear();
+  // ── THEME ──
+  const savedTheme = localStorage.getItem('cgc-theme') || 'light';
+  applyTheme(savedTheme);
 
-// ── THEME ──
-function toggleTheme() {
-  const body = document.body;
-  const icon = document.querySelector(".theme-icon");
-  if (body.classList.contains("light")) {
-    body.classList.replace("light", "dark");
-    icon.textContent = "☀️";
-    localStorage.setItem("theme", "dark");
-  } else {
-    body.classList.replace("dark", "light");
-    icon.textContent = "🌙";
-    localStorage.setItem("theme", "light");
+  // ── HEADER SCROLL ──
+  const header = document.getElementById('header');
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
   }
-}
-window.toggleTheme = toggleTheme;
 
-const savedTheme = localStorage.getItem("theme") || "light";
-document.body.className = savedTheme;
-document.querySelector(".theme-icon").textContent = savedTheme === "dark" ? "☀️" : "🌙";
+  // ── ARTICLE FILTER (journal) ──
+  // handled inline via filterCat()
+
+  // ── SCROLL REVEAL ──
+  const revealEls = document.querySelectorAll(
+    '.feature-card, .vm-card, .jp-card, .article-card, .poster-card, .gallery-item'
+  );
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = `opacity 0.55s ease ${i * 0.06}s, transform 0.55s ease ${i * 0.06}s`;
+      observer.observe(el);
+    });
+  }
+
+});
+
+// ── THEME TOGGLE ──
+function applyTheme(theme) {
+  document.body.classList.remove('light', 'dark');
+  document.body.classList.add(theme);
+  const icon = document.querySelector('.theme-icon');
+  if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+function toggleTheme() {
+  const current = document.body.classList.contains('dark') ? 'dark' : 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  localStorage.setItem('cgc-theme', next);
+}
 
 // ── MOBILE MENU ──
-window.toggleMenu = function() {
-  document.getElementById("mobileMenu").classList.toggle("open");
-};
-
-// ── НАЙБЛИЖЧА ПОДІЯ ──
-async function loadNextEvent() {
-  const container = document.getElementById("nextEvent");
-  try {
-    const now = new Date().toISOString();
-    const q = query(
-      collection(db, "events"),
-      where("date", ">=", now),
-      orderBy("date", "asc"),
-      limit(1)
-    );
-    const snap = await getDocs(q);
-
-    if (snap.empty) {
-      container.innerHTML = `<p style="color:var(--muted);padding:20px">Найближчих подій поки немає. Слідкуй за нашим <a href="https://t.me/+fsPI-IEQICtlOTBi" target="_blank" style="color:var(--accent)">Telegram</a>!</p>`;
-      return;
-    }
-
-    const event = snap.docs[0].data();
-    const dt = new Date(event.date);
-    const months = ["Січня","Лютого","Березня","Квітня","Травня","Червня","Липня","Серпня","Вересня","Жовтня","Листопада","Грудня"];
-
-    container.innerHTML = `
-      <div class="event-date-big">
-        <div class="event-day">${dt.getDate()}</div>
-        <div class="event-month">${months[dt.getMonth()]}</div>
-      </div>
-      <div class="event-info">
-        <div class="event-badge">${event.category || "Подія"}</div>
-        <h3>${event.title}</h3>
-        <p>${event.description || ""}</p>
-        <div class="event-meta">
-          <span>🕐 ${dt.toLocaleTimeString("uk-UA", {hour:"2-digit",minute:"2-digit"})}</span>
-          ${event.location ? `<span>📍 ${event.location}</span>` : ""}
-          ${event.price ? `<span>🎟 ${event.price}</span>` : ""}
-        </div>
-        <a href="events.html" class="btn-main">Детальніше</a>
-      </div>`;
-  } catch(e) {
-    container.innerHTML = `<p style="color:var(--muted);padding:20px">Помилка завантаження</p>`;
-    console.error(e);
-  }
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const overlay = document.getElementById('menuOverlay');
+  if (!menu) return;
+  const isOpen = menu.classList.toggle('open');
+  overlay.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 }
 
-// ── АФІШІ ──
-async function loadPosters() {
-  const container = document.getElementById("postersGrid");
-  try {
-    const q = query(collection(db, "posters"), orderBy("createdAt", "desc"), limit(4));
-    const snap = await getDocs(q);
-
-    if (snap.empty) {
-      container.innerHTML = `<p style="color:var(--muted)">Афіші незабаром з'являться 🌸</p>`;
-      return;
-    }
-
-    container.innerHTML = "";
-    snap.docs.forEach(doc => {
-      const p = doc.data();
-      const div = document.createElement("div");
-      div.className = "poster-card";
-      div.innerHTML = `
-        <img src="${p.imageUrl}" alt="${p.title}" loading="lazy" onerror="this.style.display='none'">
-        <div class="poster-card-info">
-          <h4>${p.title}</h4>
-          <p>${p.date || ""}</p>
-        </div>`;
-      container.appendChild(div);
-    });
-  } catch(e) {
-    container.innerHTML = `<p style="color:var(--muted)">Помилка завантаження</p>`;
-    console.error(e);
-  }
+function closeMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const overlay = document.getElementById('menuOverlay');
+  if (!menu) return;
+  menu.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-// ── ФОТО ──
-async function loadPhotos() {
-  const container = document.getElementById("photoGrid");
-  try {
-    const q = query(collection(db, "photos"), orderBy("createdAt", "desc"), limit(5));
-    const snap = await getDocs(q);
+// ── JOURNAL CATEGORY FILTER ──
+function filterCat(btn) {
+  const cat = btn.dataset.cat;
 
-    if (snap.empty) {
-      container.innerHTML = `
-        <div class="gallery-item g-big"><div class="gallery-placeholder">🌸</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">🎨</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">🧺</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">✨</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">🧘</div></div>`;
-      return;
+  // update active button
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // filter articles
+  const articles = document.querySelectorAll('.article-card');
+  articles.forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
     }
-
-    container.innerHTML = "";
-    snap.docs.forEach((doc, i) => {
-      const p = doc.data();
-      const div = document.createElement("div");
-      div.className = `gallery-item${i === 0 ? " g-big" : ""}`;
-      div.innerHTML = `
-        <img src="${p.imageUrl}" alt="${p.caption || ""}" loading="lazy">
-        <div class="gallery-overlay"><span>${p.caption || ""}</span></div>`;
-      container.appendChild(div);
-    });
-  } catch(e) {
-    console.error(e);
-  }
+  });
 }
-
-loadNextEvent();
-loadPosters();
-loadPhotos();
