@@ -141,17 +141,19 @@
   </div>
 </section>
 
-<!-- ГАЛЕРЕЯ ФОТО -->
-<section class="section" style="padding-top:0">
+<!-- ГАЛЕРЕЯ ФОТО — додавай вручну через HTML
+     Щоб показати секцію — прибери style="display:none"
+     
+     Шаблон фото:
+     <div class="gallery-item">
+       <img src="photos/photo1.jpg" alt="Опис">
+       <div class="gallery-overlay"><span>Назва події</span></div>
+     </div>
+-->
+<section class="section" style="display:none;padding-top:0">
   <div class="section-tag">Наші моменти</div>
   <h2 class="section-title">Фото з подій</h2>
-  <div class="gallery-grid" id="photoGrid">
-    <div class="gallery-item g-big"><div class="gallery-placeholder">👯‍♀️</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">🌸</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">🎨</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">✨</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder">🧘</div></div>
-  </div>
+  <div class="gallery-grid" id="photoGrid"></div>
 </section>
 
 <section class="join-section">
