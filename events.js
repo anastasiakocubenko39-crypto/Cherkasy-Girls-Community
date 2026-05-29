@@ -152,6 +152,7 @@ async function loadAllEvents() {
 document.addEventListener("DOMContentLoaded", () => {
   loadNextEvent();
   loadAllEvents();
+  // ⚠️ Афіші — вручну через HTML, Firebase не чіпаємо
   document.getElementById("year") &&
     (document.getElementById("year").textContent = new Date().getFullYear());
 });
