@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  getFirestore, collection, query,
-  orderBy, getDocs, where, limit
+  getFirestore, collection, query, orderBy,
+  limit, getDocs, where
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -23,12 +23,13 @@ const months = [
 
 // ── НАЙБЛИЖЧА ПОДІЯ ──────────────────────────────────────
 async function loadNextEvent() {
-  const container = document.getElementById("nextEventCard");
+  const container = document.getElementById("nextEvent");
   if (!container) return;
 
   try {
     const now = new Date().toISOString();
 
+    // Спочатку шукаємо майбутні події
     let snap = await getDocs(
       query(
         collection(db, "events"),
@@ -38,18 +39,22 @@ async function loadNextEvent() {
       )
     );
 
-    // Якщо майбутніх немає — остання минула
+    // Якщо майбутніх немає — показуємо останню минулу
     if (snap.empty) {
       snap = await getDocs(
-        query(collection(db,"events"), orderBy("date","desc"), limit(1))
+        query(
+          collection(db, "events"),
+          orderBy("date", "desc"),
+          limit(1)
+        )
       );
     }
 
     if (snap.empty) {
       container.innerHTML = `
         <div style="padding:32px;text-align:center;color:var(--muted)">
-          Найближчих подій поки немає. Слідкуй за 
-          <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" style="color:var(--accent)">Telegram</a>! 🌸
+          Найближчих подій поки немає. 
+          Слідкуй за <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" style="color:var(--accent)">Telegram</a>! 🌸
         </div>`;
       return;
     }
@@ -72,86 +77,23 @@ async function loadNextEvent() {
             ${event.location ? `<span>📍 ${event.location}</span>` : ""}
             ${event.price    ? `<span>🎟 ${event.price}</span>`    : ""}
           </div>
-          <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" class="btn-main">Йду ✅</a>
+          <a href="events.html" class="btn-main">Детальніше →</a>
         </div>
-        ${event.imageUrl
-          ? `<img src="${event.imageUrl}" alt="${event.title}"
-               style="width:240px;height:200px;object-fit:cover;border-radius:16px;flex-shrink:0">`
-          : ""}
+        ${event.imageUrl ? `<img src="${event.imageUrl}" alt="${event.title}" style="width:220px;height:180px;object-fit:cover;border-radius:16px;flex-shrink:0">` : ""}
       </div>`;
 
   } catch(e) {
     console.error("loadNextEvent error:", e);
-    container.innerHTML = `<div style="padding:32px;text-align:center;color:var(--muted)">Помилка завантаження</div>`;
-  }
-}
-
-// ── ВСІ ПОДІЇ ────────────────────────────────────────────
-async function loadAllEvents() {
-  const container = document.getElementById("eventsGrid");
-  if (!container) return;
-
-  try {
-    const snap = await getDocs(
-      query(collection(db,"events"), orderBy("date","desc"))
-    );
-
-    if (snap.empty) {
-      container.innerHTML = `
-        <div style="padding:40px 0;color:var(--muted)">
-          Подій поки немає. Слідкуй за 
-          <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" style="color:var(--accent)">Telegram</a>!
-        </div>`;
-      return;
-    }
-
-    const now = new Date();
-    container.innerHTML = "";
-
-    snap.docs.forEach(doc => {
-      const e    = doc.data();
-      const dt   = new Date(e.date);
-      const past = dt < now;
-
-      const card = document.createElement("div");
-      card.className = `event-card${past ? " event-past" : ""}`;
-      card.innerHTML = `
-        <div class="event-card-img">
-          ${e.imageUrl
-            ? `<img src="${e.imageUrl}" alt="${e.title}" loading="lazy">`
-            : `<div class="event-card-img-placeholder">🌸</div>`}
-        </div>
-        <div class="event-card-body">
-          <div class="event-badge">${e.category || "Подія"}${past ? " · Минула" : ""}</div>
-          <h3>${e.title || ""}</h3>
-          <p>${e.description || ""}</p>
-          <div class="event-meta">
-            <span>🕐 ${dt.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"})}</span>
-            ${e.location ? `<span>📍 ${e.location}</span>` : ""}
-            ${e.price    ? `<span>🎟 ${e.price}</span>`    : ""}
-          </div>
-          <div class="event-card-footer">
-            <span class="event-card-date">
-              ${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}
-            </span>
-            ${!past
-              ? `<a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" class="btn-main">Йду ✅</a>`
-              : ""}
-          </div>
-        </div>`;
-      container.appendChild(card);
-    });
-
-  } catch(e) {
-    console.error("loadAllEvents error:", e);
-    container.innerHTML = `<div style="padding:20px;color:var(--muted)">Помилка завантаження</div>`;
+    container.innerHTML = `
+      <div style="padding:32px;text-align:center;color:var(--muted)">
+        Помилка завантаження. Спробуй оновити сторінку.
+      </div>`;
   }
 }
 
 // ── ЗАПУСК ───────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   loadNextEvent();
-  loadAllEvents();
   document.getElementById("year") &&
     (document.getElementById("year").textContent = new Date().getFullYear());
 });
