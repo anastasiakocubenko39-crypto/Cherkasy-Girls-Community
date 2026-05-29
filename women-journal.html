@@ -6,6 +6,48 @@
   <title>Жіночий журнал — Cherkasy Girls Club</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="women-journal.css">
+  <style>
+    /* INFO CARDS — куди звертатись */
+    .info-block { background: var(--bg2,#fff); border-radius: 16px; padding: 24px; border: 1px solid var(--border,rgba(212,56,106,.15)); }
+    .info-block-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text,#1a0a0f); }
+    .info-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 12px; }
+    .info-card {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--bg,#fdf0f3); border-radius: 12px;
+      padding: 14px 16px; border: 1px solid var(--border,rgba(212,56,106,.15));
+    }
+    .info-icon {
+      font-size: 28px; line-height: 1;
+      flex-shrink: 0; width: 36px; text-align: center;
+      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
+    }
+    .info-text b { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text,#1a0a0f); }
+    .info-text p  { font-size: 13px; color: var(--muted,#b07080); line-height: 1.5; margin: 0; }
+    .info-text a  { color: var(--accent,#d4386a); font-weight: 600; text-decoration: none; }
+    .info-text a:hover { text-decoration: underline; }
+
+    /* SERVICES GRID */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 10px; }
+    .service-card {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; padding: 14px 10px; border-radius: 12px;
+      background: var(--bg,#fdf0f3); border: 1px solid var(--border,rgba(212,56,106,.15));
+      text-decoration: none; color: var(--text,#1a0a0f); transition: all .2s;
+      text-align: center;
+    }
+    .service-card:hover { background: var(--accent,#d4386a); color: #fff; transform: translateY(-2px); }
+    .service-card span:first-child { font-size: 24px; }
+    .service-card b { font-size: 13px; font-weight: 700; }
+    .service-num { font-size: 12px; color: var(--accent,#d4386a); font-weight: 600; }
+    .service-card:hover .service-num { color: rgba(255,255,255,.8); }
+
+    /* INTL GRID */
+    .intl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 12px; }
+    .intl-card { background: var(--bg,#fdf0f3); border-radius: 12px; padding: 16px; border: 1px solid var(--border,rgba(212,56,106,.15)); }
+    .intl-flag { font-size: 28px; display: block; margin-bottom: 8px; }
+    .intl-card b { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .intl-card p { font-size: 12px; color: var(--muted,#b07080); line-height: 1.6; margin: 0; }
+  </style>
 </head>
 <body class="light">
 
@@ -39,7 +81,6 @@
   <p>Корисні статті, поради та натхнення для сучасних жінок</p>
 </section>
 
-<!-- КАТЕГОРІЇ НАВІГАЦІЯ -->
 <nav class="cat-nav" id="catNav">
   <button class="cat-nav-btn active" onclick="scrollToSection('moms')">👩 Для мам</button>
   <button class="cat-nav-btn" onclick="scrollToSection('cooking')">🍰 Кулінарія</button>
@@ -188,32 +229,86 @@
         <button class="subcat-btn" onclick="filterArticles('rights','bullying',this)">Переслідування</button>
       </div>
       <div class="articles-grid" id="articles-rights"><div class="loading-pulse">Завантаження...</div></div>
-
-      <!-- КУДИ ЗВЕРТАТИСЬ -->
       <div class="info-block" style="margin-top:28px">
-        <h3 class="info-block-title">📞 Куди звертатися</h3>
+        <h3 class="info-block-title">📞 Безкоштовна допомога в Україні</h3>
         <div class="info-cards-grid">
-          <div class="info-card"><div class="info-icon">👊</div><div class="info-text"><b>Харасмент</b><p>Поліція 102, Уповноважений з прав людини</p></div></div>
-          <div class="info-card"><div class="info-icon">🏠</div><div class="info-text"><b>Домашнє насильство</b><p>Гаряча лінія 1547, Притулки</p></div></div>
-          <div class="info-card"><div class="info-icon">🏫</div><div class="info-text"><b>Булінг</b><p>МОН України, Шкільний психолог</p></div></div>
-          <div class="info-card"><div class="info-icon">💼</div><div class="info-text"><b>Незаконне звільнення</b><p>Держпраці, Суд, Профспілки</p></div></div>
+
+          <div class="info-card">
+            <div class="info-icon">🧠</div>
+            <div class="info-text">
+              <b>Психологічна підтримка</b>
+              <p>
+                <a href="tel:7333">7333</a> — Lifeline Ukraine (цілодобово)<br>
+                <a href="tel:0800100102">0 800 100 102</a> — Нац. психологічна асоціація<br>
+                <a href="tel:0800501701">0 800 501 701</a> — Всеукр. телефон довіри<br>
+                <a href="tel:0800211444">0 800 211 444</a> — Підтримка МОМ<br>
+                <a href="tel:0800210160">0 800 210 160</a> — «Людина в біді»
+              </p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">🏠</div>
+            <div class="info-text">
+              <b>Домашнє насильство</b>
+              <p>
+                <a href="tel:1547">1547</a> — Держ. гаряча лінія (цілодобово)<br>
+                <a href="tel:0800500335">0 800 500 335</a> — La Strada Україна<br>
+                <a href="tel:116123">116 123</a> — La Strada (з мобільного)<br>
+                <a href="tel:102">102</a> — Поліція
+              </p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">👊</div>
+            <div class="info-text">
+              <b>Права, дискримінація, харасмент</b>
+              <p>
+                <a href="tel:1678">1678</a> — Омбудсман ВРУ<br>
+                <a href="tel:0800501720">0 800 501 720</a> — Гаряча лінія Омбудсмана<br>
+                <a href="tel:102">102</a> — Поліція
+              </p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">🏫</div>
+            <div class="info-text">
+              <b>Булінг та допомога дітям</b>
+              <p>
+                <a href="tel:116111">116 111</a> — Нац. дитяча гаряча лінія<br>
+                <a href="tel:0800100898">0 800 100 898</a> — МОН України
+              </p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">⚖️</div>
+            <div class="info-text">
+              <b>Трудові права та юридична допомога</b>
+              <p>
+                <a href="tel:0800213103">0 800 213 103</a> — Безоплатна правова допомога
+              </p>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">🚨</div>
+            <div class="info-text">
+              <b>Екстрені служби</b>
+              <p>
+                <a href="tel:101">101</a> — ДСНС<br>
+                <a href="tel:102">102</a> — Поліція<br>
+                <a href="tel:103">103</a> — Швидка допомога<br>
+                <a href="tel:112">112</a> — Єдиний екстрений номер
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- ДЕРЖАВНІ СЛУЖБИ -->
-      <div class="info-block" style="margin-top:20px">
-        <h3 class="info-block-title">🏛️ Державні служби</h3>
-        <div class="services-grid">
-          <a href="tel:102" class="service-card"><span>🚨</span><b>Поліція</b><span class="service-num">102</span></a>
-          <a href="tel:1547" class="service-card"><span>💙</span><b>Гаряча лінія</b><span class="service-num">1547</span></a>
-          <a href="tel:0800213103" class="service-card"><span>⚖️</span><b>Правова допомога</b><span class="service-num">0 800 213 103</span></a>
-          <a href="tel:116123" class="service-card"><span>🤝</span><b>Омбудсмен</b><span class="service-num">116 123</span></a>
-          <a href="tel:103" class="service-card"><span>🚑</span><b>Швидка</b><span class="service-num">103</span></a>
-          <a href="tel:0800500335" class="service-card"><span>👶</span><b>Служба дітей</b><span class="service-num">0 800 500 335</span></a>
-        </div>
-      </div>
-
-      <!-- МІЖНАРОДНА ДОПОМОГА -->
       <div class="info-block" style="margin-top:20px">
         <h3 class="info-block-title">🌍 Міжнародна допомога</h3>
         <div class="intl-grid">
@@ -355,13 +450,11 @@
       <div class="funds-block">
         <h3 class="funds-title">❤️ Перевірені фонди України</h3>
         <div class="funds-grid">
-          <!-- Блок фондів — вставити в потрібне місце на сторінці -->
-
-<a href="https://share.google/HfbP2uCUyhUWJ3B7c" target="_blank" class="fund-card fund-card-gurtum">
-  <span class="fund-icon">🪖</span>
-  <b>Gurtum Charity Foundation</b>
-  <span>Фонд діючих військових ДПСУ</span>
-</a>
+          <a href="https://share.google/HfbP2uCUyhUWJ3B7c" target="_blank" class="fund-card">
+            <span class="fund-icon">🪖</span>
+            <b>Gurtum Charity Foundation</b>
+            <span>Фонд діючих військових ДПСУ</span>
+          </a>
           <a href="https://savelife.in.ua" target="_blank" class="fund-card">
             <span class="fund-icon">🛡️</span>
             <b>Повернись живим</b>
@@ -418,7 +511,6 @@
 
 </main>
 
-<!-- MODAL: ЧИТАТИ СТАТТЮ -->
 <div id="articleModal" class="modal hidden">
   <div class="modal-box article-modal-box">
     <button class="modal-close" onclick="closeModal('articleModal')">×</button>
@@ -459,7 +551,6 @@
     if(i) i.textContent=_t==="dark"?"☀️":"🌙";
   });
   document.getElementById("year").textContent = new Date().getFullYear();
-  // Global wrappers for module functions
   function toggleSection(id){ if(window._toggleSection) window._toggleSection(id); else setTimeout(()=>window._toggleSection&&window._toggleSection(id),200); }
   function filterArticles(cat,sub,btn){ if(window._filterArticles) window._filterArticles(cat,sub,btn); else setTimeout(()=>window._filterArticles&&window._filterArticles(cat,sub,btn),200); }
   function scrollToSection(id){ if(window._scrollToSection) window._scrollToSection(id); else setTimeout(()=>window._scrollToSection&&window._scrollToSection(id),200); }
