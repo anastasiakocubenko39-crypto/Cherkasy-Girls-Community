@@ -125,19 +125,28 @@
   margin-bottom: 20px;
 }
 
-/* Кнопка написати */
+.founder-links {
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+}
 .founder-tg {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 22px; border-radius: 100px;
+  padding: 10px 20px; border-radius: 100px;
   background: #0088cc; color: white;
   font-size: 13px; font-weight: 600;
   text-decoration: none; transition: all .25s;
   box-shadow: 0 4px 14px rgba(0,136,204,.3);
 }
 .founder-tg:hover {
-  background: #0099dd;
-  transform: translateY(-2px);
+  background: #0099dd; transform: translateY(-2px);
   box-shadow: 0 8px 22px rgba(0,136,204,.45);
+}
+.founder-tg-group {
+  background: var(--accent);
+  box-shadow: 0 4px 14px rgba(212,56,106,.3);
+}
+.founder-tg-group:hover {
+  background: var(--accent2);
+  box-shadow: 0 8px 22px rgba(212,56,106,.4);
 }
 
 /* ═══════════════════════════════════
