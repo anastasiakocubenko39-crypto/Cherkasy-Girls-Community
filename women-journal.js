@@ -3,6 +3,7 @@
  * Reads CMS structure:
  *   journal_articles/{id}           — metadata
  *   journal_articles/{id}/blocks/*  — content blocks (lazy loaded)
+ *   promo_posts/{id}                — Must Have (окрема колекція!)
  */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
@@ -23,7 +24,7 @@ const db  = getFirestore(app);
 
 // Cache
 const articlesCache = {};
-const blocksCache   = {};  // articleId → blocks[]
+const blocksCache   = {};
 
 const SUBCAT_LABELS = {
   moms:    {"kids-places":"Куди піти","clubs":"Гуртки","development":"Розвиток","lifehacks":"Лайфхаки","newmom":"Молодим мамам"},
@@ -46,9 +47,18 @@ const ALL_CATS = [
   "holidays","psychology","news","forme","travel","volunteer","promo"
 ];
 
-// ── Load article list (metadata only) ──
+// ════════════════════════════════════
+// ЗАВАНТАЖЕННЯ СТАТЕЙ
+// ════════════════════════════════════
+
 async function loadArticles(category) {
   if (articlesCache[category]) return articlesCache[category];
+
+  // ✅ Must Have — читаємо з promo_posts (окрема колекція в адмінці!)
+  if (category === "promo") {
+    return await loadPromoArticles();
+  }
+
   try {
     const q    = query(collection(db,"journal_articles"), where("category","==",category));
     const snap = await getDocs(q);
@@ -59,7 +69,31 @@ async function loadArticles(category) {
   } catch(e) { console.error("loadArticles:", e); return []; }
 }
 
-// ── Lazy-load blocks for one article ──
+// ✅ Окрема функція для Must Have з promo_posts
+async function loadPromoArticles() {
+  if (articlesCache["promo"]) return articlesCache["promo"];
+  try {
+    const snap = await getDocs(collection(db, "promo_posts"));
+    const list = snap.docs.map(d => ({
+      id: d.id,
+      ...d.data(),
+      // Маппінг полів promo_posts → формат article
+      category:    "promo",
+      subcategory: d.data().category || "",   // в promo_posts поле "category" = підкатегорія
+      excerpt:     d.data().shortDesc || "",
+      content:     d.data().content   || "",
+      coverImageUrl: d.data().imageUrl || "",
+    }));
+    list.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
+    articlesCache["promo"] = list;
+    return list;
+  } catch(e) { console.error("loadPromoArticles:", e); return []; }
+}
+
+// ════════════════════════════════════
+// БЛОКИ (lazy load)
+// ════════════════════════════════════
+
 async function loadBlocks(articleId) {
   if (blocksCache[articleId]) return blocksCache[articleId];
   try {
@@ -70,7 +104,6 @@ async function loadBlocks(articleId) {
     blocksCache[articleId] = blocks;
     return blocks;
   } catch(e) {
-    // Fallback without orderBy
     try {
       const snap2  = await getDocs(collection(db,"journal_articles",articleId,"blocks"));
       const blocks = snap2.docs.map(d => d.data()).sort((a,b) => (a.order||0)-(b.order||0));
@@ -80,7 +113,10 @@ async function loadBlocks(articleId) {
   }
 }
 
-// ── Render article cards ──
+// ════════════════════════════════════
+// РЕНДЕР КАРТОК
+// ════════════════════════════════════
+
 function renderArticles(category, articles, subcat = "all") {
   const container = document.getElementById("articles-" + category);
   if (!container) return;
@@ -104,7 +140,6 @@ function renderArticles(category, articles, subcat = "all") {
     card.className   = "article-card";
     card.onclick     = () => openArticle(article);
     const subcatLabel = SUBCAT_LABELS[category]?.[article.subcategory] || article.subcategory || "";
-    // Use coverImageUrl (new CMS field) with fallback to imageUrl (old)
     const cover = article.coverImageUrl || article.imageUrl || "";
     const imgHtml = cover
       ? `<div class="article-card-img"><img src="${cover}" alt="" loading="lazy" onerror="this.closest('.article-card-img').style.display='none'"></div>`
@@ -122,7 +157,10 @@ function renderArticles(category, articles, subcat = "all") {
   });
 }
 
-// ── Open article modal (lazy-loads blocks) ──
+// ════════════════════════════════════
+// ВІДКРИТИ СТАТТЮ (модал)
+// ════════════════════════════════════
+
 async function openArticle(article) {
   const modal = document.getElementById("articleModal");
   const img   = document.getElementById("modal-img");
@@ -131,41 +169,46 @@ async function openArticle(article) {
 
   document.getElementById("modal-title").textContent = article.title || "";
 
-  // Tag label
   let tagLabel = "";
   for (const [, subs] of Object.entries(SUBCAT_LABELS)) {
     if (subs[article.subcategory]) { tagLabel = subs[article.subcategory]; break; }
   }
   document.getElementById("modal-tag").textContent = tagLabel;
 
-  // Cover image
   const cover = article.coverImageUrl || article.imageUrl || "";
   if (cover) { img.src = cover; img.classList.remove("hidden"); }
   else img.classList.add("hidden");
 
-  // Show loading
   body.innerHTML = `<div style="text-align:center;padding:32px;color:var(--muted)">⏳ Завантаження...</div>`;
-
   modal.classList.remove("hidden");
   document.body.style.overflow = "hidden";
 
-  // Lazy-load blocks
-  const blocks = await loadBlocks(article.id);
-
-  if (blocks.length) {
-    body.innerHTML = blocks.map(b => {
-      const imgPart  = b.imageUrl ? `<img src="${b.imageUrl}" alt="" style="width:100%;border-radius:14px;margin-bottom:14px;object-fit:cover;max-height:360px" loading="lazy" onerror="this.style.display='none'">` : "";
-      const textPart = b.text ? `<p style="margin-bottom:20px;white-space:pre-wrap;line-height:1.85;font-size:15px">${b.text}</p>` : "";
-      return imgPart + textPart;
-    }).join('<hr style="border:none;border-top:1px solid var(--border);margin:20px 0">');
-  } else if (article.content) {
-    // Backward compatibility with old structure
-    body.innerHTML = `<p style="white-space:pre-wrap;line-height:1.85;font-size:15px">${article.content}</p>`;
+  // ✅ Promo пости не мають блоків — показуємо content напряму
+  if (article.category === "promo") {
+    if (article.content) {
+      body.innerHTML = `<p style="white-space:pre-wrap;line-height:1.85;font-size:15px">${article.content}</p>`;
+    } else if (article.excerpt) {
+      body.innerHTML = `<p style="white-space:pre-wrap;line-height:1.85;font-size:15px">${article.excerpt}</p>`;
+    } else {
+      body.innerHTML = `<p style="color:var(--muted);font-size:15px;text-align:center;padding:24px 0">Опис відсутній</p>`;
+    }
   } else {
-    body.innerHTML = `<p style="color:var(--muted);font-size:15px;text-align:center;padding:24px 0">Текст статті відсутній</p>`;
+    // Журнальні статті — завантажуємо блоки
+    const blocks = await loadBlocks(article.id);
+    if (blocks.length) {
+      body.innerHTML = blocks.map(b => {
+        const imgPart  = b.imageUrl ? `<img src="${b.imageUrl}" alt="" style="width:100%;border-radius:14px;margin-bottom:14px;object-fit:cover;max-height:360px" loading="lazy" onerror="this.style.display='none'">` : "";
+        const textPart = b.text ? `<p style="margin-bottom:20px;white-space:pre-wrap;line-height:1.85;font-size:15px">${b.text}</p>` : "";
+        return imgPart + textPart;
+      }).join('<hr style="border:none;border-top:1px solid var(--border);margin:20px 0">');
+    } else if (article.content) {
+      body.innerHTML = `<p style="white-space:pre-wrap;line-height:1.85;font-size:15px">${article.content}</p>`;
+    } else {
+      body.innerHTML = `<p style="color:var(--muted);font-size:15px;text-align:center;padding:24px 0">Текст статті відсутній</p>`;
+    }
   }
 
-  // Social links
+  // Соціальні посилання
   if (links) {
     const soc = [];
     if (article.instagram) soc.push(`<a href="${article.instagram}" target="_blank" class="social-link">📸 Instagram</a>`);
@@ -177,7 +220,10 @@ async function openArticle(article) {
   }
 }
 
-// ── Modal close ──
+// ════════════════════════════════════
+// ЗАКРИТИ МОДАЛ
+// ════════════════════════════════════
+
 window.closeModal = function(id) {
   document.getElementById(id)?.classList.add("hidden");
   document.body.style.overflow = "";
@@ -190,14 +236,20 @@ document.addEventListener("click", e => {
   }
 });
 
-// ── Filter ──
+// ════════════════════════════════════
+// ФІЛЬТР
+// ════════════════════════════════════
+
 window._filterArticles = window.filterArticles = function(category, subcat, btn) {
   document.querySelectorAll("#"+category+"-body .subcat-btn").forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
   renderArticles(category, articlesCache[category]||[], subcat);
 };
 
-// ── Accordion ──
+// ════════════════════════════════════
+// АКОРДЕОН
+// ════════════════════════════════════
+
 window._toggleSection = window.toggleSection = function(bodyId) {
   const body  = document.getElementById(bodyId);
   const arrow = document.getElementById("arrow-"+bodyId);
@@ -215,7 +267,10 @@ window._toggleSection = window.toggleSection = function(bodyId) {
   }
 };
 
-// ── Scroll to section ──
+// ════════════════════════════════════
+// СКРОЛ ДО СЕКЦІЇ
+// ════════════════════════════════════
+
 window._scrollToSection = window.scrollToSection = function(id) {
   document.getElementById(id)?.scrollIntoView({behavior:"smooth",block:"start"});
   const bodyEl = document.getElementById(id+"-body");
@@ -225,7 +280,10 @@ window._scrollToSection = window.scrollToSection = function(id) {
   });
 };
 
-// ── Init ──
+// ════════════════════════════════════
+// ІНІЦІАЛІЗАЦІЯ
+// ════════════════════════════════════
+
 window.addEventListener("DOMContentLoaded", () => {
   const fb = document.getElementById("moms-body");
   const fa = document.getElementById("arrow-moms-body");
@@ -234,7 +292,10 @@ window.addEventListener("DOMContentLoaded", () => {
   loadArticles("moms").then(list => renderArticles("moms",list));
 });
 
-// ── Scroll spy ──
+// ════════════════════════════════════
+// SCROLL SPY
+// ════════════════════════════════════
+
 window.addEventListener("scroll", () => {
   let cur = "";
   ALL_CATS.forEach(id => {
