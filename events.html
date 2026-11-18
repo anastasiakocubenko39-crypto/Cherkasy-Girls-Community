@@ -1,211 +1,109 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Події — Cherkasy Girls Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="events.css">
-  <!-- Тема застосовується ДО рендеру щоб не мерехтіло -->
-  <script>
-    (function(){
-      const t = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", t);
-    })();
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Зустрічі ELARIE — жіночі події в Черкасах</title>
+<meta name="description" content="Бранчі, лекції психологів, арт-терапія і прогулянки жіночого клубу ELARIE у Черкасах. Обери зустріч і приходь знайомитись.">
+<meta property="og:title" content="Зустрічі ELARIE">
+<meta property="og:image" content="assets/img/brunch.webp">
+<meta name="theme-color" content="#FFFCF8">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
+<body data-page="events">
+<main>
+  <section class="phero">
+    <div class="wrap">
+      <span class="eyebrow rv">Зустрічі клубу</span>
+      <h1 class="h1 split-words">Події, на які <em>хочеться</em> прийти</h1>
+      <p class="lead rv" style="--d:.3s">Бранчі, лекції психологів, арт-терапія, фотосесії і прогулянки Черкасами. Напиши «Йду» в чаті зустрічей — і ми на тебе чекаємо.</p>
+    </div>
+  </section>
 
-<header class="header">
-  <div class="logo" id="logoWrap">
-    <img src="logo-light.png" alt="CGC" class="logo-img logo-img-light">
-    <img src="logo-dark.png" alt="CGC" class="logo-img logo-img-dark">
-  </div>
-  <nav class="nav">
-    <a href="index.html" class="nav-link">Головна</a>
-    <a href="events.html" class="nav-link active">Події</a>
-    <a href="about.html" class="nav-link">Ми</a>
-    <a href="women-journal.html" class="nav-link">Журнал</a>
-    <a href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" class="nav-link tg-link">Telegram 💬</a>
-  </nav>
-  <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon"></span></button>
-  <button class="burger" onclick="toggleMenu()">☰</button>
-</header>
+  <section class="wrap" style="padding-bottom:110px">
+    <div id="nextEvent"><div class="skeleton" style="min-height:260px"></div></div>
+  </section>
 
-<nav class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="closeMenu()">Головна</a>
-  <a href="events.html" onclick="closeMenu()">Події</a>
-  <a href="about.html" onclick="closeMenu()">Ми</a>
-  <a href="women-journal.html" onclick="closeMenu()">Журнал</a>
-  <a href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" onclick="closeMenu()">Telegram 💬</a>
-</nav>
-<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
-
-
-<!-- НАЙБЛИЖЧА ПОДІЯ (з Firebase) -->
-<section class="section" style="padding-bottom:0">
-  <div class="section-tag">Скоро</div>
-  <h2 class="section-title">Найближча подія</h2>
-  <div id="nextEventCard">
-    <div class="loading-pulse">Завантаження...</div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════
-     АФІШІ — ПРОСТЕ ДОДАВАННЯ ЧЕРЕЗ HTML
-
-     ✅ Щоб додати нову афішу:
-     1. Збережи фото у папку posters/
-     2. Скопіюй блок .poster-card нижче
-     3. Заміни src, текст і дату
-     4. Зберегти — готово!
-════════════════════════════════════════════════════ -->
-<section class="section posters-section">
-  <div class="section-tag">Анонси</div>
-  <h2 class="section-title">Афіші подій</h2>
-
-  <div class="posters-grid" id="postersList">
-
-    <!-- ══ ШАБЛОН — КОПІЮЙ ЦЕЙ БЛОК ══
-    <div class="poster-card">
-      <img src="posters/event1.jpg" alt="Назва події">
-      <div class="poster-info">
-        <span class="poster-tag">Майстер-клас</span>
-        <h3 class="poster-title">Назва події</h3>
-        <div class="poster-meta">
-          <span>📅 15 Червня 2025</span>
-          <span>📍 Черкаси, назва місця</span>
-        </div>
-        <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" class="poster-btn">Хочу піти ✨</a>
+  <section class="sec blush">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow rv">Афіші</span><h2 class="h2 split-words">Анонси <em>і запрошення</em></h2></div></div>
+      <div class="posters">
+        <article class="poster rv">
+          <a class="pimg rv-mask" href="postersevent2.jpg.jpg" target="_blank" rel="noopener" aria-label="Відкрити афішу повністю"><img src="assets/img/poster-brunch.webp" alt="Афіша жіночого бранчу «Обираю себе»" loading="lazy"></a>
+          <div>
+            <span class="tag">Бранч</span>
+            <h3>Обираю себе</h3>
+            <p>Лекція психолога про відкладання себе на потім, арт-терапія, фотозона і смачні частування на природі.</p>
+            <div class="meta">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>27 червня, 17:00</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Черкаси, район Луначарка</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v2h18v-2a2 2 0 0 1 0-4 2 2 0 0 0 0-4V6H3z"/></svg>700 грн</span>
+            </div>
+            <a class="btn" href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" rel="noopener">Хочу піти <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+        <article class="poster rv" style="--d:.12s">
+          <a class="pimg rv-mask" style="--d:.12s" href="postersevent1.jpg.jpg" target="_blank" rel="noopener" aria-label="Відкрити афішу повністю"><img src="assets/img/poster-join.webp" alt="Запрошення до жіночої спільноти Черкас" loading="lazy"></a>
+          <div>
+            <span class="tag">Запрошення</span>
+            <h3>Дівчата, місто Черкаси</h3>
+            <p>Зустрічі й прогулянки, атмосферні вечори, нові знайомства і безпечний простір без токсичності.</p>
+            <div class="meta">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Черкаси</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v2h18v-2a2 2 0 0 1 0-4 2 2 0 0 0 0-4V6H3z"/></svg>Вступ безкоштовний</span>
+            </div>
+            <a class="btn" href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" rel="noopener">Приєднатися <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
       </div>
     </div>
+  </section>
 
-    
-    ══════════════════════════════════ -->
-<div class="poster-card">
-    <img src="postersevent2.jpg.jpg" alt="Бранч">
-
-    <div class="poster-info">
-        <span class="poster-tag">Бранч</span>
-
-        <h3 class="poster-title">Обираю себе</h3>
-
-        <div class="poster-meta">
-            <span>📅 27 Червня 2026</span>
-            <span>📍 Черкаси, район Луначарка</span>
-        </div>
-
-        <a href="https://t.me/+QrrTYPiCMMQ2Mjky"
-           target="_blank"
-           class="poster-btn">
-           Хочу піти ✨
-        </a>
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow rv">Календар</span><h2 class="h2 split-words">Усі <em>зустрічі</em></h2></div></div>
+      <div class="rows" id="rows"><div class="skeleton" style="min-height:140px;margin-top:20px"></div></div>
     </div>
-</div>
-    
-    <!-- РЕАЛЬНА АФІША -->
-    <div class="poster-card">
-      <img src="postersevent1.jpg.jpg" alt="Запрошення до групи"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <div class="poster-placeholder-img" style="display:none;height:320px;background:linear-gradient(135deg,#fce4eb,#e870a0);align-items:center;justify-content:center;font-size:80px">🌸</div>
-      <div class="poster-info">
-        <span class="poster-tag">Запрошення</span>
-        <h3 class="poster-title">Приєднуйся до нас!</h3>
-        <div class="poster-meta">
-          <span>📅 Черкаси, 2025</span>
-          <span>💬 Наша спільнота</span>
-        </div>
-        <a href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" class="poster-btn">Приєднатись →</a>
-      </div>
+  </section>
+
+  <section class="wrap">
+    <div class="join rv">
+      <div style="position:relative;z-index:1"><span class="eyebrow">Не пропусти наступну</span><h2 class="h2" style="margin:18px 0">Анонси першими — <em>у спільноті</em></h2><p>Нові зустрічі, реєстрація і місця, яких завжди обмежено.</p></div>
+      <div class="join-side"><a class="btn light" href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" rel="noopener">Вступити в клуб <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a><small>або <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" rel="noopener" style="color:var(--gold-light)">чат зустрічей</a></small></div>
     </div>
+  </section>
+</main>
 
-  </div>
-</section>
-
-<!-- ВСІ ПОДІЇ (з Firebase) -->
-<section class="section" style="padding-top:0">
-  <div class="section-tag">Всі події</div>
-  <h2 class="section-title">Минулі та майбутні</h2>
-  <div class="events-grid" id="eventsGrid">
-    <div class="loading-pulse">Завантаження...</div>
-  </div>
-</section>
-
-<!-- ГАЛЕРЕЯ ФОТО — додавай вручну через HTML
-     Щоб показати секцію — прибери style="display:none"
-     
-     Шаблон фото:
-     <div class="gallery-item">
-       <img src="photos/photo1.jpg" alt="Опис">
-       <div class="gallery-overlay"><span>Назва події</span></div>
-     </div>
--->
-<section class="section" style="display:none;padding-top:0">
-  <div class="section-tag">Наші моменти</div>
-  <h2 class="section-title">Фото з подій</h2>
-  <div class="gallery-grid" id="photoGrid"></div>
-</section>
-
-<section class="join-section">
-  <div class="join-content">
-    <h2>Не пропусти наступну подію 💌</h2>
-    <p>Підписуйся на Telegram — там всі анонси першою!</p>
-    <a href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" class="btn-tg">💬 Слідкуй у Telegram</a>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-logo">🌸 Cherkasy Girls Club</div>
-  <div class="footer-links">
-    <a href="index.html">Головна</a>
-    <a href="events.html">Події</a>
-    <a href="about.html">Ми</a>
-    <a href="women-journal.html">Журнал</a>
-    <a href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank">Telegram</a>
-  </div>
-  <p class="footer-copy">© <span id="year"></span> Cherkasy Girls Club. З любов'ю 🤍</p>
-</footer>
-
-<script>
-  // ── Тема ──
-  function applyTheme(t) {
-    document.body.classList.remove("light","dark");
-    document.body.classList.add(t);
-    const icon = document.querySelector(".theme-icon");
-    if (icon) icon.textContent = t === "dark" ? "☀️" : "🌙";
-  }
-  function toggleTheme() {
-    const next = document.body.classList.contains("dark") ? "light" : "dark";
-    applyTheme(next);
-    localStorage.setItem("theme", next);
-  }
-  // ── Меню ──
-  function toggleMenu() {
-    const menu = document.getElementById("mobileMenu");
-    const overlay = document.getElementById("menuOverlay");
-    const isOpen = menu.classList.toggle("open");
-    overlay.classList.toggle("open", isOpen);
-    document.body.style.overflow = isOpen ? "hidden" : "";
-  }
-  function closeMenu() {
-    document.getElementById("mobileMenu").classList.remove("open");
-    document.getElementById("menuOverlay").classList.remove("open");
-    document.body.style.overflow = "";
-  }
-  // ── Ініціалізація ──
-  applyTheme(localStorage.getItem("theme") || "light");
-  document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("year").textContent = new Date().getFullYear();
-    // Secret admin
-    let lc=0,lt=null;
-    document.getElementById("logoWrap").addEventListener("click", function(){
-      lc++; clearTimeout(lt);
-      if (lc >= 5) { window.location.href = "admin.html"; lc = 0; }
-      lt = setTimeout(() => { lc = 0; }, 2000);
-    });
-  });
+<script src="assets/site.js"></script>
+<script type="module">
+import { esc, eventHTML, nextEvent, MONTHS, ICONS, evDate } from './assets/fb.js';
+const E = window.ELARIE;
+try {
+  const { all, next, last } = await nextEvent();
+  const ev = next || last;
+  const box = document.getElementById('nextEvent');
+  box.innerHTML = ev ? eventHTML(ev, { cta: !!next }) : `<div class="empty">Нова зустріч уже готується — анонс з'явиться <a href="${E.GROUP}" target="_blank" rel="noopener">у спільноті</a>.</div>`;
+  const now = Date.now();
+  const rows = document.getElementById('rows');
+  rows.innerHTML = all.length ? all.map((e, i) => {
+    const d = evDate(e.date); const past = +new Date(e.date) + 864e5 < now;
+    return `<article class="row rv${past ? ' past' : ''}" style="--d:${(i % 4) * 0.06}s">
+      <div class="row-date"><b>${d.day}</b><span>${MONTHS[d.month]} ${d.year}</span></div>
+      <div><span class="tag">${esc(e.category) || 'Зустріч'}${past ? ' · відбулася' : ''}</span><h3>${esc(e.title)}</h3>${e.description ? `<p class="clamp">${esc(e.description)}</p>` : ''}
+        <div class="meta">${d.time ? `<span>${ICONS.clock}${d.time}</span>` : ''}${e.location ? `<span>${ICONS.pin}${esc(e.location)}</span>` : ''}${e.price ? `<span>${ICONS.ticket}${esc(e.price)}</span>` : ''}</div></div>
+      ${past ? '' : `<a class="btn" href="${E.EVENTS_CHAT}" target="_blank" rel="noopener">Я йду</a>`}
+    </article>`;
+  }).join('') : '<div class="empty">Подій поки немає.</div>';
+  E.reveal(box); E.reveal(rows);
+} catch (err) {
+  console.error(err);
+  document.getElementById('nextEvent').innerHTML = '<div class="empty">Не вдалося завантажити зустрічі. Оновіть сторінку.</div>';
+  document.getElementById('rows').innerHTML = '';
+}
 </script>
-<script type="module" src="events.js"></script>
 </body>
 </html>

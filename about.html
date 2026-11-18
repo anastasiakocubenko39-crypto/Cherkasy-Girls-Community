@@ -1,159 +1,90 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ми — Cherkasy Girls Club</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="about.css">
-  <script>(function(){ const t=localStorage.getItem("theme")||"light"; document.documentElement.setAttribute("data-theme",t); })();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Про клуб ELARIE — жіноча спільнота Черкас</title>
+<meta name="description" content="ELARIE — жіноча спільнота Черкас. Наша історія, цінності та дівчата, які створюють клуб.">
+<meta property="og:title" content="Про клуб ELARIE">
+<meta property="og:image" content="assets/img/river.webp">
+<meta name="theme-color" content="#FFFCF8">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
-
-<header class="header">
-  <div class="logo">
-    <img src="logo-light.png" alt="Cherkasy Girls Club" class="logo-img logo-img-light">
-    <img src="logo-dark.png" alt="Cherkasy Girls Club" class="logo-img logo-img-dark">
-  </div>
-  <nav class="nav">
-    <a href="index.html" class="nav-link">Головна</a>
-    <a href="events.html" class="nav-link">Події</a>
-    <a href="about.html" class="nav-link active">Ми</a>
-    <a href="women-journal.html" class="nav-link">Журнал</a>
-    <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" class="nav-link tg-link">Telegram 💬</a>
-  </nav>
-  <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon">🌙</span></button>
-  <button class="burger" onclick="toggleMenu()">☰</button>
-</header>
-
-<nav class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="closeMenu()">Головна</a>
-  <a href="events.html" onclick="closeMenu()">Події</a>
-  <a href="about.html" onclick="closeMenu()">Ми</a>
-  <a href="women-journal.html" onclick="closeMenu()">Журнал</a>
-  <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" onclick="closeMenu()">Telegram 💬</a>
-</nav>
-<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
-
-<section class="page-hero">
-  <div class="section-tag">Про нас</div>
-  <h1>Ми — це <em>сила</em></h1>
-  <p>Жіноча спільнота Черкас де кожна дівчина знаходить себе 🌸</p>
-</section>
-
-<!-- НАША ІСТОРІЯ -->
-<section class="section">
-  <div class="story-grid">
-    <div class="story-text">
-      <div class="section-tag">Наша історія</div>
-      <h2 class="section-title" style="margin-bottom:16px">Як все почалось</h2>
-      <p id="storyText">Cherkasy Girls Club народився з простої ідеї — створити місце де дівчата Черкас можуть зустрічатись, підтримувати одна одну та разом проводити час. Наша спільнота постійно росте і ми раді кожній новій учасниці. Кожна зустріч — це нові знайомства, нові спогади і нові сили.</p>
+<body data-page="about">
+<main>
+  <section class="phero">
+    <div class="wrap split" style="align-items:end">
+      <div>
+        <span class="eyebrow rv">Про клуб</span>
+        <h1 class="h1 split-words">Ми — <em>ELARIE</em></h1>
+        <p class="lead rv" style="--d:.3s">Жіноча спільнота Черкас, яка народилася з простої ідеї: створити місце, де дівчата зустрічаються, підтримують одна одну і разом проводять час.</p>
+      </div>
+      <p class="lead rv" style="--d:.45s">Наша спільнота постійно росте, і ми раді кожній новій учасниці. Кожна зустріч — це нові знайомства, нові спогади і нові сили. Ім'я ELARIE звучить як світло і легкість — саме те, що ми хочемо дарувати одна одній.</p>
     </div>
-    <div class="about-visual">
-      <div class="visual-circle c1">🌸</div>
-      <div class="visual-circle c2">🤍</div>
-      <div class="visual-circle c3">✨</div>
-      <div class="visual-circle c4">🌺</div>
-      <div class="visual-center">CGC</div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- ЦІННОСТІ -->
-<section class="section" style="padding-top:0">
-  <div class="section-tag">Що нас об'єднує</div>
-  <h2 class="section-title">Наші цінності</h2>
-  <div class="values-grid">
-    <div class="value-card">
-      <div class="value-icon">🤝</div>
-      <h4>Підтримка</h4>
-      <p>Ми завжди поруч одна з одною — в радості і в складні моменти.</p>
-    </div>
-    <div class="value-card">
-      <div class="value-icon">🌸</div>
-      <h4>Тепло</h4>
-      <p>Кожна дівчина відчуває себе бажаною. Комфортно бути собою.</p>
-    </div>
-    <div class="value-card">
-      <div class="value-icon">✨</div>
-      <h4>Розвиток</h4>
-      <p>Майстер-класи, досвід — ми ростемо разом і допомагаємо одна одній.</p>
-    </div>
-    <div class="value-card">
-      <div class="value-icon">🎉</div>
-      <h4>Радість</h4>
-      <p>Ми вміємо святкувати маленькі перемоги і великі моменти!</p>
-    </div>
-  </div>
-</section>
+  <section class="wrap">
+    <div class="split-img rv-mask sq" style="aspect-ratio:21/9"><img data-parallax="60" src="assets/img/brunch.webp" alt="Учасниці клубу на бранчі" style="object-position:50% 40%"></div>
+  </section>
 
-<!-- КОМАНДА -->
-<section class="section" style="padding-top:0">
-  <div class="section-tag">Організатори</div>
-  <h2 class="section-title">Дівчата які це роблять</h2>
-  <div id="teamGrid" class="team-grid">
-    <!-- Завантажується з about.js -->
-    <div class="loading-pulse">Завантаження...</div>
-  </div>
-</section>
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="eyebrow rv">Що нас об'єднує</span><h2 class="h2 split-words">Наші <em>цінності</em></h2></div></div>
+      <div class="values">
+        <div class="value rv"><i>01</i><h4>Підтримка</h4><p>Ми поруч одна з одною — і в радості, і в складні моменти.</p></div>
+        <div class="value rv" style="--d:.08s"><i>02</i><h4>Тепло</h4><p>Кожна відчуває, що на неї чекали. Тут комфортно бути собою.</p></div>
+        <div class="value rv" style="--d:.16s"><i>03</i><h4>Розвиток</h4><p>Лекції, майстер-класи й обмін досвідом — ми ростемо разом.</p></div>
+        <div class="value rv" style="--d:.24s"><i>04</i><h4>Радість</h4><p>Святкуємо маленькі перемоги і великі моменти кожної з нас.</p></div>
+      </div>
+    </div>
+  </section>
 
-<!-- JOIN -->
-<section class="join-section">
-  <div class="join-content">
-    <h2>Стань частиною нас 🌸</h2>
-    <p>Приєднуйся до нашої Telegram спільноти і будь в курсі всіх подій</p>
-    <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank" class="btn-tg">💬 Приєднатись до спільноти</a>
-  </div>
-</section>
+  <section class="sec blush">
+    <div class="wrap">
+      <div class="founder">
+        <div class="member"><div class="ava rv-mask">А</div></div>
+        <div>
+          <span class="eyebrow rv">Засновниця</span>
+          <span class="quote-mark rv" aria-hidden="true">“</span>
+          <blockquote class="split-words">Я створила клуб, щоб кожна дівчина в Черкасах знайшла своє місце і своїх людей.</blockquote>
+          <div class="who member rv" style="text-align:left"><b>Анастасія</b><span>засновниця ELARIE</span></div>
+          <div class="hero-cta rv" style="margin-top:0">
+            <a class="btn" href="https://t.me/anastasiyahhhhh" target="_blank" rel="noopener">Написати Анастасії <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+            <a class="link" href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" rel="noopener">Спільнота</a>
+          </div>
+        </div>
+      </div>
+      <div class="team" id="team"></div>
+    </div>
+  </section>
 
-<footer class="footer">
-  <div class="footer-logo">🌸 Cherkasy Girls Club</div>
-  <div class="footer-links">
-    <a href="index.html">Головна</a>
-    <a href="events.html">Події</a>
-    <a href="about.html">Ми</a>
-    <a href="women-journal.html">Журнал</a>
-    <a href="https://t.me/+QrrTYPiCMMQ2Mjky" target="_blank">Telegram</a>
-  </div>
-  <p class="footer-copy">© <span id="year"></span> Cherkasy Girls Club. З любов'ю 🤍</p>
-</footer>
+  <section class="wrap" style="margin-top:120px">
+    <div class="join rv">
+      <div style="position:relative;z-index:1"><span class="eyebrow">Стань частиною нас</span><h2 class="h2" style="margin:18px 0">Твоє місце <em>вже чекає</em></h2><p>Приєднуйся до Telegram-спільноти і будь у курсі всіх зустрічей.</p></div>
+      <div class="join-side"><a class="btn light" href="https://t.me/+sc80r1PWtEMzNmE6" target="_blank" rel="noopener">Приєднатися <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+    </div>
+  </section>
+</main>
 
-<script type="module" src="about.js"></script>
-<script>
-  function applyTheme(t) {
-    document.body.classList.remove("light","dark");
-    document.body.classList.add(t);
-    const icon = document.querySelector(".theme-icon");
-    if (icon) icon.textContent = t === "dark" ? "☀️" : "🌙";
-  }
-  function toggleTheme() {
-    const next = document.body.classList.contains("dark") ? "light" : "dark";
-    applyTheme(next);
-    localStorage.setItem("theme", next);
-  }
-  function toggleMenu() {
-    const menu = document.getElementById("mobileMenu");
-    const overlay = document.getElementById("menuOverlay");
-    const isOpen = menu.classList.toggle("open");
-    overlay.classList.toggle("open", isOpen);
-    document.body.style.overflow = isOpen ? "hidden" : "";
-  }
-  function closeMenu() {
-    document.getElementById("mobileMenu").classList.remove("open");
-    document.getElementById("menuOverlay").classList.remove("open");
-    document.body.style.overflow = "";
-  }
-  applyTheme(localStorage.getItem("theme") || "light");
-  document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("year").textContent = new Date().getFullYear();
-    let lc=0,lt=null;
-    document.querySelector(".logo").addEventListener("click", function(){
-      lc++; clearTimeout(lt);
-      if (lc >= 5) { window.location.href = "admin.html"; lc = 0; }
-      lt = setTimeout(() => { lc = 0; }, 2000);
-    });
-  });
+<script src="assets/site.js"></script>
+<script type="module">
+import { db, collection, getDocs, esc, safeUrl } from './assets/fb.js';
+try {
+  const snap = await getDocs(collection(db, 'team'));
+  const list = snap.docs.map((d) => d.data())
+    .filter((m) => m.name && !/додай/i.test(m.name) && !/анастасі/i.test(m.name))
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
+  const box = document.getElementById('team');
+  box.innerHTML = list.map((m, i) => {
+    const photo = safeUrl(m.photoUrl);
+    return `<div class="member rv" style="--d:${(i % 4) * 0.08}s"><div class="ava">${photo ? `<img src="${photo}" alt="${esc(m.name)}" loading="lazy">` : esc(m.name).charAt(0)}</div><b>${esc(m.name)}</b><span>${esc(m.role)}</span></div>`;
+  }).join('');
+  window.ELARIE.reveal(box);
+} catch (e) { console.error(e); }
 </script>
 </body>
 </html>
